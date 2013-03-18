@@ -18,6 +18,7 @@
   , "devDependencies" : {
         "tap"             : "*"
       , "leveldown"       : "git+https://github.com/rvagg/node-leveldown.git#0.2-wip"
+      , "rimraf"          : "*"
     }
   , "scripts": {
         "test"            : "node ./test.js"
