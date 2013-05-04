@@ -13,6 +13,7 @@ var test       = require('tap').test
 require('abstract-leveldown/abstract/leveldown-test').args(factory, test, testCommon)
 
 require('abstract-leveldown/abstract/open-test').args(factory, test, testCommon)
+require('abstract-leveldown/abstract/open-test').open(factory, test, testCommon)
 
 require('abstract-leveldown/abstract/del-test').all(factory, test, testCommon)
 

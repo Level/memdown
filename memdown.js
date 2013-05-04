@@ -1,7 +1,6 @@
 var util              = require('util')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
-  , checkKeyValue     = require('abstract-leveldown').checkKeyValue
   , noop              = function () {}
   , setImmediate      = global.setImmediate || process.nextTick
 
@@ -109,13 +108,13 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     for (; i < array.length; i++) {
       if (array[i]) {
         key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
-        err = checkKeyValue(key, 'key')
+        err = this._checkKeyValue(key, 'key')
         if (err) return setImmediate(callback.bind(null, err))
         if (array[i].type === 'del') {
           this._del(array[i].key, options, noop)
         } else if (array[i].type === 'put') {
           value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
-          err = checkKeyValue(value, 'value')
+          err = this._checkKeyValue(value, 'value')
           if (err) return setImmediate(callback.bind(null, err))
           this._put(key, value, options, noop)
         }
