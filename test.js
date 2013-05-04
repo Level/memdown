@@ -1,34 +1,35 @@
-var tap   = require('tap')
-  , testCommon = require('leveldown/test/common')
-  , MemDOWN = require('./')
+var test       = require('tap').test
+  , testCommon = require('abstract-leveldown/testCommon')
+  , MemDOWN    = require('./')
   //, AbstractIterator = require('./').AbstractIterator
+  , testBuffer = require('fs').readFileSync(require('path').join(__dirname, 'testdata.bin'))
 
-  , factory = function (location) {
+  , factory    = function (location) {
       return new MemDOWN(location)
     }
 
 /*** compatibility with basic LevelDOWN API ***/
 
-require('leveldown/test/leveldown-test').args(factory)
+require('abstract-leveldown/abstract/leveldown-test').args(factory, test, testCommon)
 
-require('leveldown/test/open-test').args(factory)
+require('abstract-leveldown/abstract/open-test').args(factory, test, testCommon)
 
-require('leveldown/test/del-test').all(factory)
+require('abstract-leveldown/abstract/del-test').all(factory, test, testCommon)
 
-require('leveldown/test/get-test').all(factory)
+require('abstract-leveldown/abstract/get-test').all(factory, test, testCommon)
 
-require('leveldown/test/put-test').all(factory)
+require('abstract-leveldown/abstract/put-test').all(factory, test, testCommon)
 
-require('leveldown/test/put-get-del-test').all(factory)
+require('abstract-leveldown/abstract/put-get-del-test').all(factory, test, testCommon, testBuffer)
 
-require('leveldown/test/approximate-size-test').setUp(factory)
-require('leveldown/test/approximate-size-test').args(factory)
+require('abstract-leveldown/abstract/approximate-size-test').setUp(factory, test, testCommon)
+require('abstract-leveldown/abstract/approximate-size-test').args(factory, test, testCommon)
 
-require('leveldown/test/close-test').close(factory)
+require('abstract-leveldown/abstract/close-test').close(factory, test, testCommon)
 
-require('leveldown/test/iterator-test').all(factory)
+require('abstract-leveldown/abstract/iterator-test').all(factory, test, testCommon)
 
-tap.test('unsorted entry, sorted iterator', function (t) {
+test('unsorted entry, sorted iterator', function (t) {
   var db = new MemDOWN('foo')
     , noop = function () {}
   db.open(noop)

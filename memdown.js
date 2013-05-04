@@ -8,19 +8,30 @@ var util              = require('util')
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
   this._reverse = !!options.reverse
-  this._end     = options.end
   this._limit   = options.limit
   this._count   = 0
-  if (options.start) {
+  this._end     = options.end
+  this._start   = options.start
+
+  if (this._start && Buffer.isBuffer(this._start) && this._start.length === 0)
+    this._start = null
+  if (this._end && Buffer.isBuffer(this._end) && this._end.length === 0)
+    this._end = null
+
+  if (this._start) {
     for (var i = 0; i < this.db._keys.length; i++) {
       if (this.db._keys[i] >= options.start) {
-        this._pos = i
+        this._pos = this._reverse && this.db._keys[i] != options.start ? i - 1 : i
         break
       }
     }
-  } else {
-    this._pos = this._reverse ? this.db._keys.length - 1 : 0
   }
+
+  if (!options.start || !this._pos)
+  //else
+    this._pos = this._reverse ? this.db._keys.length - 1 : 0
+
+  console.error('length=', this.db._keys.length, 'start=', options.start, 'pos=', this._pos, 'endkey=', this.db._keys[this.db._keys.length - 1], 'startkey=',this.db._keys[0])
 }
 
 util.inherits(MemIterator, AbstractIterator)
@@ -91,6 +102,9 @@ MemDOWN.prototype._del = function (key, options, callback) {
 MemDOWN.prototype._batch = function (array, options, callback) {
   var err
     , i = 0
+    , key
+    , value
+
   if (Array.isArray(array)) {
     for (; i < array.length; i++) {
       if (array[i]) {
