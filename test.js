@@ -23,6 +23,9 @@ require('abstract-leveldown/abstract/put-test').all(factory, test, testCommon)
 
 require('abstract-leveldown/abstract/put-get-del-test').all(factory, test, testCommon, testBuffer)
 
+require('abstract-leveldown/abstract/batch-test').all(factory, test, testCommon)
+require('abstract-leveldown/abstract/chained-batch-test').all(factory, test, testCommon)
+
 require('abstract-leveldown/abstract/approximate-size-test').setUp(factory, test, testCommon)
 require('abstract-leveldown/abstract/approximate-size-test').args(factory, test, testCommon)
 

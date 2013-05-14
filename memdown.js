@@ -29,8 +29,6 @@ function MemIterator (db, options) {
   if (!options.start || !this._pos)
   //else
     this._pos = this._reverse ? this.db._keys.length - 1 : 0
-
-  console.error('length=', this.db._keys.length, 'start=', options.start, 'pos=', this._pos, 'endkey=', this.db._keys[this.db._keys.length - 1], 'startkey=',this.db._keys[0])
 }
 
 util.inherits(MemIterator, AbstractIterator)
@@ -67,8 +65,10 @@ MemDOWN.prototype._open = function (options, callback) {
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
-  this._keys.push(key)
-  this._keys.sort()
+  if (this._keys.indexOf(key) == -1) {
+    this._keys.push(key)
+    this._keys.sort()
+  }
   key = '$' + key // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
   setImmediate(callback)

@@ -13,14 +13,14 @@
       , "url"             : "https://github.com/rvagg/node-memdown.git"
     }
   , "dependencies" : {
-        "abstract-leveldown" : "~0.3.0"
+        "abstract-leveldown" : "~0.7.0"
     }
   , "devDependencies" : {
         "tap"             : "*"
       , "rimraf"          : "*"
     }
   , "scripts": {
-        "test"            : "node ./test.js"
+        "test"            : "node ./test.js --stderr"
     }
   , "license"             : "MIT"
 }
