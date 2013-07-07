@@ -34,22 +34,23 @@ function MemIterator (db, options) {
 util.inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
-  if (this._pos >= this.db._keys.length || this._pos < 0)
+  var self = this
+  if (self._pos >= self.db._keys.length || self._pos < 0)
     return setImmediate(callback)
-  var key   = this.db._keys[this._pos]
+  var key   = self.db._keys[self._pos]
     , value
 
-  if (!!this._end && (this._reverse ? key < this._end : key > this._end))
+  if (!!self._end && (self._reverse ? key < self._end : key > self._end))
     return setImmediate(callback)
 
 
-  if (!!this._limit && this._limit > 0 && this._count++ >= this._limit)
+  if (!!self._limit && self._limit > 0 && self._count++ >= self._limit)
     return setImmediate(callback)
 
-  value = this.db._store['$' + key]
-  this._pos += this._reverse ? -1 : 1
+  value = self.db._store['$' + key]
+  self._pos += self._reverse ? -1 : 1
 
-  setImmediate(callback.bind(null, null, key, value))
+  setImmediate(function () { callback(null, key, value) })
 }
 
 function MemDOWN (location) {
@@ -61,7 +62,8 @@ function MemDOWN (location) {
 util.inherits(MemDOWN, AbstractLevelDOWN)
 
 MemDOWN.prototype._open = function (options, callback) {
-  setImmediate(function () { callback(null, this) }.bind(this))
+  var self = this
+  setImmediate(function () { callback(null, self) })
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
@@ -109,13 +111,13 @@ MemDOWN.prototype._batch = function (array, options, callback) {
       if (array[i]) {
         key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
         err = this._checkKeyValue(key, 'key')
-        if (err) return setImmediate(callback.bind(null, err))
+        if (err) return setImmediate(function () { callback(err) })
         if (array[i].type === 'del') {
           this._del(array[i].key, options, noop)
         } else if (array[i].type === 'put') {
           value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
           err = this._checkKeyValue(value, 'value')
-          if (err) return setImmediate(callback.bind(null, err))
+          if (err) return setImmediate(function () { callback(err) })
           this._put(key, value, options, noop)
         }
       }
