@@ -24,10 +24,10 @@ function MemIterator (db, options) {
         break
       }
     }
+    if (this._pos == null && !this._reverse) this._pos = -1
   }
 
   if (!options.start || !this._pos)
-  //else
     this._pos = this._reverse ? this.db._keys.length - 1 : 0
 }
 
