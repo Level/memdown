@@ -23,7 +23,6 @@
   , "boss": true
   , "debug": true
   , "eqnull": true
-  , "es5": true
   , "esnext": true
   , "evil": true
   , "expr": true
