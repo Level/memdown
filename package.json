@@ -19,7 +19,7 @@
         "abstract-leveldown" : "~0.7.0"
     }
   , "devDependencies" : {
-        "tap"             : "*"
+        "tape"            : "*"
       , "rimraf"          : "*"
     }
   , "scripts": {
