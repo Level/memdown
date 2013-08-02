@@ -16,7 +16,7 @@
       , "url"                : "https://github.com/rvagg/node-memdown.git"
     }
   , "dependencies"    : {
-        "abstract-leveldown" : "~0.8.0"
+        "abstract-leveldown" : "~0.8.2"
       , "bops"               : "~0.0.6"
     }
   , "devDependencies" : {
