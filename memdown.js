@@ -5,6 +5,10 @@ var util              = require('util')
   , noop              = function () {}
   , setImmediate      = global.setImmediate || process.nextTick
 
+function toKey (key) {
+  return typeof key == 'string' ? key : JSON.stringify(key)
+}
+
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
   this._reverse = !!options.reverse
@@ -49,7 +53,7 @@ MemIterator.prototype._next = function (callback) {
   if (!!self._limit && self._limit > 0 && self._count++ >= self._limit)
     return setImmediate(callback)
 
-  value = self.db._store['$' + key]
+  value = self.db._store[toKey(key)]
   self._pos += self._reverse ? -1 : 1
 
   setImmediate(function () { callback(null, key, value) })
@@ -73,13 +77,13 @@ MemDOWN.prototype._put = function (key, value, options, callback) {
     this._keys.push(key)
     this._keys.sort()
   }
-  key = '$' + key // safety, to avoid key='__proto__'-type skullduggery 
+  key = toKey(key) // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
   setImmediate(callback)
 }
 
 MemDOWN.prototype._get = function (key, options, callback) {
-  var value = this._store['$' + key]
+  var value = this._store[toKey(key)]
   if (value === undefined) {
     // 'NotFound' error, consistent with LevelDOWN API
     return setImmediate(function () { callback(new Error('NotFound')) })
@@ -98,7 +102,7 @@ MemDOWN.prototype._del = function (key, options, callback) {
       break;
     }
   }
-  delete this._store['$' + key]
+  delete this._store[toKey(key)]
   setImmediate(callback)
 }
 
@@ -130,6 +134,10 @@ MemDOWN.prototype._batch = function (array, options, callback) {
 
 MemDOWN.prototype._iterator = function (options) {
   return new MemIterator(this, options)
+}
+
+MemDOWN.prototype._isBuffer = function (obj) {
+  return bops.is(obj)
 }
 
 module.exports = MemDOWN
