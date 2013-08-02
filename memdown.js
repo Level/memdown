@@ -1,4 +1,5 @@
 var util              = require('util')
+  , bops              = require('bops')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , noop              = function () {}
@@ -12,9 +13,9 @@ function MemIterator (db, options) {
   this._end     = options.end
   this._start   = options.start
 
-  if (this._start && Buffer.isBuffer(this._start) && this._start.length === 0)
+  if (this._start && bops.is(this._start) && this._start.length === 0)
     this._start = null
-  if (this._end && Buffer.isBuffer(this._end) && this._end.length === 0)
+  if (this._end && bops.is(this._end) && this._end.length === 0)
     this._end = null
 
   if (this._start) {
@@ -34,11 +35,12 @@ function MemIterator (db, options) {
 util.inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
-  var self = this
+  var self  = this
+    , key   = self.db._keys[self._pos]
+    , value
+
   if (self._pos >= self.db._keys.length || self._pos < 0)
     return setImmediate(callback)
-  var key   = self.db._keys[self._pos]
-    , value
 
   if (!!self._end && (self._reverse ? key < self._end : key > self._end))
     return setImmediate(callback)
@@ -82,8 +84,8 @@ MemDOWN.prototype._get = function (key, options, callback) {
     // 'NotFound' error, consistent with LevelDOWN API
     return setImmediate(function () { callback(new Error('NotFound')) })
   }
-  if (options.asBuffer !== false && !Buffer.isBuffer(value))
-    value = new Buffer(String(value))
+  if (options.asBuffer !== false && !bops.is(value))
+    value = bops.from(String(value))
   setImmediate(function () {
     callback(null, value)
   })
@@ -109,13 +111,13 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   if (Array.isArray(array)) {
     for (; i < array.length; i++) {
       if (array[i]) {
-        key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
+        key = bops.is(array[i].key) ? array[i].key : String(array[i].key)
         err = this._checkKeyValue(key, 'key')
         if (err) return setImmediate(function () { callback(err) })
         if (array[i].type === 'del') {
           this._del(array[i].key, options, noop)
         } else if (array[i].type === 'put') {
-          value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
+          value = bops.is(array[i].value) ? array[i].value : String(array[i].value)
           err = this._checkKeyValue(value, 'value')
           if (err) return setImmediate(function () { callback(err) })
           this._put(key, value, options, noop)

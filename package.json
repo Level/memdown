@@ -15,15 +15,32 @@
         "type"            : "git"
       , "url"             : "https://github.com/rvagg/node-memdown.git"
     }
-  , "dependencies" : {
+  , "dependencies"    : {
         "abstract-leveldown" : "~0.7.0"
+      , "bops"               : "~0.0.6"
     }
   , "devDependencies" : {
-        "tap"             : "*"
+        "tape"            : "*"
       , "rimraf"          : "*"
     }
-  , "scripts": {
+  , "scripts"         : {
         "test"            : "node ./test.js --stderr"
+    }
+  , "testling"        : {
+        "files"           : "testptest.js.js"
+      , "browsers"      : [
+            "ie/8..latest"
+          , "firefox/17..latest"
+          , "firefox/nightly"
+          , "chrome/22..latest"
+          , "chrome/canary"
+          , "opera/12..latest"
+          , "opera/next"
+          , "safari/5.1..latest"
+          , "ipad/6.0..latest"
+          , "iphone/6.0..latest"
+          , "android-browser/4.2..latest"
+        ]
     }
   , "license"             : "MIT"
 }

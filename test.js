@@ -1,8 +1,8 @@
-var test       = require('tap').test
+var test       = require('tape')
   , testCommon = require('abstract-leveldown/testCommon')
   , MemDOWN    = require('./')
   //, AbstractIterator = require('./').AbstractIterator
-  , testBuffer = require('fs').readFileSync(require('path').join(__dirname, 'testdata.bin'))
+  , testBuffer = require('./testdata_b64')
 
   , factory    = function (location) {
       return new MemDOWN(location)
