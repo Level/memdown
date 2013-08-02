@@ -21,7 +21,7 @@ require('abstract-leveldown/abstract/get-test').all(factory, test, testCommon)
 
 require('abstract-leveldown/abstract/put-test').all(factory, test, testCommon)
 
-require('abstract-leveldown/abstract/put-get-del-test').all(factory, test, testCommon, testBuffer, Uint8Array)
+require('abstract-leveldown/abstract/put-get-del-test').all(factory, test, testCommon, testBuffer, process.browser && Uint8Array)
 
 require('abstract-leveldown/abstract/batch-test').all(factory, test, testCommon)
 require('abstract-leveldown/abstract/chained-batch-test').all(factory, test, testCommon)
