@@ -16,12 +16,15 @@
       , "url"                : "https://github.com/rvagg/node-memdown.git"
     }
   , "dependencies"    : {
-        "abstract-leveldown" : "~0.7.0"
+        "abstract-leveldown" : "~0.7.4"
       , "bops"               : "~0.0.6"
     }
   , "devDependencies" : {
         "tape"               : "*"
       , "rimraf"             : "*"
+    }
+  , "browser"         : {
+        "rimraf"          : false
     }
   , "scripts"         : {
         "test"               : "node ./test.js --stderr"
