@@ -12,23 +12,23 @@
   , "keywords"        : [ "leveldb", "leveldown", "levelup", "memory" ]
   , "main"            : "./memdown.js"
   , "repository"      : {
-        "type"            : "git"
-      , "url"             : "https://github.com/rvagg/node-memdown.git"
+        "type"               : "git"
+      , "url"                : "https://github.com/rvagg/node-memdown.git"
     }
   , "dependencies"    : {
         "abstract-leveldown" : "~0.7.0"
       , "bops"               : "~0.0.6"
     }
   , "devDependencies" : {
-        "tape"            : "*"
-      , "rimraf"          : "*"
+        "tape"               : "*"
+      , "rimraf"             : "*"
     }
   , "scripts"         : {
-        "test"            : "node ./test.js --stderr"
+        "test"               : "node ./test.js --stderr"
     }
   , "testling"        : {
-        "files"           : "testptest.js.js"
-      , "browsers"      : [
+        "files"              : "test.js"
+      , "browsers"           : [
             "ie/8..latest"
           , "firefox/17..latest"
           , "firefox/nightly"
@@ -42,5 +42,5 @@
           , "android-browser/4.2..latest"
         ]
     }
-  , "license"             : "MIT"
+  , "license"         : "MIT"
 }
