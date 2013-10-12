@@ -60,6 +60,9 @@ MemIterator.prototype._next = function (callback) {
 }
 
 function MemDOWN (location) {
+  if (!(this instanceof MemDOWN))
+    return new MemDOWN(location)
+
   AbstractLevelDOWN.call(this, location)
   this._store = {}
   this._keys  = []
