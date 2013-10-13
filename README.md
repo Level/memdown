@@ -17,8 +17,7 @@ As of version 0.7, LevelUP allows you to pass a `'db'` option when you create a 
 ```js
 var MemDOWN = require('memdown')
   , levelup = require('levelup')
-  , factory = function (location) { return new MemDOWN(location) }
-  , db = levelup('/does/not/matter', { db: factory })
+  , db = levelup('/does/not/matter', { db: MemDOWN })
 
 db.put('name', 'Yuri Irsenovich Kim')
 db.put('dob', '16 February 1941')
