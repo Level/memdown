@@ -11,25 +11,39 @@ function toKey (key) {
 
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
-  this._reverse = !!options.reverse
+  this._reverse = options.reverse
   this._limit   = options.limit
   this._count   = 0
   this._end     = options.end
   this._start   = options.start
+  this._gt      = options.gt
+  this._gte     = options.gte
+  this._lt      = options.lt
+  this._lte     = options.lte
 
-  if (this._start && bops.is(this._start) && this._start.length === 0)
-    this._start = null
-  if (this._end && bops.is(this._end) && this._end.length === 0)
-    this._end = null
+  var i
 
   if (this._start) {
-    for (var i = 0; i < this.db._keys.length; i++) {
-      if (this.db._keys[i] >= options.start) {
-        this._pos = this._reverse && this.db._keys[i] != options.start ? i - 1 : i
+    for (i = 0; i < this.db._keys.length; i++) {
+      if (this.db._keys[i] >= this._start) {
+        this._pos = i
+        if (this.db._keys[i] != this._start) {
+          if (this._reverse) {
+            // going backwards and key doesn't match, jump back one
+            --this._pos
+          }
+        } else {
+          if (options.exclusiveStart) {
+            // key matches but it's a gt or lt
+            this._pos += (this._reverse ? -1 : 1)
+          }
+        }
         break
       }
     }
-    if (this._pos == null && !this._reverse) this._pos = -1
+
+    if (this._pos == null && !this._reverse) // no matching keys, non starter
+      this._pos = -1
   }
 
   if (!options.start || !this._pos)
@@ -51,6 +65,12 @@ MemIterator.prototype._next = function (callback) {
 
 
   if (!!self._limit && self._limit > 0 && self._count++ >= self._limit)
+    return setImmediate(callback)
+
+  if (  (this._lt  && key >= this._lt)
+     || (this._lte && key > this._lte)
+     || (this._gt  && key <= this._gt)
+     || (this._gte && key < this._gte))
     return setImmediate(callback)
 
   value = self.db._store[toKey(key)]
