@@ -1,7 +1,7 @@
 {
     "name"            : "memdown"
   , "description"     : "An drop-in replacement for LevelDOWN that works in memory only"
-  , "version"         : "0.4.1"
+  , "version"         : "0.5.0"
   , "homepage"        : "https://github.com/rvagg/node-memdown"
   , "authors"         : [
         "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
@@ -16,7 +16,7 @@
       , "url"                : "https://github.com/rvagg/node-memdown.git"
     }
   , "dependencies"    : {
-        "abstract-leveldown" : "~0.10.2"
+        "abstract-leveldown" : "~0.11.0"
       , "bops"               : "~0.1.0"
     }
   , "devDependencies" : {
