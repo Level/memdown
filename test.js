@@ -26,6 +26,8 @@ require('abstract-leveldown/abstract/close-test').close(MemDOWN, test, testCommo
 
 require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testCommon)
 
+require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon)
+
 test('unsorted entry, sorted iterator', function (t) {
   var db = new MemDOWN('foo')
     , noop = function () {}
