@@ -6,7 +6,7 @@ var test       = require('tape')
 
 /*** compatibility with basic LevelDOWN API ***/
 
-require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
+// meh require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
 
 require('abstract-leveldown/abstract/open-test').args(MemDOWN, test, testCommon)
 require('abstract-leveldown/abstract/open-test').open(MemDOWN, test, testCommon)
