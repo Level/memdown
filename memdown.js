@@ -83,7 +83,7 @@ function MemDOWN (location) {
   if (!(this instanceof MemDOWN))
     return new MemDOWN(location)
 
-  AbstractLevelDOWN.call(this, location)
+  AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
   this._store = {}
   this._keys  = []
 }
