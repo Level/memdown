@@ -4,9 +4,9 @@
 
 [![NPM](https://nodei.co/npm/memdown.png?compact=true)](https://nodei.co/npm/memdown/) 
 
-[![Travis](https://secure.travis-ci.org/rvagg/node-memdown.png)](http://travis-ci.org/rvagg/node-memdown)
+[![Travis](https://secure.travis-ci.org/rvagg/memdown.png)](http://travis-ci.org/rvagg/memdown)
 
-![Testling](https://ci.testling.com/rvagg/node-memdown.png)
+![Testling](https://ci.testling.com/rvagg/memdown.png)
 
 *Note: the above tests include the use of `TypedArray`s. If you don't use them then you can likely ignore the failures.*
 
