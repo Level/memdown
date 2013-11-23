@@ -6,7 +6,7 @@ var util              = require('util')
   , setImmediate      = global.setImmediate || process.nextTick
 
 function toKey (key) {
-  return typeof key == 'string' ? key : JSON.stringify(key)
+  return typeof key == 'string' ? '$' + key : JSON.stringify(key)
 }
 
 function MemIterator (db, options) {

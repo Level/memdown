@@ -2,22 +2,17 @@
 
 **A drop-in replacement for [LevelDOWN](https://github.com/rvagg/node-leveldown) that works in memory only. Can be used as a back-end for [LevelUP](https://github.com/rvagg/node-levelup) rather than an actual LevelDB store.**
 
-[![NPM](https://nodei.co/npm/memdown.png?compact=true)](https://nodei.co/npm/memdown/) 
+[![NPM](https://nodei.co/npm/memdown.png?downloads=true)](https://nodei.co/npm/memdown/)
 
 [![Travis](https://secure.travis-ci.org/rvagg/memdown.png)](http://travis-ci.org/rvagg/memdown)
-
-![Testling](https://ci.testling.com/rvagg/memdown.png)
-
-*Note: the above tests include the use of `TypedArray`s. If you don't use them then you can likely ignore the failures.*
 
 As of version 0.7, LevelUP allows you to pass a `'db'` option when you create a new instance. This will override the default LevelDOWN store with a LevelDOWN API compatible object. MemDOWN conforms exactly to the LevelDOWN API but only performs operations in memory, so your data is discarded when the process ends or you release a reference to the database.
 
 ## Example
 
 ```js
-var MemDOWN = require('memdown')
-  , levelup = require('levelup')
-  , db = levelup('/does/not/matter', { db: MemDOWN })
+var levelup = require('levelup')
+  , db = levelup('/does/not/matter', { db: require('memdown') })
 
 db.put('name', 'Yuri Irsenovich Kim')
 db.put('dob', '16 February 1941')
