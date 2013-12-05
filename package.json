@@ -1,49 +1,54 @@
 {
-    "name"            : "memdown"
-  , "description"     : "An drop-in replacement for LevelDOWN that works in memory only"
-  , "version"         : "0.5.1"
-  , "homepage"        : "https://github.com/rvagg/node-memdown"
-  , "authors"         : [
-        "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
+  "name": "memdown",
+  "description": "An drop-in replacement for LevelDOWN that works in memory only",
+  "version": "0.5.1",
+  "homepage": "https://github.com/rvagg/node-memdown",
+  "authors": [
+    "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
+  ],
+  "contributors": [
+    "Julian Gruber <julian@juliangruber.com> (https://github.com/juliangruber)"
+  ],
+  "keywords": [
+    "leveldb",
+    "leveldown",
+    "levelup",
+    "memory"
+  ],
+  "main": "./memdown.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rvagg/node-memdown.git"
+  },
+  "dependencies": {
+    "abstract-leveldown": "~0.11.2",
+    "bops": "~0.1.0"
+  },
+  "devDependencies": {
+    "tape": "*",
+    "rimraf": "*"
+  },
+  "browser": {
+    "rimraf": false
+  },
+  "scripts": {
+    "test": "node ./test.js --stderr"
+  },
+  "testling": {
+    "files": "test.js",
+    "browsers": [
+      "ie/8..latest",
+      "firefox/17..latest",
+      "firefox/nightly",
+      "chrome/22..latest",
+      "chrome/canary",
+      "opera/12..latest",
+      "opera/next",
+      "safari/5.1..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
     ]
-  , "contributors"    : [
-        "Julian Gruber <julian@juliangruber.com> (https://github.com/juliangruber)"
-    ]
-  , "keywords"        : [ "leveldb", "leveldown", "levelup", "memory" ]
-  , "main"            : "./memdown.js"
-  , "repository"      : {
-        "type"               : "git"
-      , "url"                : "https://github.com/rvagg/node-memdown.git"
-    }
-  , "dependencies"    : {
-        "abstract-leveldown" : "~0.11.0"
-      , "bops"               : "~0.1.0"
-    }
-  , "devDependencies" : {
-        "tape"               : "*"
-      , "rimraf"             : "*"
-    }
-  , "browser"         : {
-        "rimraf"             : false
-    }
-  , "scripts"         : {
-        "test"               : "node ./test.js --stderr"
-    }
-  , "testling"        : {
-        "files"              : "test.js"
-      , "browsers"           : [
-            "ie/8..latest"
-          , "firefox/17..latest"
-          , "firefox/nightly"
-          , "chrome/22..latest"
-          , "chrome/canary"
-          , "opera/12..latest"
-          , "opera/next"
-          , "safari/5.1..latest"
-          , "ipad/6.0..latest"
-          , "iphone/6.0..latest"
-          , "android-browser/4.2..latest"
-        ]
-    }
-  , "license"         : "MIT"
+  },
+  "license": "MIT"
 }
