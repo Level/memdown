@@ -9,6 +9,15 @@ function toKey (key) {
   return typeof key == 'string' ? '$' + key : JSON.stringify(key)
 }
 
+function sortedIndexOf (arr, item) {
+  var low = 0, high = arr.length, mid
+  while (low < high) {
+    mid = (low + high) >>> 1
+    arr[mid] < item ? low = mid + 1 : high = mid
+  }
+  return low
+}
+
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
   this._reverse = options.reverse
@@ -96,10 +105,9 @@ MemDOWN.prototype._open = function (options, callback) {
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
-  if (this._keys.indexOf(key) == -1) {
-    this._keys.push(key)
-    this._keys.sort()
-  }
+  var ix = sortedIndexOf(this._keys, key)
+  if (this._keys[ix] != key)
+    this._keys.splice(ix, 0, key)
   key = toKey(key) // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
   setImmediate(callback)
@@ -119,12 +127,9 @@ MemDOWN.prototype._get = function (key, options, callback) {
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {
-  for (var i = 0; i < this._keys.length; i++) {
-    if (this._keys[i] == key) {
-      this._keys.splice(i, 1)
-      break;
-    }
-  }
+  var ix = sortedIndexOf(this._keys, key)
+  if (this._keys[ix] == key)
+    this._keys.splice(ix, 1)
   delete this._store[toKey(key)]
   setImmediate(callback)
 }
