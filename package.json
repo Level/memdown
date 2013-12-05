@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "abstract-leveldown": "~0.11.2",
-    "bops": "~0.1.0"
+    "bops": "~0.1.1"
   },
   "devDependencies": {
     "tape": "*",
