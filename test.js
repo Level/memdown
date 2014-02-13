@@ -57,3 +57,47 @@ test('unsorted entry, sorted iterator', function (t) {
     t.end()
   })
 })
+
+test('reading while putting', function (t) {
+  var db = new MemDOWN('foo')
+    , noop = function () {}
+    , iterator
+  db.open(noop)
+  db.put('f', 'F', noop)
+  db.put('c', 'C', noop)
+  db.put('e', 'E', noop)
+  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+  iterator.next(function (err, key, value) {
+    t.equal(key, 'c')
+    t.equal(value, 'C')
+    db.put('a', 'A', noop)
+    iterator.next(function (err, key, value) {
+      t.equal(key, 'e')
+      t.equal(value, 'E')
+      t.end()
+    })
+  })
+})
+
+
+test('reading while deleting', function (t) {
+  var db = new MemDOWN('foo')
+    , noop = function () {}
+    , iterator
+  db.open(noop)
+  db.put('f', 'F', noop)
+  db.put('a', 'A', noop)
+  db.put('c', 'C', noop)
+  db.put('e', 'E', noop)
+  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+  iterator.next(function (err, key, value) {
+    t.equal(key, 'a')
+    t.equal(value, 'A')
+    db.del('a', noop)
+    iterator.next(function (err, key, value) {
+      t.equal(key, 'c')
+      t.equal(value, 'C')
+      t.end()
+    })
+  })
+})
