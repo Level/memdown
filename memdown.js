@@ -29,6 +29,7 @@ function MemIterator (db, options) {
   this._gte     = options.gte
   this._lt      = options.lt
   this._lte     = options.lte
+  this._keys    = []
 
   var i
 
@@ -57,16 +58,22 @@ function MemIterator (db, options) {
 
   if (!options.start || !this._pos)
     this._pos = this._reverse ? this.db._keys.length - 1 : 0
+
+  // copy the keys that we need so that they're not affected by puts/deletes
+  if (this._pos >= 0) {
+    this._keys = this._reverse ? this.db._keys.slice(0, this._pos + 1) : this.db._keys.slice(this._pos)
+    this._pos = this._reverse ? this._keys.length - 1 : 0
+  }
 }
 
 util.inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
   var self  = this
-    , key   = self.db._keys[self._pos]
+    , key   = self._keys[self._pos]
     , value
 
-  if (self._pos >= self.db._keys.length || self._pos < 0)
+  if (self._pos >= self._keys.length || self._pos < 0)
     return setImmediate(callback)
 
   if (!!self._end && (self._reverse ? key < self._end : key > self._end))
