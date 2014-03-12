@@ -21,19 +21,20 @@
     "url": "https://github.com/rvagg/node-memdown.git"
   },
   "dependencies": {
-    "abstract-leveldown": "~0.11.3",
+    "abstract-leveldown": "^0.11.4",
     "bops": "~0.1.1"
   },
   "devDependencies": {
-    "tape": "*",
+    "tape": "^2.10.2",
     "rimraf": "*",
-    "bench": "*"
+    "bench": "*",
+    "faucet": "0.0.1"
   },
   "browser": {
     "rimraf": false
   },
   "scripts": {
-    "test": "node ./test.js --stderr"
+    "test": "node ./test.js --stderr | faucet"
   },
   "testling": {
     "files": "test.js",
