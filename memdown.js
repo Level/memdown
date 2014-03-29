@@ -1,5 +1,4 @@
 var util              = require('util')
-  , bops              = require('bops')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , noop              = function () {}
@@ -126,8 +125,8 @@ MemDOWN.prototype._get = function (key, options, callback) {
     // 'NotFound' error, consistent with LevelDOWN API
     return setImmediate(function () { callback(new Error('NotFound')) })
   }
-  if (options.asBuffer !== false && !bops.is(value))
-    value = bops.from(String(value))
+  if (options.asBuffer !== false && !Buffer.isBuffer(value))
+    value = new Buffer(String(value))
   setImmediate(function () {
     callback(null, value)
   })
@@ -150,13 +149,13 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   if (Array.isArray(array)) {
     for (; i < array.length; i++) {
       if (array[i]) {
-        key = bops.is(array[i].key) ? array[i].key : String(array[i].key)
+        key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
         err = this._checkKeyValue(key, 'key')
         if (err) return setImmediate(function () { callback(err) })
         if (array[i].type === 'del') {
           this._del(array[i].key, options, noop)
         } else if (array[i].type === 'put') {
-          value = bops.is(array[i].value) ? array[i].value : String(array[i].value)
+          value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
           err = this._checkKeyValue(value, 'value')
           if (err) return setImmediate(function () { callback(err) })
           this._put(key, value, options, noop)
@@ -172,7 +171,7 @@ MemDOWN.prototype._iterator = function (options) {
 }
 
 MemDOWN.prototype._isBuffer = function (obj) {
-  return bops.is(obj)
+  return Buffer.isBuffer(obj)
 }
 
 module.exports = MemDOWN

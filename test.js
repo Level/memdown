@@ -17,7 +17,7 @@ require('abstract-leveldown/abstract/get-test').all(MemDOWN, test, testCommon)
 
 require('abstract-leveldown/abstract/put-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer, process.browser && Uint8Array)
+require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer)
 
 require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test, testCommon)
 require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test, testCommon)
