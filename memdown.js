@@ -56,7 +56,7 @@ function MemIterator (db, options) {
       this._pos = -1
   }
 
-  if (!options.start || !this._pos)
+  if (!options.start || this._pos === undefined)
     this._pos = this._reverse ? this.db._keys.length - 1 : 0
 
   // copy the keys that we need so that they're not affected by puts/deletes
