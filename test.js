@@ -101,3 +101,18 @@ test('reading while deleting', function (t) {
     })
   })
 })
+
+test('reverse ranges', function(t) {
+  var db = new MemDOWN('foo')
+    , noop = function () {}
+    , iterator
+  db.open(noop)
+  db.put('a', 'A', noop)
+  db.put('c', 'C', noop)
+  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start:'b', reverse:true })
+  iterator.next(function (err, key, value) {
+    t.equal(key, 'a')
+    t.equal(value, 'A')
+    t.end()
+  })
+})
