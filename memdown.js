@@ -33,30 +33,17 @@ function MemIterator (db, options) {
   var i
 
   if (this._start) {
-    for (i = 0; i < this.db._keys.length; i++) {
-      if (this.db._keys[i] >= this._start) {
-        this._pos = i
-        if (this.db._keys[i] != this._start) {
-          if (this._reverse) {
-            // going backwards and key doesn't match, jump back one
-            --this._pos
-          }
-        } else {
-          if (options.exclusiveStart) {
-            // key matches but it's a gt or lt
-            this._pos += (this._reverse ? -1 : 1)
-          }
-        }
-        break
+    this._pos = sortedIndexOf(this.db._keys, this._start)
+    if (this._reverse) {
+      if (options.exclusiveStart || this.db._keys[this._pos] !== this._start) {
+        this._pos--
       }
+    } else if (options.exclusiveStart && this.db._keys[this._pos] === this._start) {
+      this._pos++
     }
-
-    if (this._pos == null && !this._reverse) // no matching keys, non starter
-      this._pos = -1
-  }
-
-  if (!options.start || this._pos === undefined)
+  } else {
     this._pos = this._reverse ? this.db._keys.length - 1 : 0
+  }
 
   // copy the keys that we need so that they're not affected by puts/deletes
   if (this._pos >= 0) {
