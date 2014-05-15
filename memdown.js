@@ -1,4 +1,4 @@
-var util              = require('util')
+var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , noop              = function () {}
@@ -52,7 +52,7 @@ function MemIterator (db, options) {
   }
 }
 
-util.inherits(MemIterator, AbstractIterator)
+inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
   var self  = this
@@ -90,7 +90,7 @@ function MemDOWN (location) {
   this._keys  = []
 }
 
-util.inherits(MemDOWN, AbstractLevelDOWN)
+inherits(MemDOWN, AbstractLevelDOWN)
 
 MemDOWN.prototype._open = function (options, callback) {
   var self = this
