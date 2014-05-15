@@ -38,7 +38,9 @@ function MemIterator (db, options) {
       if (options.exclusiveStart || this._pos === this.db._keys.length || this.db._keys[this._pos] !== this._start) {
         this._pos--
       }
-    } else if (options.exclusiveStart && this._pos !== this.db._keys.length && this.db._keys[this._pos] === this._start) {
+    } else if (  options.exclusiveStart
+              && this._pos !== this.db._keys.length
+              && this.db._keys[this._pos] === this._start) {
       this._pos++
     }
   } else {
