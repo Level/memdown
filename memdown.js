@@ -1,4 +1,4 @@
-var inherits              = require('inherits')
+var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , noop              = function () {}
