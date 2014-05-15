@@ -116,3 +116,32 @@ test('reverse ranges', function(t) {
     t.end()
   })
 })
+
+test('no location', function(t) {
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens crrectly')
+    }
+    , noop = function () {}
+    , iterator
+  db.open(noerr)
+  db.put('a', 'A', noop)
+  db.put('c', 'C', noop)
+  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start:'b', reverse:true })
+  iterator.next(function (err, key, value) {
+    t.equal(key, 'a')
+    t.equal(value, 'A')
+    t.end()
+  })
+})
+
+test('batch wtihout an array', function (t) {
+  var db = new MemDOWN()
+    , noop = function () {}
+
+    db.open(noop)
+    db.batch(null, function (err) {
+      t.ok(err, 'throws an error')
+      t.end()
+    })
+});

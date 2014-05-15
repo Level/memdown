@@ -35,22 +35,23 @@ function MemIterator (db, options) {
   if (this._start) {
     this._pos = sortedIndexOf(this.db._keys, this._start)
     if (this._reverse) {
-      if (options.exclusiveStart || this._pos >= this.db._keys.length || this.db._keys[this._pos] !== this._start) {
+      if (options.exclusiveStart || this._pos >= this.db._len || this.db._keys[this._pos] !== this._start) {
         this._pos--
       }
     } else if (  options.exclusiveStart
-              && this._pos < this.db._keys.length
+              && this._pos < this.db._len
               && this.db._keys[this._pos] === this._start) {
       this._pos++
     }
   } else {
-    this._pos = this._reverse ? this.db._keys.length - 1 : 0
+    this._pos = this._reverse ? this.db._len - 1 : 0
   }
 
   // copy the keys that we need so that they're not affected by puts/deletes
   if (this._pos >= 0) {
     this._keys = this._reverse ? this.db._keys.slice(0, this._pos + 1) : this.db._keys.slice(this._pos)
-    this._pos = this._reverse ? this._keys.length - 1 : 0
+    this._len = this._keys.length;
+    this._pos = this._reverse ? this._len - 1 : 0
   }
 }
 
@@ -61,7 +62,7 @@ MemIterator.prototype._next = function (callback) {
     , key
     , value
 
-  if (self._pos >= self._keys.length || self._pos < 0)
+  if (self._pos >= self._len || self._pos < 0)
     return setImmediate(callback)
 
   key = self._keys[self._pos]
@@ -92,6 +93,7 @@ function MemDOWN (location) {
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
   this._store = {}
   this._keys  = []
+  this._len = 0;
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
@@ -103,8 +105,10 @@ MemDOWN.prototype._open = function (options, callback) {
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
-  if (ix >= this._keys.length || this._keys[ix] != key)
+  if (ix >= this._len || this._keys[ix] != key) {
     this._keys.splice(ix, 0, key)
+    this._len++;
+  }
   key = toKey(key) // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
   setImmediate(callback)
@@ -125,35 +129,37 @@ MemDOWN.prototype._get = function (key, options, callback) {
 
 MemDOWN.prototype._del = function (key, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
-  if (this._keys[ix] == key)
+  if (this._keys[ix] == key) {
     this._keys.splice(ix, 1)
+    this._len--;
+  }
   delete this._store[toKey(key)]
   setImmediate(callback)
 }
 
 MemDOWN.prototype._batch = function (array, options, callback) {
   var err
-    , i = 0
+    , i = -1
     , key
     , value
+    , len = array.length
 
-  if (Array.isArray(array)) {
-    for (; i < array.length; i++) {
-      if (array[i]) {
-        key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
-        err = this._checkKeyValue(key, 'key')
+  while (++i < len) {
+    if (array[i]) {
+      key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
+      err = this._checkKeyValue(key, 'key')
+      if (err) return setImmediate(function () { callback(err) })
+      if (array[i].type === 'del') {
+        this._del(array[i].key, options, noop)
+      } else if (array[i].type === 'put') {
+        value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
+        err = this._checkKeyValue(value, 'value')
         if (err) return setImmediate(function () { callback(err) })
-        if (array[i].type === 'del') {
-          this._del(array[i].key, options, noop)
-        } else if (array[i].type === 'put') {
-          value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
-          err = this._checkKeyValue(value, 'value')
-          if (err) return setImmediate(function () { callback(err) })
-          this._put(key, value, options, noop)
-        }
+        this._put(key, value, options, noop)
       }
     }
   }
+  
   setImmediate(callback)
 }
 
