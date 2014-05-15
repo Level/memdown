@@ -35,10 +35,10 @@ function MemIterator (db, options) {
   if (this._start) {
     this._pos = sortedIndexOf(this.db._keys, this._start)
     if (this._reverse) {
-      if (options.exclusiveStart || this.db._keys[this._pos] !== this._start) {
+      if (options.exclusiveStart || this._pos === this.db._keys.length || this.db._keys[this._pos] !== this._start) {
         this._pos--
       }
-    } else if (options.exclusiveStart && this.db._keys[this._pos] === this._start) {
+    } else if (options.exclusiveStart && this._pos !== this.db._keys.length && this.db._keys[this._pos] === this._start) {
       this._pos++
     }
   } else {
@@ -56,11 +56,13 @@ inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
   var self  = this
-    , key   = self._keys[self._pos]
+    , key
     , value
 
   if (self._pos >= self._keys.length || self._pos < 0)
     return setImmediate(callback)
+
+  key = self._keys[self._pos]
 
   if (!!self._end && (self._reverse ? key < self._end : key > self._end))
     return setImmediate(callback)
@@ -99,7 +101,7 @@ MemDOWN.prototype._open = function (options, callback) {
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
-  if (this._keys[ix] != key)
+  if (ix === this._keys.length || this._keys[ix] != key)
     this._keys.splice(ix, 0, key)
   key = toKey(key) // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
