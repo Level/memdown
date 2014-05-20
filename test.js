@@ -134,14 +134,3 @@ test('no location', function(t) {
     t.end()
   })
 })
-
-test('batch wtihout an array', function (t) {
-  var db = new MemDOWN()
-    , noop = function () {}
-
-    db.open(noop)
-    db.batch(null, function (err) {
-      t.ok(err, 'throws an error')
-      t.end()
-    })
-});
