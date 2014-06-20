@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "abstract-leveldown": "~0.12.2",
-    "inherits": "^2.0.1",
+    "inherits": "~2.0.1",
     "ltgt": "~1.0.2"
   },
   "devDependencies": {
