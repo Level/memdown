@@ -28,8 +28,11 @@ function MemIterator (db, options) {
   this._pos = 0
 
   this._keys = this.db._keys.filter(ltgt.filter(options))
-  if(this._reverse) this._keys.reverse()
-  if(options.limit > 0)
+
+  if (this._reverse)
+    this._keys.reverse()
+
+  if (options.limit > 0)
     this._keys = this._keys.slice(0, options.limit)
 
 }
@@ -48,7 +51,7 @@ MemIterator.prototype._next = function (callback) {
 
   value = self.db._store[toKey(key)]
 
-  this._pos ++
+  this._pos++
 
   setImmediate(function () { callback(null, key, value) })
 }
