@@ -1,6 +1,7 @@
 var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
+  , ltgt              = require('ltgt')
   , noop              = function () {}
   , setImmediate      = global.setImmediate || process.nextTick
 
@@ -19,40 +20,21 @@ function sortedIndexOf (arr, item) {
 
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
-  this._reverse = options.reverse
   this._limit   = options.limit
-  this._count   = 0
-  this._end     = options.end
-  this._start   = options.start
-  this._gt      = options.gt
-  this._gte     = options.gte
-  this._lt      = options.lt
-  this._lte     = options.lte
+  this._reverse   = options.reverse
   this._keys    = []
+  this._options = options
 
-  var i
+  this._pos = 0
 
-  if (this._start) {
-    this._pos = sortedIndexOf(this.db._keys, this._start)
-    if (this._reverse) {
-      if (options.exclusiveStart || this._pos >= this.db._len || this.db._keys[this._pos] !== this._start) {
-        this._pos--
-      }
-    } else if (  options.exclusiveStart
-              && this._pos < this.db._len
-              && this.db._keys[this._pos] === this._start) {
-      this._pos++
-    }
-  } else {
-    this._pos = this._reverse ? this.db._len - 1 : 0
-  }
+  this._keys = this.db._keys.filter(ltgt.filter(options))
 
-  // copy the keys that we need so that they're not affected by puts/deletes
-  if (this._pos >= 0) {
-    this._keys = this._reverse ? this.db._keys.slice(0, this._pos + 1) : this.db._keys.slice(this._pos)
-    this._len = this._keys.length;
-    this._pos = this._reverse ? this._len - 1 : 0
-  }
+  if (this._reverse)
+    this._keys.reverse()
+
+  if (options.limit > 0)
+    this._keys = this._keys.slice(0, options.limit)
+
 }
 
 inherits(MemIterator, AbstractIterator)
@@ -62,26 +44,14 @@ MemIterator.prototype._next = function (callback) {
     , key
     , value
 
-  if (self._pos >= self._len || self._pos < 0)
+  if (self._pos >= self._keys.length)
     return setImmediate(callback)
 
   key = self._keys[self._pos]
 
-  if (!!self._end && (self._reverse ? key < self._end : key > self._end))
-    return setImmediate(callback)
-
-
-  if (!!self._limit && self._limit > 0 && self._count++ >= self._limit)
-    return setImmediate(callback)
-
-  if (  (this._lt  && key >= this._lt)
-     || (this._lte && key > this._lte)
-     || (this._gt  && key <= this._gt)
-     || (this._gte && key < this._gte))
-    return setImmediate(callback)
-
   value = self.db._store[toKey(key)]
-  self._pos += self._reverse ? -1 : 1
+
+  this._pos++
 
   setImmediate(function () { callback(null, key, value) })
 }
