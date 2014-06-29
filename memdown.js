@@ -76,7 +76,7 @@ MemDOWN.prototype._open = function (options, callback) {
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
-  if (ix >= this._len || this._keys[ix] != key) {
+  if (ix >= this._len || toKey(this._keys[ix]) != toKey(key)) {
     this._keys.splice(ix, 0, key)
     this._len++;
   }
