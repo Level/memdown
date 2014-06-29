@@ -10,10 +10,11 @@ function toKey (key) {
 }
 
 function sortedIndexOf (arr, item) {
+  item = toKey(item)
   var low = 0, high = arr.length, mid
   while (low < high) {
     mid = (low + high) >>> 1
-    arr[mid] < item ? low = mid + 1 : high = mid
+    toKey(arr[mid]) < item ? low = mid + 1 : high = mid
   }
   return low
 }
@@ -99,7 +100,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
 
 MemDOWN.prototype._del = function (key, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
-  if (this._keys[ix] == key) {
+  if (toKey(this._keys[ix]) == toKey(key)) {
     this._keys.splice(ix, 1)
     this._len--;
   }
