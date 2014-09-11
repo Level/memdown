@@ -35,6 +35,10 @@ function MemIterator (db, options) {
   if (options.limit > 0)
     this._keys = this._keys.slice(0, options.limit)
 
+  this._store = {};
+  Object.keys(this.db._store).forEach(function (key) {
+    this._store[key] = this.db._store[key];
+  }, this);
 }
 
 inherits(MemIterator, AbstractIterator)
@@ -49,7 +53,7 @@ MemIterator.prototype._next = function (callback) {
 
   key = self._keys[self._pos]
 
-  value = self.db._store[toKey(key)]
+  value = self._store[toKey(key)]
 
   this._pos++
 
