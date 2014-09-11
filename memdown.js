@@ -47,11 +47,13 @@ MemIterator.prototype._next = function (callback) {
   if (self._pos >= self._keys.length)
     return setImmediate(callback)
 
-  key = self._keys[self._pos]
-
+  key = self._keys[self._pos++]
+  if (!(toKey(key) in self.db._store)) {
+    return setImmediate(function (){
+      self._next(callback);
+    })
+  }
   value = self.db._store[toKey(key)]
-
-  this._pos++
 
   setImmediate(function () { callback(null, key, value) })
 }
