@@ -24,7 +24,8 @@ function MemIterator (db, options) {
   this._reverse   = options.reverse
   this._keys    = []
   this._options = options
-
+  this.keyAsBuffer = options.keyAsBuffer !== false
+  this.valueAsBuffer = options.valueAsBuffer !== false
   this._pos = 0
 
   this._keys = this.db._keys.filter(ltgt.filter(options))
@@ -56,6 +57,12 @@ MemIterator.prototype._next = function (callback) {
   value = self._store[toKey(key)]
 
   this._pos++
+  
+  if (self.keyAsBuffer)
+      key = new Buffer(key)
+
+  if (self.valueAsBuffer)
+    value = new Buffer(value)
 
   setImmediate(function () { callback(null, key, value) })
 }
