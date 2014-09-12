@@ -24,7 +24,8 @@ function MemIterator (db, options) {
   this._reverse   = options.reverse
   this._keys    = []
   this._options = options
-
+  this.keyAsBuffer = options.keyAsBuffer !== false
+  this.valueAsBuffer = options.valueAsBuffer !== false
   this._pos = 0
 
   this._keys = this.db._keys.filter(ltgt.filter(options))
@@ -35,6 +36,10 @@ function MemIterator (db, options) {
   if (options.limit > 0)
     this._keys = this._keys.slice(0, options.limit)
 
+  this._store = {};
+  Object.keys(this.db._store).forEach(function (key) {
+    this._store[key] = this.db._store[key];
+  }, this);
 }
 
 inherits(MemIterator, AbstractIterator)
@@ -49,9 +54,15 @@ MemIterator.prototype._next = function (callback) {
 
   key = self._keys[self._pos]
 
-  value = self.db._store[toKey(key)]
+  value = self._store[toKey(key)]
 
   this._pos++
+  
+  if (self.keyAsBuffer)
+      key = new Buffer(key)
+
+  if (self.valueAsBuffer)
+    value = new Buffer(value)
 
   setImmediate(function () { callback(null, key, value) })
 }
