@@ -4,9 +4,22 @@ var inherits          = require('inherits')
   , ltgt              = require('ltgt')
   , noop              = function () {}
   , setImmediate      = global.setImmediate || process.nextTick
+  , globalStore       = {}
+
+
 
 function toKey (key) {
   return typeof key == 'string' ? '$' + key : JSON.stringify(key)
+}
+
+function getOrCreateDatabaseFromGlobal(name) {
+  var key = toKey(name)
+    , db = globalStore[key]
+
+  if (!db)
+    db = globalStore[key] = {store: {}, keys: []}
+
+  return db
 }
 
 function sortedIndexOf (arr, item) {
@@ -61,9 +74,10 @@ function MemDOWN (location) {
     return new MemDOWN(location)
 
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
-  this._store = {}
-  this._keys  = []
-  this._len = 0;
+  
+  var db = getOrCreateDatabaseFromGlobal(location)
+  this._store = db.store
+  this._keys = db.keys
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
@@ -75,9 +89,8 @@ MemDOWN.prototype._open = function (options, callback) {
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
-  if (ix >= this._len || this._keys[ix] != key) {
+  if (ix >= this._keys.length || this._keys[ix] != key) {
     this._keys.splice(ix, 0, key)
-    this._len++;
   }
   key = toKey(key) // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
@@ -101,7 +114,6 @@ MemDOWN.prototype._del = function (key, options, callback) {
   var ix = sortedIndexOf(this._keys, key)
   if (this._keys[ix] == key) {
     this._keys.splice(ix, 1)
-    this._len--;
   }
   delete this._store[toKey(key)]
   setImmediate(callback)
@@ -139,6 +151,18 @@ MemDOWN.prototype._iterator = function (options) {
 
 MemDOWN.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
+}
+
+MemDOWN.destroy = function (name, callback) {
+  var key = toKey(name)
+    , db = globalStore[key]
+
+  if (db) {
+    while (db.keys.length)
+      delete db.store[toKey(db.keys.pop())]
+  }
+  delete globalStore[key]
+  setImmediate(callback)
 }
 
 module.exports = MemDOWN
