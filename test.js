@@ -134,3 +134,41 @@ test('no location', function(t) {
     t.end()
   })
 })
+
+test('put then del then iterator', function (t) {
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens crrectly')
+    }
+    , noop = function () {}
+    , iterator
+  db.open(noerr)
+  db.put(new Buffer('a'), 'A', noop)
+  db.del(new Buffer('a'), noop)
+  iterator = db.iterator()
+  iterator.next(function () {
+    t.equal(arguments.length, 0)
+    t.end()
+  })
+})
+
+test('put same multiple and then iterator', function (t) {
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens crrectly')
+    }
+    , noop = function () {}
+    , iterator
+  db.open(noerr)
+  db.put(new Buffer('a'), 'A', noop)
+  db.put(new Buffer('a'), 'B', noop)
+  iterator = db.iterator()
+  iterator.next(function (err, key, value) {
+    t.deepEqual(key.toString(), 'a')
+    t.equal(value, 'B')
+    iterator.next(function () {
+      t.equal(arguments.length, 0)
+      t.end()
+    })
+  })
+})
