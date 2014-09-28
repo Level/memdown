@@ -134,3 +134,30 @@ test('no location', function(t) {
     t.end()
   })
 })
+
+test('delete while iterating', function(t) {
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens crrectly')
+    }
+    , noop = function () {}
+    , iterator
+  db.open(noerr)
+  db.put('a', 'A', noop)
+  db.put('b', 'B', noop)
+  db.put('c', 'C', noop)
+  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start:'a' })
+  iterator.next(function (err, key, value) {
+    t.equal(key, 'a')
+    t.equal(value, 'A')
+    db.del('b', function (err) {
+      t.notOk(err, 'no error')
+      iterator.next(function (err, key, value) {
+        t.notOk(err, 'no error');
+        t.equals(key, 'c')
+        t.equal(value, 'C')
+        t.end()
+      });
+    })
+  })
+})
