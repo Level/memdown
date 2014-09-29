@@ -10,30 +10,30 @@ function gt(value) {
   return value > this._end
 }
 function gte(value) {
-  return value >= this._end;
+  return value >= this._end
 }
 function lt(value) {
-  return value < this._end;
+  return value < this._end
 }
 function lte(value) {
-  return value <= this._end;
+  return value <= this._end
 }
 
 function MemIterator (db, options) {
-  AbstractIterator.call(this, db);
-  this._limit   = options.limit;
+  AbstractIterator.call(this, db)
+  this._limit   = options.limit
   if (this._limit === -1) {
-    this._limit = Infinity;
+    this._limit = Infinity
   }
-  this.keyAsBuffer = options.keyAsBuffer !== false;
-  this.valueAsBuffer = options.valueAsBuffer !== false;
-  this._reverse   = options.reverse;
-  this._options = options;
-  this._done = 0;
+  this.keyAsBuffer = options.keyAsBuffer !== false
+  this.valueAsBuffer = options.valueAsBuffer !== false
+  this._reverse   = options.reverse
+  this._options = options
+  this._done = 0
   if (!this._reverse) {
     this._incr = 'next';
     this._start = ltgt.lowerBound(options);
-    this._end = ltgt.upperBound(options);
+    this._end = ltgt.upperBound(options)
     if (typeof this._start === 'undefined') {
       this._tree = db.tree.begin;
     } if (ltgt.lowerBoundInclusive(options)) {
@@ -43,27 +43,27 @@ function MemIterator (db, options) {
     }
     if (this._end) {
       if (ltgt.upperBoundInclusive(options)) {
-        this._test = lte;
+        this._test = lte
       } else {
-        this._test = lt;
+        this._test = lt
       }
     }
   } else {
     this._incr = 'prev';
-    this._start = ltgt.upperBound(options);
-    this._end = ltgt.lowerBound(options);
+    this._start = ltgt.upperBound(options)
+    this._end = ltgt.lowerBound(options)
     if (typeof this._start === 'undefined') {
       this._tree = db.tree.end;
     } if (ltgt.upperBoundInclusive(options)) {
-      this._tree = db.tree.le(this._start);
+      this._tree = db.tree.le(this._start)
     } else {
-      this._tree = db.tree.lt(this._start);
+      this._tree = db.tree.lt(this._start)
     }
     if (this._end) {
       if (ltgt.lowerBoundInclusive(options)) {
-        this._test = gte;
+        this._test = gte
       } else {
-        this._test = gt;
+        this._test = gt
       }
     }
   }
@@ -72,42 +72,44 @@ function MemIterator (db, options) {
 inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
+  var key,
+      value
 
-  if (this._done++ >= this._limit) {
-    return setImmediate(callback);
-  }
-  if (!this._tree.valid) {
-    return setImmediate(callback);
-  }
+  if (this._done++ >= this._limit)
+    return setImmediate(callback)
 
-  var key = this._tree.key;
-  var value = this._tree.value;
-  if (!this._test(key)) {
-    return setImmediate(callback);
-  }
+  if (!this._tree.valid)
+    return setImmediate(callback)
+
+  key = this._tree.key
+  value = this._tree.value
+
+  if (!this._test(key))
+    return setImmediate(callback)
+
   if (this.keyAsBuffer) {
-    key = new Buffer(key);
+    key = new Buffer(key)
   }
 
   if (this.valueAsBuffer){
-    value = new Buffer(value);
+    value = new Buffer(value)
   }
-  this._tree[this._incr]();
-  setImmediate(function () {
-    callback(null, key, value);
-  });
-};
 
-MemIterator.prototype._test = function () {
-  return true;
-};
+  this._tree[this._incr]()
+
+  setImmediate(function () {
+    callback(null, key, value)
+  })
+}
+
+MemIterator.prototype._test = function () {return true};
 
 function MemDOWN (location) {
   if (!(this instanceof MemDOWN))
     return new MemDOWN(location)
 
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
-  this.tree = createRBT();
+  this.tree = createRBT()
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
