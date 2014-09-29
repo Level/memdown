@@ -72,8 +72,8 @@ function MemIterator (db, options) {
 inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
-  var key,
-      value
+  var key
+   ,  value
 
   if (this._done++ >= this._limit)
     return setImmediate(callback)
@@ -102,7 +102,7 @@ MemIterator.prototype._next = function (callback) {
   })
 }
 
-MemIterator.prototype._test = function () {return true};
+MemIterator.prototype._test = function () {return true}
 
 function MemDOWN (location) {
   if (!(this instanceof MemDOWN))
@@ -149,9 +149,8 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     , key
     , value
     , len = array.length
-  function errorCall() {
-    callback(err);
-  }
+    , errorCall = function () { callback(err) }
+
   while (++i < len) {
     if (array[i]) {
       key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
