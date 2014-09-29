@@ -154,8 +154,8 @@ test('delete while iterating', function(t) {
       t.notOk(err, 'no error')
       iterator.next(function (err, key, value) {
         t.notOk(err, 'no error');
-        t.equals(key, 'c')
-        t.equal(value, 'C')
+        t.equals(key, 'b')
+        t.equal(value, 'B')
         t.end()
       });
     })
