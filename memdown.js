@@ -150,23 +150,32 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     , value
     , len = array.length
     , errorCall = function () { callback(err) }
+    , tree = this.tree
 
   while (++i < len) {
-    if (array[i]) {
-      key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
-      err = this._checkKey(key, 'key')
+    if (!array[i])
+      continue;
+    
+    key = Buffer.isBuffer(array[i].key) ? array[i].key : String(array[i].key)
+    err = this._checkKey(key, 'key')
+    if (err) return setImmediate(errorCall)
+    
+    tree = tree.remove(array[i].key)
+    // we always remove as insert doesn't replace
+
+    if (array[i].type === 'put') {
+
+      value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
+      err = this._checkKey(value, 'value')
+
       if (err) return setImmediate(errorCall)
-      if (array[i].type === 'del') {
-        this._del(array[i].key, options, noop)
-      } else if (array[i].type === 'put') {
-        value = Buffer.isBuffer(array[i].value) ? array[i].value : String(array[i].value)
-        err = this._checkKey(value, 'value')
-        if (err) return setImmediate(errorCall)
-        this._put(key, value, options, noop)
-      }
+
+      tree = tree.insert(key, value)
     }
   }
   
+  this.tree = tree;
+
   setImmediate(callback)
 }
 
