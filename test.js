@@ -28,6 +28,43 @@ require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testComm
 
 require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon)
 
+
+//
+// TODO: destroy() test copied from localstorage-down
+// https://github.com/pouchdb/pouchdb/blob/master/lib/adapters/leveldb.js#L1019
+// move this test to abstract-leveldown
+// 
+
+test('test .destroy', function (t) {
+  var db = new MemDOWN('destroy-test')
+  var db2 = new MemDOWN('other-db')
+  db2.put('key2', 'value2', function (err) {
+    t.notOk(err, 'no error')
+    db.put('key', 'value', function (err) {
+      t.notOk(err, 'no error')
+      db.get('key', {asBuffer: false}, function (err, value) {
+        t.notOk(err, 'no error')
+        t.equal(value, 'value', 'should have value')
+        db.close(function (err) {
+          t.notOk(err, 'no error')
+          MemDOWN.destroy('destroy-test', function (err) {
+            t.notOk(err, 'no error')
+            var db3 = new MemDOWN('destroy-test')
+            db3.get('key', function (err, value) {
+              t.ok(err, 'key is not there')
+              db2.get('key2', {asBuffer: false}, function (err, value) {
+                t.notOk(err, 'no error')
+                t.equal(value, 'value2', 'should have value2')
+                t.end()
+              })
+            })
+          })
+        })
+      })
+    })
+  })
+})
+
 test('unsorted entry, sorted iterator', function (t) {
   var db = new MemDOWN('foo')
     , noop = function () {}
@@ -59,7 +96,7 @@ test('unsorted entry, sorted iterator', function (t) {
 })
 
 test('reading while putting', function (t) {
-  var db = new MemDOWN('foo')
+  var db = new MemDOWN('foo2')
     , noop = function () {}
     , iterator
   db.open(noop)
@@ -81,7 +118,7 @@ test('reading while putting', function (t) {
 
 
 test('reading while deleting', function (t) {
-  var db = new MemDOWN('foo')
+  var db = new MemDOWN('foo3')
     , noop = function () {}
     , iterator
   db.open(noop)
@@ -103,7 +140,7 @@ test('reading while deleting', function (t) {
 })
 
 test('reverse ranges', function(t) {
-  var db = new MemDOWN('foo')
+  var db = new MemDOWN('foo4')
     , noop = function () {}
     , iterator
   db.open(noop)
