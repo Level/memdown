@@ -24,7 +24,7 @@
     "inherits": "~2.0.1",
     "ltgt": "~1.0.2",
     "functional-red-black-tree": "^1.0.1",
-    "abstract-leveldown": "^2.0.1"
+    "abstract-leveldown": "^2.0.3"
   },
   "devDependencies": {
     "tape": "*",
