@@ -1,7 +1,7 @@
 var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
-  , ltgt              = require('ltgt')
+  , keydir            = require('keydir')
   , noop              = function () {}
   , setImmediate      = global.setImmediate || process.nextTick
 
@@ -9,32 +9,15 @@ function toKey (key) {
   return typeof key == 'string' ? '$' + key : JSON.stringify(key)
 }
 
-function sortedIndexOf (arr, item) {
-  var low = 0, high = arr.length, mid
-  while (low < high) {
-    mid = (low + high) >>> 1
-    arr[mid] < item ? low = mid + 1 : high = mid
-  }
-  return low
-}
 
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
   this._limit   = options.limit
   this._reverse   = options.reverse
-  this._keys    = []
+  this._keys    = db._keys.range(options)
   this._options = options
 
   this._pos = 0
-
-  this._keys = this.db._keys.filter(ltgt.filter(options))
-
-  if (this._reverse)
-    this._keys.reverse()
-
-  if (options.limit > 0)
-    this._keys = this._keys.slice(0, options.limit)
-
 }
 
 inherits(MemIterator, AbstractIterator)
@@ -62,8 +45,7 @@ function MemDOWN (location) {
 
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
   this._store = {}
-  this._keys  = []
-  this._len = 0;
+  this._keys  = keydir()
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
@@ -74,11 +56,7 @@ MemDOWN.prototype._open = function (options, callback) {
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
-  var ix = sortedIndexOf(this._keys, key)
-  if (ix >= this._len || this._keys[ix] != key) {
-    this._keys.splice(ix, 0, key)
-    this._len++;
-  }
+  this._keys.put(key)
   key = toKey(key) // safety, to avoid key='__proto__'-type skullduggery 
   this._store[key] = value
   setImmediate(callback)
@@ -98,11 +76,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {
-  var ix = sortedIndexOf(this._keys, key)
-  if (this._keys[ix] == key) {
-    this._keys.splice(ix, 1)
-    this._len--;
-  }
+  this._keys.del(key)
   delete this._store[toKey(key)]
   setImmediate(callback)
 }
