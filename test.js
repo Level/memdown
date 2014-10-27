@@ -47,15 +47,19 @@ test('test .destroy', function (t) {
         t.equal(value, 'value', 'should have value')
         db.close(function (err) {
           t.notOk(err, 'no error')
-          MemDOWN.destroy('destroy-test', function (err) {
+          db2.close(function (err) {
             t.notOk(err, 'no error')
-            var db3 = new MemDOWN('destroy-test')
-            db3.get('key', function (err, value) {
-              t.ok(err, 'key is not there')
-              db2.get('key2', {asBuffer: false}, function (err, value) {
-                t.notOk(err, 'no error')
-                t.equal(value, 'value2', 'should have value2')
-                t.end()
+            MemDOWN.destroy('destroy-test', function (err) {
+              t.notOk(err, 'no error')
+              var db3 = new MemDOWN('destroy-test')
+              var db4 = new MemDOWN('other-db')
+              db3.get('key', function (err, value) {
+                t.ok(err, 'key is not there')
+                db4.get('key2', {asBuffer: false}, function (err, value) {
+                  t.notOk(err, 'no error')
+                  t.equal(value, 'value2', 'should have value2')
+                  t.end()
+                })
               })
             })
           })

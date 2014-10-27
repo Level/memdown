@@ -26,15 +26,6 @@ function lte(value) {
   return value <= this._end
 }
 
-function getOrCreateDatabaseFromGlobal(name) {
-  var key = toKey(name)
-    , db = globalStore[key]
-
-  if (!db)
-    db = globalStore[key] = {store: {}, keys: []}
-
-  return db
-}
 
 function sortedIndexOf (arr, item) {
   var low = 0, high = arr.length, mid
@@ -138,7 +129,7 @@ function MemDOWN (location) {
     return new MemDOWN(location)
 
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
-  this.tree = createRBT()
+  this._tree = undefined
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
@@ -147,6 +138,28 @@ MemDOWN.prototype._open = function (options, callback) {
   var self = this
   setImmediate(function callNext() { callback(null, self) })
 }
+
+Object.defineProperty(MemDOWN.prototype, 'tree', {
+  enumerable: true,
+  configurable: true,
+  get: function () {
+    var key = this.location ? toKey(this.location) : '_tree'
+    ,   store = this.location ? globalStore: this
+    ,   db
+
+    if (store[key])
+      db = store[key]
+    else
+      db = store[key] = createRBT()
+
+    return db
+  },
+  set: function (value) {
+    var key = this.location ? toKey(this.location) : '_tree'
+    ,   store = this.location ? globalStore: this
+    store[key] = value
+  }
+})
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
   this.tree = this.tree.remove(key).insert(key, value)
@@ -224,13 +237,10 @@ MemDOWN.prototype._isBuffer = function (obj) {
 
 MemDOWN.destroy = function (name, callback) {
   var key = toKey(name)
-    , db = globalStore[key]
 
-  if (db) {
-    while (db.keys.length)
-      delete db.store[toKey(db.keys.pop())]
-  }
-  delete globalStore[key]
+  if (key in globalStore)
+    delete globalStore[key]
+
   setImmediate(callback)
 }
 
