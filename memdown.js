@@ -4,6 +4,11 @@ var inherits          = require('inherits')
   , ltgt              = require('ltgt')
   , setImmediate      = global.setImmediate || process.nextTick
   , createRBT = require('functional-red-black-tree')
+  , globalStore       = {}
+
+function toKey (key) {
+  return typeof key == 'string' ? '$' + key : JSON.stringify(key)
+}
 
 function gt(value) {
   return value > this._end
@@ -19,6 +24,25 @@ function lt(value) {
 
 function lte(value) {
   return value <= this._end
+}
+
+function getOrCreateDatabaseFromGlobal(name) {
+  var key = toKey(name)
+    , db = globalStore[key]
+
+  if (!db)
+    db = globalStore[key] = {store: {}, keys: []}
+
+  return db
+}
+
+function sortedIndexOf (arr, item) {
+  var low = 0, high = arr.length, mid
+  while (low < high) {
+    mid = (low + high) >>> 1
+    arr[mid] < item ? low = mid + 1 : high = mid
+  }
+  return low
 }
 
 function MemIterator (db, options) {
@@ -196,6 +220,18 @@ MemDOWN.prototype._iterator = function (options) {
 
 MemDOWN.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
+}
+
+MemDOWN.destroy = function (name, callback) {
+  var key = toKey(name)
+    , db = globalStore[key]
+
+  if (db) {
+    while (db.keys.length)
+      delete db.store[toKey(db.keys.pop())]
+  }
+  delete globalStore[key]
+  setImmediate(callback)
 }
 
 module.exports = MemDOWN
