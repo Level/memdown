@@ -129,6 +129,9 @@ function MemDOWN (location) {
     return new MemDOWN(location)
 
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
+
+  this._location = this.location ? toKey(this.location) : '_tree'
+  this._store = this.location ? globalStore: this
   this._tree = undefined
 }
 
@@ -143,21 +146,15 @@ Object.defineProperty(MemDOWN.prototype, 'tree', {
   enumerable: true,
   configurable: true,
   get: function () {
-    var key = this.location ? toKey(this.location) : '_tree'
-    ,   store = this.location ? globalStore: this
-    ,   db
+    var db = this._store[this._location]
 
-    if (store[key])
-      db = store[key]
-    else
-      db = store[key] = createRBT()
+    if (!db)
+      db = this._store[this._location] = createRBT()
 
     return db
   },
   set: function (value) {
-    var key = this.location ? toKey(this.location) : '_tree'
-    ,   store = this.location ? globalStore: this
-    store[key] = value
+    this._store[this._location] = value
   }
 })
 
