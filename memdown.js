@@ -27,15 +27,6 @@ function lte(value) {
 }
 
 
-function sortedIndexOf (arr, item) {
-  var low = 0, high = arr.length, mid
-  while (low < high) {
-    mid = (low + high) >>> 1
-    arr[mid] < item ? low = mid + 1 : high = mid
-  }
-  return low
-}
-
 function MemIterator (db, options) {
   AbstractIterator.call(this, db)
   this._limit   = options.limit
