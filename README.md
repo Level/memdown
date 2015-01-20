@@ -1,5 +1,7 @@
 # MemDOWN
 
+<img alt="LevelDB Logo" height="100" src="http://leveldb.org/img/logo.svg">
+
 **A drop-in replacement for [LevelDOWN](https://github.com/rvagg/node-leveldown) that works in memory only. Can be used as a back-end for [LevelUP](https://github.com/rvagg/node-levelup) rather than an actual LevelDB store.**
 
 [![NPM](https://nodei.co/npm/memdown.png?downloads=true)](https://nodei.co/npm/memdown/)
@@ -40,4 +42,4 @@ Show's over folks!
 
 ## Licence
 
-MemDOWN is Copyright (c) 2013 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
+MemDOWN is Copyright (c) 2013-2015 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
