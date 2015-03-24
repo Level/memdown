@@ -156,6 +156,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
     callback(null, value)
   })
 
+  return value
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {
