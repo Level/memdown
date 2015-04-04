@@ -2,7 +2,7 @@ var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , ltgt              = require('ltgt')
-  , setImmediate      = global.setImmediate || process.nextTick
+  , setImmediate      = require('immediate')
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
 
@@ -41,38 +41,38 @@ function MemIterator (db, options) {
   this._reverse   = options.reverse
   this._options = options
   this._done = 0
-  
+
   if (!this._reverse) {
     this._incr = 'next';
     this._start = ltgt.lowerBound(options);
     this._end = ltgt.upperBound(options)
-    
+
     if (typeof this._start === 'undefined')
       this._tree = tree.begin;
     else if (ltgt.lowerBoundInclusive(options))
       this._tree = tree.ge(this._start);
     else
       this._tree = tree.gt(this._start);
-    
+
     if (this._end) {
       if (ltgt.upperBoundInclusive(options))
         this._test = lte
       else
         this._test = lt
     }
-  
+
   } else {
     this._incr = 'prev';
     this._start = ltgt.upperBound(options)
     this._end = ltgt.lowerBound(options)
-  
+
     if (typeof this._start === 'undefined')
       this._tree = tree.end;
     else if (ltgt.upperBoundInclusive(options))
       this._tree = tree.le(this._start)
     else
       this._tree = tree.lt(this._start)
-  
+
     if (this._end) {
       if (ltgt.lowerBoundInclusive(options))
         this._test = gte
@@ -151,7 +151,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
 
   if (options.asBuffer !== false && !this._isBuffer(value))
     value = new Buffer(String(value))
-  
+
   setImmediate(function callNext () {
     callback(null, value)
   })
@@ -174,12 +174,12 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   while (++i < len) {
     if (!array[i])
       continue;
-    
+
     key = this._isBuffer(array[i].key) ? array[i].key : String(array[i].key)
     err = this._checkKey(key, 'key')
     if (err)
       return setImmediate(function errorCall() { callback(err) })
-    
+
     tree = tree.remove(array[i].key)
     // we always remove as insert doesn't replace
 
@@ -193,9 +193,9 @@ MemDOWN.prototype._batch = function (array, options, callback) {
 
       tree = tree.insert(key, value)
     }
-  
+
   }
-  
+
   this._store[this._location] = tree;
 
   setImmediate(callback)
