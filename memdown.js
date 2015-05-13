@@ -149,8 +149,10 @@ MemDOWN.prototype._get = function (key, options, callback) {
     return setImmediate(function callNext() { callback(err) })
   }
 
-  if (options.asBuffer !== false && !this._isBuffer(value))
+  if (options.asBuffer !== false && !this._isBuffer(value)) {
+    if (value === null) value = ''
     value = new Buffer(String(value))
+  }
   
   setImmediate(function callNext () {
     callback(null, value)
