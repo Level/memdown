@@ -6,7 +6,7 @@
 
 [![NPM](https://nodei.co/npm/memdown.png?downloads=true)](https://nodei.co/npm/memdown/)
 
-[![Travis](https://secure.travis-ci.org/rvagg/memdown.png)](http://travis-ci.org/rvagg/memdown)
+[![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown)
 
 [![testling](http://ci.testling.com/rvagg/memdown.png)](http://ci.testling.com/rvagg/memdown)
 
