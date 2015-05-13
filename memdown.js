@@ -5,7 +5,6 @@ var inherits          = require('inherits')
   , setImmediate      = global.setImmediate || process.nextTick
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
-  , undef             = {}
 
 function toKey (key) {
   return typeof key == 'string' ? '$' + key : JSON.stringify(key)
@@ -137,7 +136,7 @@ MemDOWN.prototype._open = function (options, callback) {
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
-  if (typeof value === 'undefined') value = undef
+  if (typeof value === 'undefined' || value === null) value = ''
   this._store[this._location] = this._store[this._location].remove(key).insert(key, value)
   setImmediate(callback)
 }
@@ -150,8 +149,6 @@ MemDOWN.prototype._get = function (key, options, callback) {
     var err = new Error('NotFound')
     return setImmediate(function callNext() { callback(err) })
   }
-
-  if (value === undef || value === null) value = ''
 
   if (options.asBuffer !== false && !this._isBuffer(value))
     value = new Buffer(String(value))
