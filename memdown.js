@@ -11,19 +11,19 @@ function toKey (key) {
 }
 
 function gt(value) {
-  return value > this._end
+  return ltgt.compare(value, this._end) > 0
 }
 
 function gte(value) {
-  return value >= this._end
+  return ltgt.compare(value, this._end) >= 0
 }
 
 function lt(value) {
-  return value < this._end
+  return ltgt.compare(value, this._end) < 0
 }
 
 function lte(value) {
-  return value <= this._end
+  return ltgt.compare(value, this._end) <= 0
 }
 
 

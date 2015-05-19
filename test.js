@@ -161,7 +161,7 @@ test('reverse ranges', function(t) {
 test('no location', function(t) {
   var db = new MemDOWN()
     , noerr = function (err) {
-      t.error(err, 'opens crrectly')
+      t.error(err, 'opens correctly')
     }
     , noop = function () {}
     , iterator
@@ -179,7 +179,7 @@ test('no location', function(t) {
 test('delete while iterating', function(t) {
   var db = new MemDOWN()
     , noerr = function (err) {
-      t.error(err, 'opens crrectly')
+      t.error(err, 'opens correctly')
     }
     , noop = function () {}
     , iterator
@@ -200,5 +200,26 @@ test('delete while iterating', function(t) {
         t.end()
       });
     })
+  })
+})
+
+test('iterator with byte range', function(t){
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens correctly')
+    }
+    , noop = function () {}
+    , iterator
+  
+  db.open(noerr)
+  db.put(new Buffer('a0', 'hex'), 'A', noop)
+  
+  iterator = db.iterator({ valueAsBuffer: false, lt: new Buffer('ff', 'hex') })
+  
+  iterator.next(function (err, key, value) {
+    t.notOk(err, 'no error');
+    t.equal(key.toString('hex'), 'a0')
+    t.equal(value, 'A')
+    t.end()
   })
 })
