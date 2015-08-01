@@ -16,7 +16,9 @@ As of version 0.7, LevelUP allows you to pass a `'db'` option when you create a 
 
 ```js
 var levelup = require('levelup')
-  , db = levelup('/does/not/matter', { db: require('memdown') })
+  // note that if multiple instances point to the same location,
+  // the db will be shared, but only per process
+  , db = levelup('/some/location', { db: require('memdown') })
 
 db.put('name', 'Yuri Irsenovich Kim')
 db.put('dob', '16 February 1941')
