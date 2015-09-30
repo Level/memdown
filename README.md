@@ -42,6 +42,15 @@ Running our example gives:
 Show's over folks!
 ```
 
+Global Store
+---
+
+Even though it's in memory the location parameter does do something.  Memdown
+has a global cache which it uses to save databases by the path string.  You may
+clear this via the Memdown.clearGlobalStore function. By default it doesn't delete
+the store but replaces it with a new one, open instance of memdown will not be affected. `clearGlobalStore` takes a single parameter, which if truthy clears the store strictly by deleting each individual key.  If there is an in use instance of memdown this will
+cause the in use memdown instance to error.
+
 ## Licence
 
 MemDOWN is Copyright (c) 2013-2015 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
