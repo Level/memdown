@@ -45,11 +45,33 @@ Show's over folks!
 Global Store
 ---
 
-Even though it's in memory the location parameter does do something.  Memdown
-has a global cache which it uses to save databases by the path string.  You may
-clear this via the Memdown.clearGlobalStore function. By default it doesn't delete
-the store but replaces it with a new one, open instance of memdown will not be affected. `clearGlobalStore` takes a single parameter, which if truthy clears the store strictly by deleting each individual key.  If there is an in use instance of memdown this will
-cause the in use memdown instance to error.
+Even though it's in memory, the location parameter does do something. MemDOWN
+has a global cache, which it uses to save databases by the path string.
+
+So for instance if you create these two MemDOWNs:
+
+```js
+var db1 = levelup('foo', {db: require('memdown')});
+var db2 = levelup('foo', {db: require('memdown')});
+```
+
+...they will actually share the same data, because the `'foo'` string is the same.
+
+You may clear this global store via the `MemDOWN.clearGlobalStore()` function:
+
+```js
+require('memdown').clearGlobalStore();
+```
+
+By default, it doesn't delete the store but replaces it with a new one, so the open instance of MemDOWN will not be affected.
+
+`clearGlobalStore` takes a single parameter, which if truthy clears the store strictly by deleting each individual key:
+
+```js
+require('memdown').clearGlobalStore(true); // delete each individual key
+```
+
+If you are using MemDOWN somewhere else while simultaneously clearing the global store in this way, then it may throw an error or cause unexpected results.
 
 ## Licence
 
