@@ -1,4 +1,4 @@
-# MemDOWN [![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown)
+# MemDOWN [![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown) [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
 
 <img alt="LevelDB Logo" height="100" src="http://leveldb.org/img/logo.svg">
 
@@ -95,6 +95,10 @@ Or to test locally in your browser of choice:
 To run the linter:
 
     npm run lint
+
+To check code coverage:
+
+    npm run coverage
 
 Licence
 ---
