@@ -231,7 +231,6 @@ test('backing rbtree is buffer-aware', function(t){
       t.error(err, 'opens correctly')
     }
     , noop = function () {}
-    , iterator
 
   db.open(noerr)
 
@@ -241,18 +240,20 @@ test('backing rbtree is buffer-aware', function(t){
   t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
   t.ok(ltgt.compare(two, one) > 0, 'but greater when buffer-aware')
 
-  db.put(one, 'one', noop)
-
-  db.get(one, { asBuffer: false }, function(err, value) {
+  db.put(one, 'one', function (err) {
     t.notOk(err, 'no error');
-    t.equal(value, 'one', 'value one ok')
-
-    db.put(two, 'two', noop)
-
-    db.get(one, { asBuffer: false }, function(err, value) {
+    db.get(one, {asBuffer: false}, function (err, value) {
       t.notOk(err, 'no error');
-      t.equal(value, 'one', 'value one is the same')
-      t.end()
+      t.equal(value, 'one', 'value one ok')
+
+      db.put(two, 'two', function (err) {
+        t.notOk(err, 'no error');
+        db.get(one, {asBuffer: false}, function (err, value) {
+          t.notOk(err, 'no error');
+          t.equal(value, 'one', 'value one is the same')
+          t.end()
+        })
+      })
     })
   })
 })
