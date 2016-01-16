@@ -68,6 +68,13 @@ require('memdown').clearGlobalStore(true); // delete each individual key
 
 If you are using MemDOWN somewhere else while simultaneously clearing the global store in this way, then it may throw an error or cause unexpected results.
 
+Browser support
+----
+
+See [.zuul.yml](https://github.com/Level/memdown/blob/master/.zuul.yml) for the full list of browsers that are tested in CI.
+
+But essentially, this module requires a valid ES5-capable browser, so if you're using one that's not ES5-capable (e.g. PhantomJS, Android < 4.4, IE < 10), then you will need [the es5-shim](https://github.com/es-shims/es5-shim).
+
 Testing
 ----
 
