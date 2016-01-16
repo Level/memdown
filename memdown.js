@@ -125,7 +125,7 @@ function MemDOWN (location) {
 
   this._location = this.location ? toKey(this.location) : '_tree'
   this._store = this.location ? globalStore: this
-  this._store[this._location] = this._store[this._location] || createRBT()
+  this._store[this._location] = this._store[this._location] || createRBT(ltgt.compare)
 }
 
 MemDOWN.clearGlobalStore = function (strict) {
