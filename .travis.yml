@@ -1,10 +1,30 @@
 language: node_js
 node_js:
-  - "0.10"
-  - "0.11"
+- stable
 branches:
   only:
-    - master
+  - master
+sudo: false
+addons:
+  sauce_connect: true
+script: npm run $COMMAND
+env:
+  matrix:
+  - COMMAND=test
+  - COMMAND=test-browser
+  global:
+  - secure: cNZgMydd05Rzh+aq16gAZZri8hzLUxA8JvbvunmTtLWMAe7ivDgnKcUrAuS5MTEUb3ZuhDS8lIayeLmGP+x+e6ZTI0J/sbPtEQYa43ozflVJIm4v7dSECaWQ3Rdpzel8GLuhtWANma3S3479VTigATlwfJoHnpnZIyJlywm1bYA=
+  - secure: ZOGBhCYW8nENfCDhFKQR9ejZiSSqb4qf+SXNvHANBxAFrCaRX/cfnE6kLUgCzbo/7540vnhKj17O3d2jDqIHYcPcGIeNNjAaPASP1pgenKj0k5XrdO7sImKU00jupfDjDvNg560yaodXKurIjmB3076gFfnfXG5uL1cwYXI3OcQ=
+matrix:
+  include:
+  - node_js: '0.10'
+    env: COMMAND=test
+  - node_js: '0.11'
+    env: COMMAND=test
+  - node_js: '0.12'
+    env: COMMAND=test
+  - node_js: 4.2.0
+    env: COMMAND=test
 notifications:
   email:
-    - rod@vagg.org
+  - rod@vagg.org

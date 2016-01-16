@@ -27,32 +27,21 @@
     "abstract-leveldown": "^2.0.3"
   },
   "devDependencies": {
-    "tape": "*",
-    "rimraf": "*",
     "bench": "*",
-    "faucet": "*"
+    "faucet": "*",
+    "jshint": "^2.9.1",
+    "rimraf": "*",
+    "tape": "*",
+    "zuul": "^3.9.0"
   },
   "browser": {
     "rimraf": false
   },
   "scripts": {
-    "test": "node ./test.js --stderr | faucet"
-  },
-  "testling": {
-    "files": "test.js",
-    "browsers": [
-      "ie/8..latest",
-      "firefox/17..latest",
-      "firefox/nightly",
-      "chrome/22..latest",
-      "chrome/canary",
-      "opera/12..latest",
-      "opera/next",
-      "safari/5.1..latest",
-      "ipad/6.0..latest",
-      "iphone/6.0..latest",
-      "android-browser/4.2..latest"
-    ]
+    "test": "npm run lint && node ./test.js --stderr | faucet",
+    "test-browser": "zuul ./test.js",
+    "test-browser-local": "zuul --local ./test.js",
+    "lint": "jshint -c .jshintrc memdown.js"
   },
   "license": "MIT"
 }
