@@ -3,6 +3,7 @@ var test       = require('tape')
   , MemDOWN    = require('./')
   //, AbstractIterator = require('./').AbstractIterator
   , testBuffer = require('./testdata_b64')
+  , ltgt       = require('ltgt')
 
 /*** compatibility with basic LevelDOWN API ***/
 
@@ -33,7 +34,7 @@ require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon
 // TODO: destroy() test copied from localstorage-down
 // https://github.com/pouchdb/pouchdb/blob/master/lib/adapters/leveldb.js#L1019
 // move this test to abstract-leveldown
-// 
+//
 
 test('test .destroy', function (t) {
   var db = new MemDOWN('destroy-test')
@@ -210,16 +211,48 @@ test('iterator with byte range', function(t){
     }
     , noop = function () {}
     , iterator
-  
+
   db.open(noerr)
   db.put(new Buffer('a0', 'hex'), 'A', noop)
-  
+
   iterator = db.iterator({ valueAsBuffer: false, lt: new Buffer('ff', 'hex') })
-  
+
   iterator.next(function (err, key, value) {
     t.notOk(err, 'no error');
     t.equal(key.toString('hex'), 'a0')
     t.equal(value, 'A')
     t.end()
+  })
+})
+
+test('backing rbtree is buffer-aware', function(t){
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens correctly')
+    }
+    , noop = function () {}
+    , iterator
+
+  db.open(noerr)
+
+  var one = new Buffer('80', 'hex' )
+  var two = new Buffer('c0', 'hex' )
+
+  t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
+  t.ok(ltgt.compare(two, one) > 0, 'but greater when buffer-aware')
+
+  db.put(one, 'one', noop)
+
+  db.get(one, { asBuffer: false }, function(err, value) {
+    t.notOk(err, 'no error');
+    t.equal(value, 'one', 'value one ok')
+
+    db.put(two, 'two', noop)
+
+    db.get(one, { asBuffer: false }, function(err, value) {
+      t.notOk(err, 'no error');
+      t.equal(value, 'one', 'value one is the same')
+      t.end()
+    })
   })
 })
