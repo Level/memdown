@@ -12,6 +12,7 @@ env:
   matrix:
   - COMMAND=test
   - COMMAND=test-browser
+  - COMMAND=report-coverage
   global:
   - secure: cNZgMydd05Rzh+aq16gAZZri8hzLUxA8JvbvunmTtLWMAe7ivDgnKcUrAuS5MTEUb3ZuhDS8lIayeLmGP+x+e6ZTI0J/sbPtEQYa43ozflVJIm4v7dSECaWQ3Rdpzel8GLuhtWANma3S3479VTigATlwfJoHnpnZIyJlywm1bYA=
   - secure: ZOGBhCYW8nENfCDhFKQR9ejZiSSqb4qf+SXNvHANBxAFrCaRX/cfnE6kLUgCzbo/7540vnhKj17O3d2jDqIHYcPcGIeNNjAaPASP1pgenKj0k5XrdO7sImKU00jupfDjDvNg560yaodXKurIjmB3076gFfnfXG5uL1cwYXI3OcQ=
