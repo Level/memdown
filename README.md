@@ -1,8 +1,6 @@
-# MemDOWN [![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown) [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
+# MemDOWN [![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown) [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master) [![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown) [![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown)
 
 <img alt="LevelDB Logo" height="100" src="http://leveldb.org/img/logo.svg">
-
-[![NPM](https://nodei.co/npm/memdown.png?downloads=true)](https://nodei.co/npm/memdown/)
 
 A drop-in replacement for [LevelDOWN](https://github.com/rvagg/node-leveldown) that works in-memory.
 Can be used as a backend for [LevelUP](https://github.com/rvagg/node-levelup) rather than an actual LevelDB store.
