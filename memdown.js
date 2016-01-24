@@ -147,7 +147,15 @@ MemDOWN.prototype._open = function (options, callback) {
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
   if (typeof value === 'undefined' || value === null) value = ''
-  this._store[this._location] = this._store[this._location].remove(key).insert(key, value)
+
+  var iter = this._store[this._location].find(key)
+
+  if (iter.valid) {
+    this._store[this._location] = iter.update(value)
+  } else {
+    this._store[this._location] = this._store[this._location].insert(key, value)
+  }
+
   setImmediate(callback)
 }
 
@@ -179,6 +187,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     , i = -1
     , key
     , value
+    , iter
     , len = array.length
     , tree = this._store[this._location]
 
@@ -191,20 +200,19 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     if (err)
       return setImmediate(function errorCall() { callback(err) })
 
-    tree = tree.remove(array[i].key)
-    // we always remove as insert doesn't replace
+    iter = tree.find(key)
 
     if (array[i].type === 'put') {
-
       value = this._isBuffer(array[i].value) ? array[i].value : String(array[i].value)
       err = this._checkKey(value, 'value')
 
       if (err)
         return setImmediate(function errorCall() { callback(err) })
 
-      tree = tree.insert(key, value)
+      tree = iter.valid ? iter.update(value) : tree.insert(key, value)
+    } else {
+      tree = iter.remove()
     }
-
   }
 
   this._store[this._location] = tree;
