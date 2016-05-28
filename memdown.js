@@ -204,7 +204,8 @@ MemDOWN.prototype._batch = function (array, options, callback) {
 
     if (array[i].type === 'put') {
       value = this._isBuffer(array[i].value) ? array[i].value : String(array[i].value)
-      err = this._checkKey(value, 'value')
+      if (value === null || value === undefined)
+        err = new Error('value cannot be `null` or `undefined`')
 
       if (err)
         return setImmediate(function errorCall() { callback(err) })
