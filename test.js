@@ -257,3 +257,35 @@ test('backing rbtree is buffer-aware', function(t){
     })
   })
 })
+
+test('empty value in batch', function (t) {
+  t.plan(6)
+
+  var db = new MemDOWN()
+    , noerr = function (err) {
+      t.error(err, 'opens correctly')
+    }
+    , noop = function () {}
+
+  db.open(noerr)
+
+  db.batch([{
+    type: 'put',
+    key: 'empty-string',
+    value: ''
+  }, {
+    type: 'put',
+    key: 'empty-buffer',
+    value: Buffer(0)
+  }], function (err) {
+    t.error(err, 'no error')
+    db.get('empty-string', function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, Buffer(0), 'empty string')
+    })
+    db.get('empty-buffer', function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, Buffer(0), 'empty buffer')
+    })
+  })
+})
