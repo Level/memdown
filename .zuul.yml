@@ -1,15 +1,15 @@
 ui: tape
 browsers:
   - name: chrome
-    version: 45..latest
+    version: 50..latest
   - name: firefox
-    version: 40..latest
+    version: 45..latest
   - name: safari
     version: [8, 9..latest]
   - name: ie
     version: 10..latest
   - name: microsoftedge
-    version: 20..latest
+    version: 13..latest
   - name: iphone
     version: [7.1, 8.4, 9.1..latest]
   - name: ipad
