@@ -2,7 +2,7 @@ var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , ltgt              = require('ltgt')
-  , setImmediate      = global.setImmediate || process.nextTick
+  , setImmediate      = require('immediate')
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
 
