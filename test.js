@@ -289,3 +289,204 @@ test('empty value in batch', function (t) {
     })
   })
 })
+
+test('empty buffer key in batch', function (t) {
+
+  var db = new MemDOWN('empty-buffer')
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+
+  db.open(noerr)
+
+  db.batch([{
+    type: 'put',
+    key: new Buffer(0),
+    value: ''
+  }], function (err) {
+    t.ok(err, 'got an error')
+    t.end()
+  })
+})
+
+test('buffer key in batch', function (t) {
+
+  var db = new MemDOWN('buffer-key')
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+
+  db.open(noerr)
+
+  db.batch([{
+    type: 'put',
+    key: new Buffer('foo', 'utf8'),
+    value: 'val1'
+  }], function (err) {
+    t.error(err, 'no error')
+    db.get(new Buffer('foo', 'utf8'), {asBuffer:false}, function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, 'val1')
+      t.end()
+    })
+  })
+})
+
+test('array with holes in batch()', function (t) {
+
+  var db = new MemDOWN('holey')
+    , noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+    , noop = function () {}
+
+  db.open(noerr)
+
+  db.batch([
+    {
+      type: 'put',
+      key: 'key1',
+      value: 'val1'
+    },
+    void 0,
+    {
+      type: 'put',
+      key: 'key2',
+      value: 'val2'
+    }
+  ], function (err) {
+    t.error(err, 'no error')
+    db.get('key1', {asBuffer: false}, function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, 'val1')
+      db.get('key2', {asBuffer: false}, function (err, val) {
+        t.error(err, 'no error')
+        t.same(val, 'val2')
+        t.end()
+      })
+    })
+  })
+})
+
+test('put multiple times', function (t) {
+  t.plan(5)
+
+  var db = new MemDOWN()
+
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+
+  db.open(noerr)
+
+  db.put('key', 'val', function (err) {
+    t.error(err, 'no error')
+    db.put('key', 'val2', function (err) {
+      t.error(err, 'no error')
+      db.get('key', {asBuffer: false}, function (err, val) {
+        t.error(err, 'no error')
+        t.same(val, 'val2')
+      })
+    })
+  })
+})
+
+test('global store', function (t) {
+
+  var db = new MemDOWN('foobar')
+
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+
+  db.open(noerr)
+
+  db.put('key', 'val', function (err) {
+    t.error(err, 'no error')
+    db.get('key', {asBuffer: false}, function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, 'val')
+      var db2 = new MemDOWN('foobar')
+      db2.open(noerr)
+      db2.get('key', { asBuffer: false }, function (err, val) {
+        t.error(err, 'no error')
+        t.same(val, 'val')
+        MemDOWN.clearGlobalStore()
+        var db3 = new MemDOWN('foobar')
+        db3.open(noerr)
+        db3.get('key', { asBuffer: false }, function (err) {
+          t.ok(err, 'should be an error')
+          t.end()
+        })
+      })
+    })
+  })
+})
+
+test('global store, strict', function (t) {
+
+  var db = new MemDOWN('foobar')
+
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+
+  db.open(noerr)
+
+  db.put('key', 'val', function (err) {
+    t.error(err, 'no error')
+    db.get('key', {asBuffer: false}, function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, 'val')
+      var db2 = new MemDOWN('foobar')
+      db2.open(noerr)
+      db2.get('key', { asBuffer: false }, function (err, val) {
+        t.error(err, 'no error')
+        t.same(val, 'val')
+        MemDOWN.clearGlobalStore(true)
+        var db3 = new MemDOWN('foobar')
+        db3.open(noerr)
+        db3.get('key', { asBuffer: false }, function (err) {
+          t.ok(err, 'should be an error')
+          t.end()
+        })
+      })
+    })
+  })
+})
+
+test('call .destroy twice', function (t) {
+  var db = new MemDOWN('destroy-test')
+  var db2 = new MemDOWN('other-db')
+  db2.put('key2', 'value2', function (err) {
+    t.notOk(err, 'no error')
+    db.put('key', 'value', function (err) {
+      t.notOk(err, 'no error')
+      db.get('key', {asBuffer: false}, function (err, value) {
+        t.notOk(err, 'no error')
+        t.equal(value, 'value', 'should have value')
+        db.close(function (err) {
+          t.notOk(err, 'no error')
+          db2.close(function (err) {
+            t.notOk(err, 'no error')
+            MemDOWN.destroy('destroy-test', function (err) {
+              t.notOk(err, 'no error')
+              MemDOWN.destroy('destroy-test', function (err) {
+                var db3 = new MemDOWN('destroy-test')
+                var db4 = new MemDOWN('other-db')
+                db3.get('key', function (err, value) {
+                  t.ok(err, 'key is not there')
+                  db4.get('key2', {asBuffer: false}, function (err, value) {
+                    t.notOk(err, 'no error')
+                    t.equal(value, 'value2', 'should have value2')
+                    t.end()
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+  })
+})
