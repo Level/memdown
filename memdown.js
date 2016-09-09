@@ -2,13 +2,10 @@ var inherits          = require('inherits')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , AbstractIterator  = require('abstract-leveldown').AbstractIterator
   , ltgt              = require('ltgt')
-  , setImmediate      = global.setImmediate || process.nextTick
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
-
-function toKey (key) {
-  return typeof key == 'string' ? '$' + key : JSON.stringify(key)
-}
+/* istanbul ignore next */
+var setImmediate = global.setImmediate || process.nextTick
 
 function gt(value) {
   return ltgt.compare(value, this._end) > 0
@@ -123,7 +120,7 @@ function MemDOWN (location) {
 
   AbstractLevelDOWN.call(this, typeof location == 'string' ? location : '')
 
-  this._location = this.location ? toKey(this.location) : '_tree'
+  this._location = this.location ? ('$' + this.location) : '_tree'
   this._store = this.location ? globalStore: this
   this._store[this._location] = this._store[this._location] || createRBT(ltgt.compare)
 }
@@ -183,8 +180,7 @@ MemDOWN.prototype._del = function (key, options, callback) {
 }
 
 MemDOWN.prototype._batch = function (array, options, callback) {
-  var err
-    , i = -1
+  var i = -1
     , key
     , value
     , iter
@@ -196,20 +192,10 @@ MemDOWN.prototype._batch = function (array, options, callback) {
       continue;
 
     key = this._isBuffer(array[i].key) ? array[i].key : String(array[i].key)
-    err = this._checkKey(key, 'key')
-    if (err)
-      return setImmediate(function errorCall() { callback(err) })
-
     iter = tree.find(key)
 
     if (array[i].type === 'put') {
       value = this._isBuffer(array[i].value) ? array[i].value : String(array[i].value)
-      if (value === null || value === undefined)
-        err = new Error('value cannot be `null` or `undefined`')
-
-      if (err)
-        return setImmediate(function errorCall() { callback(err) })
-
       tree = iter.valid ? iter.update(value) : tree.insert(key, value)
     } else {
       tree = iter.remove()
@@ -230,7 +216,7 @@ MemDOWN.prototype._isBuffer = function (obj) {
 }
 
 MemDOWN.destroy = function (name, callback) {
-  var key = toKey(name)
+  var key = '$' + name
 
   if (key in globalStore)
     delete globalStore[key]
