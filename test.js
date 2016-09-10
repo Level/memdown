@@ -1,5 +1,5 @@
 var test       = require('tape')
-  , testCommon = require('abstract-leveldown/testCommon')
+  , testCommon = require('abstract-leveldown-pouchdb/testCommon')
   , MemDOWN    = require('./')
   //, AbstractIterator = require('./').AbstractIterator
   , testBuffer = require('./testdata_b64')
@@ -7,33 +7,33 @@ var test       = require('tape')
 
 /*** compatibility with basic LevelDOWN API ***/
 
-// meh require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
+// meh require('abstract-leveldown-pouchdb/abstract/leveldown-test').args(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/open-test').args(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/open-test').open(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/open-test').args(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/open-test').open(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/del-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/del-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/get-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/get-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/put-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/put-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer)
+require('abstract-leveldown-pouchdb/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer)
 
-require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/batch-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/chained-batch-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/close-test').close(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/close-test').close(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/iterator-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown-pouchdb/abstract/ranges-test').all(MemDOWN, test, testCommon)
 
 
 //
 // TODO: destroy() test copied from localstorage-down
 // https://github.com/pouchdb/pouchdb/blob/master/lib/adapters/leveldb.js#L1019
-// move this test to abstract-leveldown
+// move this test to abstract-leveldown-pouchdb
 //
 
 test('test .destroy', function (t) {
