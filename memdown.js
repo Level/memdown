@@ -7,6 +7,8 @@ var inherits          = require('inherits')
 /* istanbul ignore next */
 var setImmediate = global.setImmediate || process.nextTick
 
+var NOT_FOUND_ERROR = new Error('NotFound')
+
 function gt(value) {
   return ltgt.compare(value, this._end) > 0
 }
@@ -31,7 +33,7 @@ function MemIterator (db, options) {
   if (this._limit === -1)
     this._limit = Infinity
 
-  var tree = db._store[db._location];
+  var tree = db._store[db._location]
 
   this.keyAsBuffer = options.keyAsBuffer !== false
   this.valueAsBuffer = options.valueAsBuffer !== false
@@ -40,16 +42,16 @@ function MemIterator (db, options) {
   this._done = 0
 
   if (!this._reverse) {
-    this._incr = 'next';
-    this._start = ltgt.lowerBound(options);
+    this._incr = 'next'
+    this._start = ltgt.lowerBound(options)
     this._end = ltgt.upperBound(options)
 
     if (typeof this._start === 'undefined')
-      this._tree = tree.begin;
+      this._tree = tree.begin
     else if (ltgt.lowerBoundInclusive(options))
-      this._tree = tree.ge(this._start);
+      this._tree = tree.ge(this._start)
     else
-      this._tree = tree.gt(this._start);
+      this._tree = tree.gt(this._start)
 
     if (this._end) {
       if (ltgt.upperBoundInclusive(options))
@@ -59,12 +61,12 @@ function MemIterator (db, options) {
     }
 
   } else {
-    this._incr = 'prev';
+    this._incr = 'prev'
     this._start = ltgt.upperBound(options)
     this._end = ltgt.lowerBound(options)
 
     if (typeof this._start === 'undefined')
-      this._tree = tree.end;
+      this._tree = tree.end
     else if (ltgt.upperBoundInclusive(options))
       this._tree = tree.le(this._start)
     else
@@ -128,7 +130,7 @@ function MemDOWN (location) {
 MemDOWN.clearGlobalStore = function (strict) {
   if (strict) {
     Object.keys(globalStore).forEach(function (key) {
-      delete globalStore[key];
+      delete globalStore[key]
     })
   } else {
     globalStore = {}
@@ -159,10 +161,9 @@ MemDOWN.prototype._put = function (key, value, options, callback) {
 MemDOWN.prototype._get = function (key, options, callback) {
   var value = this._store[this._location].get(key)
 
-  if (value === undefined) {
+  if (typeof value === 'undefined') {
     // 'NotFound' error, consistent with LevelDOWN API
-    var err = new Error('NotFound')
-    return setImmediate(function callNext() { callback(err) })
+    return setImmediate(function callNext() { callback(NOT_FOUND_ERROR) })
   }
 
   if (options.asBuffer !== false && !this._isBuffer(value))
@@ -189,7 +190,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
 
   while (++i < len) {
     if (!array[i])
-      continue;
+      continue
 
     key = this._isBuffer(array[i].key) ? array[i].key : String(array[i].key)
     iter = tree.find(key)
@@ -202,7 +203,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     }
   }
 
-  this._store[this._location] = tree;
+  this._store[this._location] = tree
 
   setImmediate(callback)
 }
