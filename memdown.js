@@ -1,6 +1,6 @@
 var inherits          = require('inherits')
-  , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-  , AbstractIterator  = require('abstract-leveldown').AbstractIterator
+  , AbstractLevelDOWN = require('abstract-leveldown-pouchdb').AbstractLevelDOWN
+  , AbstractIterator  = require('abstract-leveldown-pouchdb').AbstractIterator
   , ltgt              = require('ltgt')
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
