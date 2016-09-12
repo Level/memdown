@@ -7,8 +7,6 @@ var inherits          = require('inherits')
 /* istanbul ignore next */
 var setImmediate = global.setImmediate || process.nextTick
 
-var NOT_FOUND_ERROR = new Error('NotFound')
-
 function gt(value) {
   return ltgt.compare(value, this._end) > 0
 }
@@ -163,7 +161,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
 
   if (typeof value === 'undefined') {
     // 'NotFound' error, consistent with LevelDOWN API
-    return setImmediate(function callNext() { callback(NOT_FOUND_ERROR) })
+    return setImmediate(function callNext() { callback(new Error('NotFound')) })
   }
 
   if (options.asBuffer !== false && !this._isBuffer(value))
