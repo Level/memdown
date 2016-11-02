@@ -4,8 +4,26 @@ var inherits          = require('inherits')
   , ltgt              = require('ltgt')
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
+  , queue             = []
+  , timeout
 /* istanbul ignore next */
-var setImmediate = global.setImmediate || process.nextTick
+var setImmediate = global.setImmediate || _nextTick
+
+let _tick = () => {
+  if (queue.length)
+    queue.shift()()
+
+  if (queue.length)
+    timeout = setTimeout(_tick, 0)
+  else
+    timeout = false
+}
+
+function _nextTick(cb) {
+  queue.push(cb)
+  if (!timeout)
+    timeout = setTimeout(_tick, 0)
+}
 
 function gt(value) {
   return ltgt.compare(value, this._end) > 0
