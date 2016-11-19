@@ -4,8 +4,10 @@ var inherits          = require('inherits')
   , ltgt              = require('ltgt')
   , createRBT = require('functional-red-black-tree')
   , globalStore       = {}
-/* istanbul ignore next */
-var setImmediate = global.setImmediate || process.nextTick
+
+// In Node, use global.setImmediate. In the browser, use a consistent
+// microtask library to give consistent microtask experience to all browsers
+var setImmediate = require('./immediate')
 
 function gt(value) {
   return ltgt.compare(value, this._end) > 0
