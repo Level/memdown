@@ -50,5 +50,8 @@
     "report-coverage": "npm run coverage && istanbul-coveralls"
   },
   "license": "MIT",
-  "files": []
+  "files": [
+    "immediate.js",
+    "immediate-browser.js"
+  ]
 }
