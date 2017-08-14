@@ -4,6 +4,7 @@ node_js:
 branches:
   only:
   - master
+  - /^greenkeeper/.*$/
 sudo: false
 addons:
   sauce_connect: true
