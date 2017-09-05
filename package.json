@@ -43,8 +43,9 @@
   },
   "scripts": {
     "test": "npm run lint && node ./test.js --stderr | faucet",
-    "test-browser": "zuul --no-coverage ./test.js",
-    "test-browser-local": "zuul --no-coverage --local 9000 ./test.js",
+    "test-browser": "npm run write-zuul && zuul --browser-retries 2 --no-coverage ./test.js",
+    "write-zuul": "printf \"ui: tape\nbrowsers:\n  - name: $BROWSER\n    version: latest\n\">.zuul.yml",
+    "test-browser-local": "zuul --ui tape --no-coverage --local 9000 ./test.js",
     "lint": "jshint -c .jshintrc memdown.js",
     "coverage": "istanbul cover -i memdown.js ./node_modules/.bin/tape ./test.js && istanbul check-coverage --lines 90 --function 80 --statements 90 --branches 80",
     "report-coverage": "npm run coverage && istanbul-coveralls"
