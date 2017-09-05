@@ -21,7 +21,7 @@
     "url": "https://github.com/Level/memdown.git"
   },
   "dependencies": {
-    "abstract-leveldown": "2.6.2",
+    "abstract-leveldown": "2.6.3",
     "functional-red-black-tree": "^1.0.1",
     "immediate": "^3.2.3",
     "inherits": "~2.0.1",
