@@ -55,6 +55,7 @@
   "license": "MIT",
   "files": [
     "memdown.js",
+    "memdown.d.ts",
     "immediate.js",
     "immediate-browser.js"
   ]
