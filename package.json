@@ -45,7 +45,7 @@
   },
   "scripts": {
     "test": "npm run lint && node ./test.js --stderr | faucet",
-    "test-browser": "npm run write-zuul && zuul --browser-retries 2 --no-coverage ./test.js",
+    "test-browser": "npm run write-zuul && zuul --browser-retries 2 --sauce-connect --no-coverage ./test.js",
     "write-zuul": "printf \"ui: tape\nbrowsers:\n  - name: $BROWSER\n    version: latest\n\">.zuul.yml",
     "test-browser-local": "zuul --ui tape --no-coverage --local 9000 ./test.js",
     "lint": "jshint -c .jshintrc memdown.js",
