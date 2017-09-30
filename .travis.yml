@@ -35,7 +35,7 @@ matrix:
   - node_js: stable
     env: CMD=test-browser BROWSER=android
 
-script: npm run $CMD
+script: DEBUG=zuul:* npm run $CMD
 
 notifications:
   email: false
