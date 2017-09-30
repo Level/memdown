@@ -225,4 +225,4 @@ MemDOWN.destroy = function (name, callback) {
   setImmediate(callback)
 }
 
-module.exports = MemDOWN
+module.exports = MemDOWN.default = MemDOWN
