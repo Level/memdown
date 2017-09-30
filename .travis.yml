@@ -6,6 +6,8 @@ addons:
     username: level-ci
   jwt:
     secure: FH6lh3KKopAv+WbL3OsKWhYABW5pyOR2hHXYg8rhB2Bup8EGMWsVTTMxcFOTn1tMt5b0dylgQjb59W28Ir3Jz3ncuc1XiDy+O12RYNlXsb2WtgQttEJJ0beSK8ItXr8LTyAs8+dWLO6hS8bf3dw97AzynWkeJLY9vZcDSB4ncn4=
+  hosts:
+    - zuul.local
 
 matrix:
   fast_finish: true
@@ -35,7 +37,8 @@ matrix:
   - node_js: stable
     env: CMD=test-browser BROWSER=android
 
-script: DEBUG=zuul:* npm run $CMD
+script:
+  - DEBUG=zuul:* npm run $CMD
 
 notifications:
   email: false
