@@ -74,24 +74,12 @@ require('memdown').clearGlobalStore(true); // delete each individual key
 
 If you are using `memdown` somewhere else while simultaneously clearing the global store in this way, then it may throw an error or cause unexpected results.
 
-Testing
+Test
 ----
 
-To test Node.js:
-
-    npm test
-
-To test browsers with Sauce Labs (requires a [`.zuulrc`](https://github.com/defunctzombie/zuul/wiki/Zuulrc) file):
-
-    npm run test-browsers
-
-To test locally in your browser of choice:
+In addition to the regular `npm test`, you can test `memdown` in a browser of choice with:
 
     npm run test-browser-local
-
-To run the linter:
-
-    npm run lint
 
 To check code coverage:
 
