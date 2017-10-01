@@ -1,14 +1,6 @@
 sudo: false
 language: node_js
 
-addons:
-  sauce_connect:
-    username: level-ci
-  jwt:
-    secure: FH6lh3KKopAv+WbL3OsKWhYABW5pyOR2hHXYg8rhB2Bup8EGMWsVTTMxcFOTn1tMt5b0dylgQjb59W28Ir3Jz3ncuc1XiDy+O12RYNlXsb2WtgQttEJJ0beSK8ItXr8LTyAs8+dWLO6hS8bf3dw97AzynWkeJLY9vZcDSB4ncn4=
-  hosts:
-    - zuul.local
-
 matrix:
   fast_finish: true
   include:
@@ -21,21 +13,14 @@ matrix:
   - node_js: stable
     env: CMD=report-coverage
   - node_js: stable
-    env: CMD=test-browser BROWSER=chrome
-  - node_js: stable
-    env: CMD=test-browser BROWSER=firefox
-  - node_js: stable
-    env: CMD=test-browser BROWSER=safari
-  - node_js: stable
-    env: CMD=test-browser BROWSER=ie
-  - node_js: stable
-    env: CMD=test-browser BROWSER=microsoftedge
-  - node_js: stable
-    env: CMD=test-browser BROWSER=iphone
-  - node_js: stable
-    env: CMD=test-browser BROWSER=ipad
-  - node_js: stable
-    env: CMD=test-browser BROWSER=android
+    env: CMD=test-browsers
+    addons:
+      sauce_connect:
+        username: level-ci
+      jwt:
+        secure: FH6lh3KKopAv+WbL3OsKWhYABW5pyOR2hHXYg8rhB2Bup8EGMWsVTTMxcFOTn1tMt5b0dylgQjb59W28Ir3Jz3ncuc1XiDy+O12RYNlXsb2WtgQttEJJ0beSK8ItXr8LTyAs8+dWLO6hS8bf3dw97AzynWkeJLY9vZcDSB4ncn4=
+      hosts:
+        - zuul.local
 
 script:
   - DEBUG=zuul:* npm run $CMD
