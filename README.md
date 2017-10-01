@@ -36,6 +36,13 @@ hey: you
 done
 ```
 
+Browser support
+----
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
+
+`memdown` requires a ES5-capable browser. If you're using one that's isn't (e.g. PhantomJS, Android < 4.4, IE < 10) then you will need [es5-shim](https://github.com/es-shims/es5-shim).
+
 Global Store
 ---
 
@@ -66,13 +73,6 @@ require('memdown').clearGlobalStore(true); // delete each individual key
 ```
 
 If you are using `memdown` somewhere else while simultaneously clearing the global store in this way, then it may throw an error or cause unexpected results.
-
-Browser support
-----
-
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
-
-`memdown` requires a ES5-capable browser. If you're using one that's isn't (e.g. PhantomJS, Android < 4.4, IE < 10) then you will need [es5-shim](https://github.com/es-shims/es5-shim).
 
 Testing
 ----
