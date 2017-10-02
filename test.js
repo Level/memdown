@@ -248,7 +248,6 @@ test('backing rbtree is buffer-aware', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var noop = function () {}
 
   db.open(noerr)
 
@@ -283,7 +282,6 @@ test('empty value in batch', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var noop = function () {}
 
   db.open(noerr)
 
@@ -356,7 +354,6 @@ test('array with holes in batch()', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var noop = function () {}
 
   db.open(noerr)
 
