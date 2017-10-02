@@ -201,11 +201,10 @@ test('reverse ranges', function (t) {
 
 test('no location', function (t) {
   var db = new MemDOWN()
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
 
   db.put('a', 'A', noop)
   db.put('c', 'C', noop)
@@ -227,11 +226,11 @@ test('no location', function (t) {
 
 test('delete while iterating', function (t) {
   var db = new MemDOWN()
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
+
   db.put('a', 'A', noop)
   db.put('b', 'B', noop)
   db.put('c', 'C', noop)
@@ -262,11 +261,11 @@ test('delete while iterating', function (t) {
 
 test('iterator with byte range', function (t) {
   var db = new MemDOWN()
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
+
   db.put(Buffer.from('a0', 'hex'), 'A', noop)
 
   var iterator = db.iterator({ valueAsBuffer: false, lt: Buffer.from('ff', 'hex') })
@@ -281,11 +280,10 @@ test('iterator with byte range', function (t) {
 
 test('backing rbtree is buffer-aware', function (t) {
   var db = new MemDOWN()
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
 
   var one = Buffer.from('80', 'hex')
   var two = Buffer.from('c0', 'hex')
@@ -317,11 +315,10 @@ test('empty value in batch', function (t) {
   t.plan(6)
 
   var db = new MemDOWN()
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
 
   db.batch([
     {
@@ -351,11 +348,10 @@ test('empty value in batch', function (t) {
 
 test('empty buffer key in batch', function (t) {
   var db = new MemDOWN('empty-buffer')
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
 
   db.batch([{
     type: 'put',
@@ -369,11 +365,10 @@ test('empty buffer key in batch', function (t) {
 
 test('buffer key in batch', function (t) {
   var db = new MemDOWN('buffer-key')
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
 
   db.batch([{
     type: 'put',
@@ -392,11 +387,10 @@ test('buffer key in batch', function (t) {
 
 test('array with holes in batch()', function (t) {
   var db = new MemDOWN('holey')
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
 
-  db.open(noerr)
+  db.open(function (err) {
+    t.error(err, 'opens correctly')
+  })
 
   db.batch([
     {
@@ -431,11 +425,9 @@ test('put multiple times', function (t) {
 
   var db = new MemDOWN()
 
-  var noerr = function (err) {
+  db.open(function (err) {
     t.error(err, 'opens correctly')
-  }
-
-  db.open(noerr)
+  })
 
   db.put('key', 'val', function (err) {
     t.error(err, 'no error')
