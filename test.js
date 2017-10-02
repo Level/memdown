@@ -371,7 +371,7 @@ test('array with holes in batch()', function (t) {
       key: 'key1',
       value: 'val1'
     },
-    void 0,
+    undefined,
     {
       type: 'put',
       key: 'key2',
