@@ -45,28 +45,40 @@ function MemIterator (db, options) {
     this._start = ltgt.lowerBound(options)
     this._end = ltgt.upperBound(options)
 
-    if (typeof this._start === 'undefined') this._tree = tree.begin
-    else if (ltgt.lowerBoundInclusive(options)) {
+    if (typeof this._start === 'undefined') {
+      this._tree = tree.begin
+    } else if (ltgt.lowerBoundInclusive(options)) {
       this._tree = tree.ge(this._start)
-    } else this._tree = tree.gt(this._start)
+    } else {
+      this._tree = tree.gt(this._start)
+    }
 
     if (this._end) {
-      if (ltgt.upperBoundInclusive(options)) this._test = lte
-      else this._test = lt
+      if (ltgt.upperBoundInclusive(options)) {
+        this._test = lte
+      } else {
+        this._test = lt
+      }
     }
   } else {
     this._incr = 'prev'
     this._start = ltgt.upperBound(options)
     this._end = ltgt.lowerBound(options)
 
-    if (typeof this._start === 'undefined') this._tree = tree.end
-    else if (ltgt.upperBoundInclusive(options)) {
+    if (typeof this._start === 'undefined') {
+      this._tree = tree.end
+    } else if (ltgt.upperBoundInclusive(options)) {
       this._tree = tree.le(this._start)
-    } else this._tree = tree.lt(this._start)
+    } else {
+      this._tree = tree.lt(this._start)
+    }
 
     if (this._end) {
-      if (ltgt.lowerBoundInclusive(options)) this._test = gte
-      else this._test = gt
+      if (ltgt.lowerBoundInclusive(options)) {
+        this._test = gte
+      } else {
+        this._test = gt
+      }
     }
   }
 }
@@ -78,7 +90,6 @@ MemIterator.prototype._next = function (callback) {
   var value
 
   if (this._done++ >= this._limit) return setImmediate(callback)
-
   if (!this._tree.valid) return setImmediate(callback)
 
   key = this._tree.key
@@ -87,7 +98,6 @@ MemIterator.prototype._next = function (callback) {
   if (!this._test(key)) return setImmediate(callback)
 
   if (this.keyAsBuffer) key = Buffer.from(key)
-
   if (this.valueAsBuffer) value = Buffer.from(value)
 
   this._tree[this._incr]()
@@ -209,7 +219,9 @@ MemDOWN.prototype._isBuffer = function (obj) {
 MemDOWN.destroy = function (name, callback) {
   var key = '$' + name
 
-  if (key in globalStore) delete globalStore[key]
+  if (key in globalStore) {
+    delete globalStore[key]
+  }
 
   setImmediate(callback)
 }
