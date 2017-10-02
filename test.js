@@ -1,9 +1,9 @@
-var test = require('tape'),
-  testCommon = require('abstract-leveldown/testCommon'),
-  MemDOWN = require('./'),
-  //, AbstractIterator = require('./').AbstractIterator
-  testBuffer = require('./testdata_b64'),
-  ltgt = require('ltgt')
+var test = require('tape')
+var testCommon = require('abstract-leveldown/testCommon')
+var MemDOWN = require('./')
+// var AbstractIterator = require('./').AbstractIterator
+var testBuffer = require('./testdata_b64')
+var ltgt = require('ltgt')
 
 /** * compatibility with basic LevelDOWN API ***/
 
@@ -70,8 +70,8 @@ test('test .destroy', function (t) {
 })
 
 test('unsorted entry, sorted iterator', function (t) {
-  var db = new MemDOWN('foo'),
-    noop = function () {}
+  var db = new MemDOWN('foo')
+  var noop = function () {}
   db.open(noop)
   db.put('f', 'F', noop)
   db.put('a', 'A', noop)
@@ -106,9 +106,9 @@ test('unsorted entry, sorted iterator', function (t) {
 })
 
 test('reading while putting', function (t) {
-  var db = new MemDOWN('foo2'),
-    noop = function () {},
-    iterator
+  var db = new MemDOWN('foo2')
+  var noop = function () {}
+  var iterator
   db.open(noop)
   db.put('f', 'F', noop)
   db.put('c', 'C', noop)
@@ -127,9 +127,9 @@ test('reading while putting', function (t) {
 })
 
 test('reading while deleting', function (t) {
-  var db = new MemDOWN('foo3'),
-    noop = function () {},
-    iterator
+  var db = new MemDOWN('foo3')
+  var noop = function () {}
+  var iterator
   db.open(noop)
   db.put('f', 'F', noop)
   db.put('a', 'A', noop)
@@ -149,9 +149,9 @@ test('reading while deleting', function (t) {
 })
 
 test('reverse ranges', function (t) {
-  var db = new MemDOWN('foo4'),
-    noop = function () {},
-    iterator
+  var db = new MemDOWN('foo4')
+  var noop = function () {}
+  var iterator
   db.open(noop)
   db.put('a', 'A', noop)
   db.put('c', 'C', noop)
@@ -169,12 +169,12 @@ test('reverse ranges', function (t) {
 })
 
 test('no location', function (t) {
-  var db = new MemDOWN(),
-    noerr = function (err) {
-      t.error(err, 'opens correctly')
-    },
-    noop = function () {},
-    iterator
+  var db = new MemDOWN()
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+  var noop = function () {}
+  var iterator
   db.open(noerr)
   db.put('a', 'A', noop)
   db.put('c', 'C', noop)
@@ -192,12 +192,12 @@ test('no location', function (t) {
 })
 
 test('delete while iterating', function (t) {
-  var db = new MemDOWN(),
-    noerr = function (err) {
-      t.error(err, 'opens correctly')
-    },
-    noop = function () {},
-    iterator
+  var db = new MemDOWN()
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+  var noop = function () {}
+  var iterator
   db.open(noerr)
   db.put('a', 'A', noop)
   db.put('b', 'B', noop)
@@ -223,12 +223,12 @@ test('delete while iterating', function (t) {
 })
 
 test('iterator with byte range', function (t) {
-  var db = new MemDOWN(),
-    noerr = function (err) {
-      t.error(err, 'opens correctly')
-    },
-    noop = function () {},
-    iterator
+  var db = new MemDOWN()
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+  var noop = function () {}
+  var iterator
 
   db.open(noerr)
   db.put(new Buffer('a0', 'hex'), 'A', noop)
@@ -244,11 +244,11 @@ test('iterator with byte range', function (t) {
 })
 
 test('backing rbtree is buffer-aware', function (t) {
-  var db = new MemDOWN(),
-    noerr = function (err) {
-      t.error(err, 'opens correctly')
-    },
-    noop = function () {}
+  var db = new MemDOWN()
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+  var noop = function () {}
 
   db.open(noerr)
 
@@ -279,11 +279,11 @@ test('backing rbtree is buffer-aware', function (t) {
 test('empty value in batch', function (t) {
   t.plan(6)
 
-  var db = new MemDOWN(),
-    noerr = function (err) {
-      t.error(err, 'opens correctly')
-    },
-    noop = function () {}
+  var db = new MemDOWN()
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+  var noop = function () {}
 
   db.open(noerr)
 
@@ -352,11 +352,11 @@ test('buffer key in batch', function (t) {
 })
 
 test('array with holes in batch()', function (t) {
-  var db = new MemDOWN('holey'),
-    noerr = function (err) {
-      t.error(err, 'opens correctly')
-    },
-    noop = function () {}
+  var db = new MemDOWN('holey')
+  var noerr = function (err) {
+    t.error(err, 'opens correctly')
+  }
+  var noop = function () {}
 
   db.open(noerr)
 

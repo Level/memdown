@@ -1,9 +1,9 @@
-var inherits = require('inherits'),
-  AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN,
-  AbstractIterator = require('abstract-leveldown').AbstractIterator,
-  ltgt = require('ltgt'),
-  createRBT = require('functional-red-black-tree'),
-  globalStore = {}
+var inherits = require('inherits')
+var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
+var AbstractIterator = require('abstract-leveldown').AbstractIterator
+var ltgt = require('ltgt')
+var createRBT = require('functional-red-black-tree')
+var globalStore = {}
 
 // In Node, use global.setImmediate. In the browser, use a consistent
 // microtask library to give consistent microtask experience to all browsers
@@ -73,7 +73,8 @@ function MemIterator (db, options) {
 inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
-  var key, value
+  var key
+  var value
 
   if (this._done++ >= this._limit) return setImmediate(callback)
 
@@ -168,12 +169,12 @@ MemDOWN.prototype._del = function (key, options, callback) {
 }
 
 MemDOWN.prototype._batch = function (array, options, callback) {
-  var i = -1,
-    key,
-    value,
-    iter,
-    len = array.length,
-    tree = this._store[this._location]
+  var i = -1
+  var key
+  var value
+  var iter
+  var len = array.length
+  var tree = this._store[this._location]
 
   while (++i < len) {
     if (!array[i]) continue

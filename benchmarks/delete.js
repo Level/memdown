@@ -2,8 +2,8 @@
 
 // Benchmarks different deletion strategies (for deleting many keys)
 
-var assert = require('assert'),
-  bench = require('bench')
+var assert = require('assert')
+var bench = require('bench')
 
 var NUM_KEYS = 1e3
 
@@ -19,9 +19,9 @@ exports.compare = {
 bench.runMain()
 
 function deleteKeys (deleteFn) {
-  var keys = [],
-    i,
-    key
+  var keys = []
+  var i
+  var key
   for (i = 0; i < NUM_KEYS; i++) {
     keys.push(Math.random().toString(36).slice(2))
   }
@@ -50,9 +50,9 @@ function linearDelete (keys, key) {
 }
 
 function sortedIndexOf (arr, item) {
-  var low = 0,
-    high = arr.length,
-    mid
+  var low = 0
+  var high = arr.length
+  var mid
   while (low < high) {
     mid = (low + high) >>> 1
     arr[mid] < item ? (low = mid + 1) : (high = mid)

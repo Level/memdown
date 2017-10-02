@@ -2,11 +2,11 @@
 
 // Benchmarks different insertion strategies (for inserting many keys)
 
-var assert = require('assert'),
-  bench = require('bench')
+var assert = require('assert')
+var bench = require('bench')
 
-var NUM_KEYS = 1e3,
-  INSERT_EXISTING_CHANCE = 0.1
+var NUM_KEYS = 1e3
+var INSERT_EXISTING_CHANCE = 0.1
 
 exports.compare = {
   'binary insert': function () {
@@ -20,10 +20,10 @@ exports.compare = {
 bench.runMain()
 
 function insertKeys (insertFn) {
-  var keys = [],
-    keySet = {},
-    i,
-    key
+  var keys = []
+  var keySet = {}
+  var i
+  var key
   for (i = 0; i < NUM_KEYS; i++) {
     // Allow a certain portion of inserts to use keys that already exist (ie, put existing)
     key =
@@ -52,9 +52,9 @@ function pushAndSort (keys, key) {
 }
 
 function sortedIndexOf (arr, item) {
-  var low = 0,
-    high = arr.length,
-    mid
+  var low = 0
+  var high = arr.length
+  var mid
   while (low < high) {
     mid = (low + high) >>> 1
     arr[mid] < item ? (low = mid + 1) : (high = mid)
