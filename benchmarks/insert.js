@@ -29,9 +29,7 @@ function insertKeys (insertFn) {
     key =
       Math.random() < INSERT_EXISTING_CHANCE && keys.length
         ? keys[Math.round(Math.random() * (keys.length - 1))]
-        : Math.random()
-            .toString(36)
-            .slice(2)
+        : Math.random().toString(36).slice(2)
     keySet[key] = true
     insertFn(keys, key)
   }

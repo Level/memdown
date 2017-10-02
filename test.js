@@ -18,37 +18,16 @@ require('abstract-leveldown/abstract/get-test').all(MemDOWN, test, testCommon)
 
 require('abstract-leveldown/abstract/put-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/put-get-del-test').all(
-  MemDOWN,
-  test,
-  testCommon,
-  testBuffer
-)
+require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer)
 
 require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/chained-batch-test').all(
-  MemDOWN,
-  test,
-  testCommon
-)
+require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/close-test').close(
-  MemDOWN,
-  test,
-  testCommon
-)
+require('abstract-leveldown/abstract/close-test').close(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/iterator-test').all(
-  MemDOWN,
-  test,
-  testCommon
-)
+require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/ranges-test').all(
-  MemDOWN,
-  test,
-  testCommon
-)
+require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon)
 
 //
 // TODO: destroy() test copied from localstorage-down
@@ -276,10 +255,7 @@ test('backing rbtree is buffer-aware', function (t) {
   var one = new Buffer('80', 'hex')
   var two = new Buffer('c0', 'hex')
 
-  t.ok(
-    two.toString() === one.toString(),
-    'would be equal when not buffer-aware'
-  )
+  t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
   t.ok(ltgt.compare(two, one) > 0, 'but greater when buffer-aware')
 
   db.put(one, 'one', function (err) {
@@ -311,31 +287,28 @@ test('empty value in batch', function (t) {
 
   db.open(noerr)
 
-  db.batch(
-    [
-      {
-        type: 'put',
-        key: 'empty-string',
-        value: ''
-      },
-      {
-        type: 'put',
-        key: 'empty-buffer',
-        value: Buffer(0)
-      }
-    ],
-    function (err) {
-      t.error(err, 'no error')
-      db.get('empty-string', function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, Buffer(0), 'empty string')
-      })
-      db.get('empty-buffer', function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, Buffer(0), 'empty buffer')
-      })
+  db.batch([
+    {
+      type: 'put',
+      key: 'empty-string',
+      value: ''
+    },
+    {
+      type: 'put',
+      key: 'empty-buffer',
+      value: Buffer(0)
     }
-  )
+  ], function (err) {
+    t.error(err, 'no error')
+    db.get('empty-string', function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, Buffer(0), 'empty string')
+    })
+    db.get('empty-buffer', function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, Buffer(0), 'empty buffer')
+    })
+  })
 })
 
 test('empty buffer key in batch', function (t) {
@@ -346,19 +319,14 @@ test('empty buffer key in batch', function (t) {
 
   db.open(noerr)
 
-  db.batch(
-    [
-      {
-        type: 'put',
-        key: new Buffer(0),
-        value: ''
-      }
-    ],
-    function (err) {
-      t.ok(err, 'got an error')
-      t.end()
-    }
-  )
+  db.batch([{
+    type: 'put',
+    key: new Buffer(0),
+    value: ''
+  }], function (err) {
+    t.ok(err, 'got an error')
+    t.end()
+  })
 })
 
 test('buffer key in batch', function (t) {
@@ -369,26 +337,18 @@ test('buffer key in batch', function (t) {
 
   db.open(noerr)
 
-  db.batch(
-    [
-      {
-        type: 'put',
-        key: new Buffer('foo', 'utf8'),
-        value: 'val1'
-      }
-    ],
-    function (err) {
+  db.batch([{
+    type: 'put',
+    key: new Buffer('foo', 'utf8'),
+    value: 'val1'
+  }], function (err) {
+    t.error(err, 'no error')
+    db.get(new Buffer('foo', 'utf8'), { asBuffer: false }, function (err, val) {
       t.error(err, 'no error')
-      db.get(new Buffer('foo', 'utf8'), { asBuffer: false }, function (
-        err,
-        val
-      ) {
-        t.error(err, 'no error')
-        t.same(val, 'val1')
-        t.end()
-      })
-    }
-  )
+      t.same(val, 'val1')
+      t.end()
+    })
+  })
 })
 
 test('array with holes in batch()', function (t) {
@@ -400,33 +360,30 @@ test('array with holes in batch()', function (t) {
 
   db.open(noerr)
 
-  db.batch(
-    [
-      {
-        type: 'put',
-        key: 'key1',
-        value: 'val1'
-      },
-      void 0,
-      {
-        type: 'put',
-        key: 'key2',
-        value: 'val2'
-      }
-    ],
-    function (err) {
-      t.error(err, 'no error')
-      db.get('key1', { asBuffer: false }, function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, 'val1')
-        db.get('key2', { asBuffer: false }, function (err, val) {
-          t.error(err, 'no error')
-          t.same(val, 'val2')
-          t.end()
-        })
-      })
+  db.batch([
+    {
+      type: 'put',
+      key: 'key1',
+      value: 'val1'
+    },
+    void 0,
+    {
+      type: 'put',
+      key: 'key2',
+      value: 'val2'
     }
-  )
+  ], function (err) {
+    t.error(err, 'no error')
+    db.get('key1', { asBuffer: false }, function (err, val) {
+      t.error(err, 'no error')
+      t.same(val, 'val1')
+      db.get('key2', { asBuffer: false }, function (err, val) {
+        t.error(err, 'no error')
+        t.same(val, 'val2')
+        t.end()
+      })
+    })
+  })
 })
 
 test('put multiple times', function (t) {

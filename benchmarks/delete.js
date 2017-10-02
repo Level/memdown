@@ -23,11 +23,7 @@ function deleteKeys (deleteFn) {
     i,
     key
   for (i = 0; i < NUM_KEYS; i++) {
-    keys.push(
-      Math.random()
-        .toString(36)
-        .slice(2)
-    )
+    keys.push(Math.random().toString(36).slice(2))
   }
   keys.sort()
   for (i = 0; i < NUM_KEYS; i++) {
