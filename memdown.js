@@ -45,7 +45,9 @@ function MemIterator (db, options) {
     this._end = ltgt.upperBound(options)
 
     if (typeof this._start === 'undefined') this._tree = tree.begin
-    else if (ltgt.lowerBoundInclusive(options)) { this._tree = tree.ge(this._start) } else this._tree = tree.gt(this._start)
+    else if (ltgt.lowerBoundInclusive(options)) {
+      this._tree = tree.ge(this._start)
+    } else this._tree = tree.gt(this._start)
 
     if (this._end) {
       if (ltgt.upperBoundInclusive(options)) this._test = lte
@@ -57,7 +59,9 @@ function MemIterator (db, options) {
     this._end = ltgt.lowerBound(options)
 
     if (typeof this._start === 'undefined') this._tree = tree.end
-    else if (ltgt.upperBoundInclusive(options)) { this._tree = tree.le(this._start) } else this._tree = tree.lt(this._start)
+    else if (ltgt.upperBoundInclusive(options)) {
+      this._tree = tree.le(this._start)
+    } else this._tree = tree.lt(this._start)
 
     if (this._end) {
       if (ltgt.lowerBoundInclusive(options)) this._test = gte
@@ -149,7 +153,9 @@ MemDOWN.prototype._get = function (key, options, callback) {
     })
   }
 
-  if (options.asBuffer !== false && !this._isBuffer(value)) { value = new Buffer(String(value)) }
+  if (options.asBuffer !== false && !this._isBuffer(value)) {
+    value = new Buffer(String(value))
+  }
 
   setImmediate(function callNext () {
     callback(null, value)
