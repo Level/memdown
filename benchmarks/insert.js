@@ -24,6 +24,7 @@ function insertKeys (insertFn) {
   var keySet = {}
   var i
   var key
+
   for (i = 0; i < NUM_KEYS; i++) {
     // Allow a certain portion of inserts to use keys that already exist (ie, put existing)
     key =
@@ -55,9 +56,11 @@ function sortedIndexOf (arr, item) {
   var low = 0
   var high = arr.length
   var mid
+
   while (low < high) {
     mid = (low + high) >>> 1
     arr[mid] < item ? (low = mid + 1) : (high = mid)
   }
+
   return low
 }

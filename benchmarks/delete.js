@@ -22,14 +22,18 @@ function deleteKeys (deleteFn) {
   var keys = []
   var i
   var key
+
   for (i = 0; i < NUM_KEYS; i++) {
     keys.push(Math.random().toString(36).slice(2))
   }
+
   keys.sort()
+
   for (i = 0; i < NUM_KEYS; i++) {
     key = keys[Math.round(Math.random() * (keys.length - 1))]
     deleteFn(keys, key)
   }
+
   assert.equal(keys.length, 0)
 }
 
@@ -53,9 +57,11 @@ function sortedIndexOf (arr, item) {
   var low = 0
   var high = arr.length
   var mid
+
   while (low < high) {
     mid = (low + high) >>> 1
     arr[mid] < item ? (low = mid + 1) : (high = mid)
   }
+
   return low
 }
