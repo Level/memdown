@@ -4,6 +4,7 @@ var MemDOWN = require('./')
 // var AbstractIterator = require('./').AbstractIterator
 var testBuffer = require('./testdata_b64')
 var ltgt = require('ltgt')
+var Buffer = require('safe-buffer').Buffer
 
 /** * compatibility with basic LevelDOWN API ***/
 
@@ -238,9 +239,9 @@ test('iterator with byte range', function (t) {
   var iterator
 
   db.open(noerr)
-  db.put(new Buffer('a0', 'hex'), 'A', noop)
+  db.put(Buffer.from('a0', 'hex'), 'A', noop)
 
-  iterator = db.iterator({ valueAsBuffer: false, lt: new Buffer('ff', 'hex') })
+  iterator = db.iterator({ valueAsBuffer: false, lt: Buffer.from('ff', 'hex') })
 
   iterator.next(function (err, key, value) {
     t.notOk(err, 'no error')
@@ -258,8 +259,8 @@ test('backing rbtree is buffer-aware', function (t) {
 
   db.open(noerr)
 
-  var one = new Buffer('80', 'hex')
-  var two = new Buffer('c0', 'hex')
+  var one = Buffer.from('80', 'hex')
+  var two = Buffer.from('c0', 'hex')
 
   t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
   t.ok(ltgt.compare(two, one) > 0, 'but greater when buffer-aware')
@@ -301,17 +302,17 @@ test('empty value in batch', function (t) {
     {
       type: 'put',
       key: 'empty-buffer',
-      value: Buffer(0)
+      value: Buffer.alloc(0)
     }
   ], function (err) {
     t.error(err, 'no error')
     db.get('empty-string', function (err, val) {
       t.error(err, 'no error')
-      t.same(val, Buffer(0), 'empty string')
+      t.same(val, Buffer.alloc(0), 'empty string')
     })
     db.get('empty-buffer', function (err, val) {
       t.error(err, 'no error')
-      t.same(val, Buffer(0), 'empty buffer')
+      t.same(val, Buffer.alloc(0), 'empty buffer')
     })
   })
 })
@@ -326,7 +327,7 @@ test('empty buffer key in batch', function (t) {
 
   db.batch([{
     type: 'put',
-    key: new Buffer(0),
+    key: Buffer.alloc(0),
     value: ''
   }], function (err) {
     t.ok(err, 'got an error')
@@ -344,11 +345,11 @@ test('buffer key in batch', function (t) {
 
   db.batch([{
     type: 'put',
-    key: new Buffer('foo', 'utf8'),
+    key: Buffer.from('foo', 'utf8'),
     value: 'val1'
   }], function (err) {
     t.error(err, 'no error')
-    db.get(new Buffer('foo', 'utf8'), { asBuffer: false }, function (err, val) {
+    db.get(Buffer.from('foo', 'utf8'), { asBuffer: false }, function (err, val) {
       t.error(err, 'no error')
       t.same(val, 'val1')
       t.end()

@@ -3,6 +3,7 @@ var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
 var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var createRBT = require('functional-red-black-tree')
+var Buffer = require('safe-buffer').Buffer
 var globalStore = {}
 
 // In Node, use global.setImmediate. In the browser, use a consistent
@@ -85,9 +86,9 @@ MemIterator.prototype._next = function (callback) {
 
   if (!this._test(key)) return setImmediate(callback)
 
-  if (this.keyAsBuffer) key = new Buffer(key)
+  if (this.keyAsBuffer) key = Buffer.from(key)
 
-  if (this.valueAsBuffer) value = new Buffer(value)
+  if (this.valueAsBuffer) value = Buffer.from(value)
 
   this._tree[this._incr]()
 
@@ -155,7 +156,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
   }
 
   if (options.asBuffer !== false && !this._isBuffer(value)) {
-    value = new Buffer(String(value))
+    value = Buffer.from(String(value))
   }
 
   setImmediate(function callNext () {
