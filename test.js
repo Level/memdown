@@ -5,6 +5,7 @@ var MemDOWN = require('./')
 var testBuffer = require('./testdata_b64')
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
+var noop = function () {}
 
 /** compatibility with basic LevelDOWN API **/
 
@@ -81,7 +82,6 @@ test('test .destroy', function (t) {
 
 test('unsorted entry, sorted iterator', function (t) {
   var db = new MemDOWN('foo')
-  var noop = function () {}
 
   db.open(noop)
 
@@ -123,7 +123,6 @@ test('unsorted entry, sorted iterator', function (t) {
 
 test('reading while putting', function (t) {
   var db = new MemDOWN('foo2')
-  var noop = function () {}
   var iterator
 
   db.open(noop)
@@ -151,7 +150,6 @@ test('reading while putting', function (t) {
 
 test('reading while deleting', function (t) {
   var db = new MemDOWN('foo3')
-  var noop = function () {}
   var iterator
 
   db.open(noop)
@@ -180,7 +178,6 @@ test('reading while deleting', function (t) {
 
 test('reverse ranges', function (t) {
   var db = new MemDOWN('foo4')
-  var noop = function () {}
   var iterator
 
   db.open(noop)
@@ -208,7 +205,6 @@ test('no location', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var noop = function () {}
   var iterator
 
   db.open(noerr)
@@ -236,7 +232,6 @@ test('delete while iterating', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var noop = function () {}
   var iterator
 
   db.open(noerr)
@@ -273,7 +268,6 @@ test('iterator with byte range', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var noop = function () {}
   var iterator
 
   db.open(noerr)
