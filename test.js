@@ -123,7 +123,6 @@ test('unsorted entry, sorted iterator', function (t) {
 
 test('reading while putting', function (t) {
   var db = new MemDOWN('foo2')
-  var iterator
 
   db.open(noop)
 
@@ -131,7 +130,8 @@ test('reading while putting', function (t) {
   db.put('c', 'C', noop)
   db.put('e', 'E', noop)
 
-  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+  var iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+
   iterator.next(function (err, key, value) {
     t.ifError(err, 'no next error')
     t.equal(key, 'c')
@@ -150,7 +150,6 @@ test('reading while putting', function (t) {
 
 test('reading while deleting', function (t) {
   var db = new MemDOWN('foo3')
-  var iterator
 
   db.open(noop)
 
@@ -159,7 +158,8 @@ test('reading while deleting', function (t) {
   db.put('c', 'C', noop)
   db.put('e', 'E', noop)
 
-  iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+  var iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+
   iterator.next(function (err, key, value) {
     t.ifError(err, 'no next error')
     t.equal(key, 'a')
@@ -178,14 +178,13 @@ test('reading while deleting', function (t) {
 
 test('reverse ranges', function (t) {
   var db = new MemDOWN('foo4')
-  var iterator
 
   db.open(noop)
 
   db.put('a', 'A', noop)
   db.put('c', 'C', noop)
 
-  iterator = db.iterator({
+  var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
     start: 'b',
@@ -205,14 +204,13 @@ test('no location', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var iterator
 
   db.open(noerr)
 
   db.put('a', 'A', noop)
   db.put('c', 'C', noop)
 
-  iterator = db.iterator({
+  var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
     start: 'b',
@@ -232,14 +230,13 @@ test('delete while iterating', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var iterator
 
   db.open(noerr)
   db.put('a', 'A', noop)
   db.put('b', 'B', noop)
   db.put('c', 'C', noop)
 
-  iterator = db.iterator({
+  var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
     start: 'a'
@@ -268,12 +265,11 @@ test('iterator with byte range', function (t) {
   var noerr = function (err) {
     t.error(err, 'opens correctly')
   }
-  var iterator
 
   db.open(noerr)
   db.put(Buffer.from('a0', 'hex'), 'A', noop)
 
-  iterator = db.iterator({ valueAsBuffer: false, lt: Buffer.from('ff', 'hex') })
+  var iterator = db.iterator({ valueAsBuffer: false, lt: Buffer.from('ff', 'hex') })
 
   iterator.next(function (err, key, value) {
     t.notOk(err, 'no error')
