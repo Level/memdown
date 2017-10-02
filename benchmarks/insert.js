@@ -2,28 +2,35 @@
 
 // Benchmarks different insertion strategies (for inserting many keys)
 
-var assert = require('assert'),
-    bench = require('bench')
+var assert = require('assert')
+var bench = require('bench')
 
-var NUM_KEYS = 1e3, INSERT_EXISTING_CHANCE = 0.1
+var NUM_KEYS = 1e3
+var INSERT_EXISTING_CHANCE = 0.1
 
 exports.compare = {
-  'binary insert': function() {
+  'binary insert': function () {
     insertKeys(binaryInsert)
   },
-  'push() + sort()': function() {
+  'push() + sort()': function () {
     insertKeys(pushAndSort)
-  },
+  }
 }
 
 bench.runMain()
 
-function insertKeys(insertFn) {
-  var keys = [], keySet = {}, i, key
+function insertKeys (insertFn) {
+  var keys = []
+  var keySet = {}
+  var i
+  var key
+
   for (i = 0; i < NUM_KEYS; i++) {
     // Allow a certain portion of inserts to use keys that already exist (ie, put existing)
-    key = Math.random() < INSERT_EXISTING_CHANCE && keys.length ?
-      keys[Math.round(Math.random() * (keys.length - 1))] : Math.random().toString(36).slice(2)
+    key =
+      Math.random() < INSERT_EXISTING_CHANCE && keys.length
+        ? keys[Math.round(Math.random() * (keys.length - 1))]
+        : Math.random().toString(36).slice(2)
     keySet[key] = true
     insertFn(keys, key)
   }
@@ -32,25 +39,28 @@ function insertKeys(insertFn) {
 }
 
 // Reflects the key insertion strategy added in #2078b40cd
-function binaryInsert(keys, key) {
+function binaryInsert (keys, key) {
   var ix = sortedIndexOf(keys, key)
-  if (keys[ix] != key)
-    keys.splice(ix, 0, key)
+  if (keys[ix] !== key) keys.splice(ix, 0, key)
 }
 
 // Reflects the key insertion strategy prior to #2078b40cd
-function pushAndSort(keys, key) {
-  if (keys.indexOf(key) == -1) {
+function pushAndSort (keys, key) {
+  if (keys.indexOf(key) === -1) {
     keys.push(key)
     keys.sort()
   }
 }
 
-function sortedIndexOf(arr, item) {
-  var low = 0, high = arr.length, mid
+function sortedIndexOf (arr, item) {
+  var low = 0
+  var high = arr.length
+  var mid
+
   while (low < high) {
     mid = (low + high) >>> 1
-    arr[mid] < item ? low = mid + 1 : high = mid
+    arr[mid] < item ? (low = mid + 1) : (high = mid)
   }
+
   return low
 }
