@@ -36,13 +36,13 @@ function deleteKeys (deleteFn) {
 // Reflects the key deletion strategy added in #2078b40cd
 function binaryDelete (keys, key) {
   var ix = sortedIndexOf(keys, key)
-  if (keys[ix] == key) keys.splice(ix, 1)
+  if (keys[ix] === key) keys.splice(ix, 1)
 }
 
 // Reflects the key deletion strategy prior to #2078b40cd
 function linearDelete (keys, key) {
   for (var i = 0; i < keys.length; i++) {
-    if (keys[i] == key) {
+    if (keys[i] === key) {
       keys.splice(i, 1)
       break
     }

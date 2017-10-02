@@ -40,12 +40,12 @@ function insertKeys (insertFn) {
 // Reflects the key insertion strategy added in #2078b40cd
 function binaryInsert (keys, key) {
   var ix = sortedIndexOf(keys, key)
-  if (keys[ix] != key) keys.splice(ix, 0, key)
+  if (keys[ix] !== key) keys.splice(ix, 0, key)
 }
 
 // Reflects the key insertion strategy prior to #2078b40cd
 function pushAndSort (keys, key) {
-  if (keys.indexOf(key) == -1) {
+  if (keys.indexOf(key) === -1) {
     keys.push(key)
     keys.sort()
   }
