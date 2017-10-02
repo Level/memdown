@@ -6,7 +6,7 @@ var testBuffer = require('./testdata_b64')
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
 
-/** * compatibility with basic LevelDOWN API ***/
+/** compatibility with basic LevelDOWN API **/
 
 // meh require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
 
