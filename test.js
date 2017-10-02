@@ -115,10 +115,12 @@ test('reading while putting', function (t) {
   db.put('e', 'E', noop)
   iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
   iterator.next(function (err, key, value) {
+    t.ifError(err, 'no next error')
     t.equal(key, 'c')
     t.equal(value, 'C')
     db.put('a', 'A', noop)
     iterator.next(function (err, key, value) {
+      t.ifError(err, 'no next error')
       t.equal(key, 'e')
       t.equal(value, 'E')
       t.end()
@@ -137,10 +139,12 @@ test('reading while deleting', function (t) {
   db.put('e', 'E', noop)
   iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
   iterator.next(function (err, key, value) {
+    t.ifError(err, 'no next error')
     t.equal(key, 'a')
     t.equal(value, 'A')
     db.del('a', noop)
     iterator.next(function (err, key, value) {
+      t.ifError(err, 'no next error')
       t.equal(key, 'c')
       t.equal(value, 'C')
       t.end()
@@ -162,6 +166,7 @@ test('reverse ranges', function (t) {
     reverse: true
   })
   iterator.next(function (err, key, value) {
+    t.ifError(err, 'no next error')
     t.equal(key, 'a')
     t.equal(value, 'A')
     t.end()
@@ -185,6 +190,7 @@ test('no location', function (t) {
     reverse: true
   })
   iterator.next(function (err, key, value) {
+    t.ifError(err, 'no next error')
     t.equal(key, 'a')
     t.equal(value, 'A')
     t.end()
@@ -208,6 +214,7 @@ test('delete while iterating', function (t) {
     start: 'a'
   })
   iterator.next(function (err, key, value) {
+    t.ifError(err, 'no next error')
     t.equal(key, 'a')
     t.equal(value, 'A')
     db.del('b', function (err) {
@@ -485,6 +492,7 @@ test('call .destroy twice', function (t) {
             MemDOWN.destroy('destroy-test', function (err) {
               t.notOk(err, 'no error')
               MemDOWN.destroy('destroy-test', function (err) {
+                t.ifError(err, 'no destroy error')
                 var db3 = new MemDOWN('destroy-test')
                 var db4 = new MemDOWN('other-db')
                 db3.get('key', function (err, value) {
