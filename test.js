@@ -1,6 +1,6 @@
 var test = require('tape')
 var testCommon = require('abstract-leveldown/testCommon')
-var MemDOWN = require('./')
+var MemDOWN = require('./').default
 // var AbstractIterator = require('./').AbstractIterator
 var testBuffer = require('./testdata_b64')
 var ltgt = require('ltgt')
