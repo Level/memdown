@@ -138,7 +138,7 @@ test('reverse ranges', function (t) {
   var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
-    start: 'b',
+    lte: 'b',
     reverse: true
   })
 
@@ -164,7 +164,7 @@ test('delete while iterating', function (t) {
   var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
-    start: 'a'
+    gte: 'a'
   })
 
   iterator.next(function (err, key, value) {
