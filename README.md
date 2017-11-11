@@ -11,8 +11,9 @@
 ```js
 // Note that if multiple instances point to the same location,
 // the db will be shared, but only per process.
-var levelup = require('levelup')
-var db = levelup('/some/location', { db: require('memdown') })
+const levelup = require('levelup')
+const memdown = require('memdown')
+const db = new levelup(new memdown())
 
 db.put('hey', 'you', function (err) {
   if (err) throw err
