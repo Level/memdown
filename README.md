@@ -13,7 +13,7 @@
 // the db will be shared, but only per process.
 const levelup = require('levelup')
 const memdown = require('memdown')
-const db = new levelup(new memdown())
+const db = levelup(new memdown())
 
 db.put('hey', 'you', function (err) {
   if (err) throw err
