@@ -4,7 +4,6 @@ var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var createRBT = require('functional-red-black-tree')
 var Buffer = require('safe-buffer').Buffer
-var globalStore = {}
 
 // In Node, use global.setImmediate. In the browser, use a consistent
 // microtask library to give consistent microtask experience to all browsers
@@ -32,7 +31,7 @@ function MemIterator (db, options) {
 
   if (this._limit === -1) this._limit = Infinity
 
-  var tree = db._store[db._location]
+  var tree = db._store
 
   this.keyAsBuffer = options.keyAsBuffer !== false
   this.valueAsBuffer = options.valueAsBuffer !== false
@@ -111,25 +110,12 @@ MemIterator.prototype._test = function () {
   return true
 }
 
-function MemDOWN (location) {
-  if (!(this instanceof MemDOWN)) return new MemDOWN(location)
+function MemDOWN () {
+  if (!(this instanceof MemDOWN)) return new MemDOWN()
 
-  AbstractLevelDOWN.call(this, typeof location === 'string' ? location : '')
+  AbstractLevelDOWN.call(this, '')
 
-  this._location = this.location ? '$' + this.location : '_tree'
-  this._store = this.location ? globalStore : this
-  this._store[this._location] =
-    this._store[this._location] || createRBT(ltgt.compare)
-}
-
-MemDOWN.clearGlobalStore = function (strict) {
-  if (strict) {
-    Object.keys(globalStore).forEach(function (key) {
-      delete globalStore[key]
-    })
-  } else {
-    globalStore = {}
-  }
+  this._store = createRBT(ltgt.compare)
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
@@ -144,19 +130,19 @@ MemDOWN.prototype._open = function (options, callback) {
 MemDOWN.prototype._put = function (key, value, options, callback) {
   if (typeof value === 'undefined' || value === null) value = ''
 
-  var iter = this._store[this._location].find(key)
+  var iter = this._store.find(key)
 
   if (iter.valid) {
-    this._store[this._location] = iter.update(value)
+    this._store = iter.update(value)
   } else {
-    this._store[this._location] = this._store[this._location].insert(key, value)
+    this._store = this._store.insert(key, value)
   }
 
   setImmediate(callback)
 }
 
 MemDOWN.prototype._get = function (key, options, callback) {
-  var value = this._store[this._location].get(key)
+  var value = this._store.get(key)
 
   if (typeof value === 'undefined') {
     // 'NotFound' error, consistent with LevelDOWN API
@@ -175,7 +161,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {
-  this._store[this._location] = this._store[this._location].remove(key)
+  this._store = this._store.remove(key)
   setImmediate(callback)
 }
 
@@ -185,7 +171,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   var value
   var iter
   var len = array.length
-  var tree = this._store[this._location]
+  var tree = this._store
 
   while (++i < len) {
     if (!array[i]) continue
@@ -203,7 +189,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
     }
   }
 
-  this._store[this._location] = tree
+  this._store = tree
 
   setImmediate(callback)
 }
@@ -214,16 +200,6 @@ MemDOWN.prototype._iterator = function (options) {
 
 MemDOWN.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
-}
-
-MemDOWN.destroy = function (name, callback) {
-  var key = '$' + name
-
-  if (key in globalStore) {
-    delete globalStore[key]
-  }
-
-  setImmediate(callback)
 }
 
 module.exports = MemDOWN.default = MemDOWN

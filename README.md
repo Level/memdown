@@ -44,37 +44,6 @@ Browser support
 
 `memdown` requires a ES5-capable browser. If you're using one that's isn't (e.g. PhantomJS, Android < 4.4, IE < 10) then you will need [es5-shim](https://github.com/es-shims/es5-shim).
 
-Global Store
----
-
-Even though it's in memory, the location parameter does do something. `memdown`
-has a global cache, which it uses to save databases by the path string.
-
-So for instance if you create these two instances:
-
-```js
-var db1 = levelup('foo', {db: require('memdown')});
-var db2 = levelup('foo', {db: require('memdown')});
-```
-
-Then they will actually share the same data, because the `'foo'` string is the same.
-
-You may clear this global store using `memdown.clearGlobalStore()`:
-
-```js
-require('memdown').clearGlobalStore();
-```
-
-By default, it doesn't delete the store but replaces it with a new one, so the open instance of `memdown` will not be affected.
-
-`clearGlobalStore` takes a single parameter, which if truthy clears the store strictly by deleting each individual key:
-
-```js
-require('memdown').clearGlobalStore(true); // delete each individual key
-```
-
-If you are using `memdown` somewhere else while simultaneously clearing the global store in this way, then it may throw an error or cause unexpected results.
-
 Test
 ----
 

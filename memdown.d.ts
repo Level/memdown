@@ -5,8 +5,8 @@ export interface MemDown<K=any, V=any>
 }
 
 interface MemDownConstructor {
-  new <K=any, V=any>(location: string): MemDown<K, V>;
-  <K=any, V=any>(location: string): MemDown<K, V>;
+  new <K=any, V=any>(): MemDown<K, V>;
+  <K=any, V=any>(): MemDown<K, V>;
 }
 
 export interface MemDownGetOptions {
@@ -17,9 +17,6 @@ export interface MemDownIteratorOptions {
   keyAsBuffer?: boolean;
   valueAsBuffer?: boolean;
 }
-
-export function clearGlobalStore(strict?: boolean);
-export function destroy(location: string, cb: () => void): void;
 
 declare const MemDown: MemDownConstructor;
 export default MemDown;
