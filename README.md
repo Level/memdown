@@ -9,8 +9,6 @@
 `levelup` allows you to pass a `db` option to its constructor. This overrides the default `leveldown` store.
 
 ```js
-// Note that if multiple instances point to the same location,
-// the db will be shared, but only per process.
 const levelup = require('levelup')
 const memdown = require('memdown')
 const db = levelup(new memdown())
