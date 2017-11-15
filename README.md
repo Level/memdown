@@ -11,6 +11,7 @@
 ```js
 const levelup = require('levelup')
 const memdown = require('memdown')
+
 const db = levelup(new memdown())
 
 db.put('hey', 'you', function (err) {
