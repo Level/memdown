@@ -9,8 +9,10 @@
 `levelup` allows you to pass a `db` option to its constructor. This overrides the default `leveldown` store.
 
 ```js
-var levelup = require('levelup')
-var db = levelup('/some/location', { db: require('memdown') })
+const levelup = require('levelup')
+const memdown = require('memdown')
+
+const db = levelup(new memdown())
 
 db.put('hey', 'you', function (err) {
   if (err) throw err
