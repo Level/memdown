@@ -9,7 +9,8 @@ var noop = function () {}
 
 /** compatibility with basic LevelDOWN API **/
 
-// meh require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
+// Skip this test because memdown doesn't have a location or constructor options
+// require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
 
 require('abstract-leveldown/abstract/open-test').args(MemDOWN, test, testCommon)
 require('abstract-leveldown/abstract/open-test').open(MemDOWN, test, testCommon)
@@ -307,41 +308,6 @@ test('buffer key in batch', function (t) {
       t.error(err, 'no error')
       t.same(val, 'val1')
       t.end()
-    })
-  })
-})
-
-test('array with holes in batch()', function (t) {
-  var db = new MemDOWN()
-
-  db.open(function (err) {
-    t.error(err, 'opens correctly')
-  })
-
-  db.batch([
-    {
-      type: 'put',
-      key: 'key1',
-      value: 'val1'
-    },
-    undefined,
-    {
-      type: 'put',
-      key: 'key2',
-      value: 'val2'
-    }
-  ], function (err) {
-    t.error(err, 'no error')
-
-    db.get('key1', { asBuffer: false }, function (err, val) {
-      t.error(err, 'no error')
-      t.same(val, 'val1')
-
-      db.get('key2', { asBuffer: false }, function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, 'val2')
-        t.end()
-      })
     })
   })
 })

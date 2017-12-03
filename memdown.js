@@ -174,8 +174,6 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   var tree = this._store
 
   while (++i < len) {
-    if (!array[i]) continue
-
     key = this._isBuffer(array[i].key) ? array[i].key : String(array[i].key)
     iter = tree.find(key)
 
