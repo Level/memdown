@@ -29,8 +29,7 @@ require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test, tes
 require('abstract-leveldown/abstract/close-test').close(MemDOWN, test, testCommon)
 
 require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testCommon)
-
-require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/iterator-range-test').all(MemDOWN, test, testCommon)
 
 test('unsorted entry, sorted iterator', function (t) {
   var db = new MemDOWN()
