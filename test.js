@@ -333,3 +333,82 @@ test('put multiple times', function (t) {
     })
   })
 })
+
+test('number keys', function (t) {
+  t.plan(4)
+
+  var db = new MemDOWN()
+  var numbers = [2, 12]
+  var buffers = numbers.map(stringBuffer)
+
+  db.open(noop)
+  db.batch(numbers.map(putKey), noop)
+
+  var iterator1 = db.iterator({ keyAsBuffer: false })
+  var iterator2 = db.iterator({ keyAsBuffer: true })
+
+  testCommon.collectEntries(iterator1, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), numbers, 'sorts naturally')
+  })
+
+  testCommon.collectEntries(iterator2, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), buffers, 'buffer input is stringified')
+  })
+})
+
+test('date keys', function (t) {
+  t.plan(4)
+
+  var db = new MemDOWN()
+  var dates = [new Date(0), new Date(1)]
+  var buffers = dates.map(stringBuffer)
+
+  db.open(noop)
+  db.batch(dates.map(putKey), noop)
+
+  var iterator = db.iterator({ keyAsBuffer: false })
+  var iterator2 = db.iterator({ keyAsBuffer: true })
+
+  testCommon.collectEntries(iterator, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), dates, 'sorts naturally')
+  })
+
+  testCommon.collectEntries(iterator2, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), buffers, 'buffer input is stringified')
+  })
+})
+
+test('object value', function (t) {
+  t.plan(2)
+
+  var db = new MemDOWN()
+  var obj = {}
+
+  db.open(noop)
+  db.put('key', obj, noop)
+
+  db.get('key', { asBuffer: false }, function (err, value) {
+    t.ifError(err, 'no get error')
+    t.ok(value === obj, 'same object')
+  })
+})
+
+function stringBuffer (value) {
+  return Buffer.from(String(value))
+}
+
+/**
+ * We need this JSDoc to keep TypeScript happy.
+ * @return {object}
+ */
+function putKey (key) {
+  return { type: 'put', key: key, value: 'value' }
+}
+
+function getKey (entry) {
+  return entry.key
+}
