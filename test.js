@@ -204,6 +204,37 @@ test('iterator with byte range', function (t) {
   })
 })
 
+test('iterator does not clone buffers', function (t) {
+  t.plan(3)
+
+  var db = new MemDOWN()
+  var buf = Buffer.from('a')
+
+  db.open(noop)
+  db.put(buf, buf, noop)
+
+  testCommon.collectEntries(db.iterator(), function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.ok(entries[0].key === buf, 'key is same buffer')
+    t.ok(entries[0].value === buf, 'value is same buffer')
+  })
+})
+
+test('iterator stringifies buffer input', function (t) {
+  t.plan(3)
+
+  var db = new MemDOWN()
+
+  db.open(noop)
+  db.put(1, 2, noop)
+
+  testCommon.collectEntries(db.iterator(), function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries[0].key, Buffer.from('1'), 'key is stringified')
+    t.same(entries[0].value, Buffer.from('2'), 'value is stringified')
+  })
+})
+
 test('backing rbtree is buffer-aware', function (t) {
   var db = new MemDOWN()
 

@@ -96,8 +96,13 @@ MemIterator.prototype._next = function (callback) {
 
   if (!this._test(key)) return setImmediate(callback)
 
-  if (this.keyAsBuffer) key = Buffer.from(key)
-  if (this.valueAsBuffer) value = Buffer.from(value)
+  if (this.keyAsBuffer && !this._isBuffer(key)) {
+    key = Buffer.from(String(key))
+  }
+
+  if (this.valueAsBuffer && !this._isBuffer(value)) {
+    value = Buffer.from(String(value))
+  }
 
   this._tree[this._incr]()
 
@@ -200,6 +205,7 @@ MemDOWN.prototype._iterator = function (options) {
   return new MemIterator(this, options)
 }
 
+MemIterator.prototype._isBuffer =
 MemDOWN.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
 }
