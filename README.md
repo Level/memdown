@@ -6,7 +6,7 @@
 
 ## Example
 
-`levelup` allows you to pass a `db` option to its constructor. This overrides the default `leveldown` store.
+**If you are upgrading:** please see [the changelog](./CHANGELOG.md).
 
 ```js
 const levelup = require('levelup')
