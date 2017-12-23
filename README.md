@@ -1,7 +1,8 @@
-# memdown <img alt="LevelDB Logo" height="20" src="http://leveldb.org/img/logo.svg" />
+# memdown
 
 > In-memory `abstract-leveldown` store for Node.js and browsers.
 
+[![level badge][level-badge]](https://github.com/level/awesome)
 [![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown) [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master) [![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown) [![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown) [![Greenkeeper badge](https://badges.greenkeeper.io/Level/memdown.svg)](https://greenkeeper.io/)
 
 ## Example
@@ -89,3 +90,5 @@ Licence
 ---
 
 `memdown` is Copyright (c) 2013-2017 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
+
+[level-badge]: http://leveldb.org/img/badge.svg
