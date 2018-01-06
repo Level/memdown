@@ -55,6 +55,9 @@
     "report-coverage": "npm run coverage && istanbul-coveralls"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "files": [
     "memdown.js",
     "memdown.d.ts",
