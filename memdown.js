@@ -96,11 +96,11 @@ MemIterator.prototype._next = function (callback) {
 
   if (!this._test(key)) return setImmediate(callback)
 
-  if (this.keyAsBuffer && !this._isBuffer(key)) {
+  if (this.keyAsBuffer && !Buffer.isBuffer(key)) {
     key = Buffer.from(String(key))
   }
 
-  if (this.valueAsBuffer && !this._isBuffer(value)) {
+  if (this.valueAsBuffer && !Buffer.isBuffer(value)) {
     value = Buffer.from(String(value))
   }
 
@@ -162,7 +162,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
     })
   }
 
-  if (options.asBuffer !== false && !this._isBuffer(value)) {
+  if (options.asBuffer !== false && !Buffer.isBuffer(value)) {
     value = Buffer.from(String(value))
   }
 
@@ -203,11 +203,6 @@ MemDOWN.prototype._batch = function (array, options, callback) {
 
 MemDOWN.prototype._iterator = function (options) {
   return new MemIterator(this, options)
-}
-
-MemIterator.prototype._isBuffer =
-MemDOWN.prototype._isBuffer = function (obj) {
-  return Buffer.isBuffer(obj)
 }
 
 module.exports = MemDOWN.default = MemDOWN
