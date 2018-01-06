@@ -23,7 +23,7 @@
     "url": "https://github.com/Level/memdown.git"
   },
   "dependencies": {
-    "abstract-leveldown": "~2.7.1",
+    "abstract-leveldown": "github:level/abstract-leveldown#89a1f48",
     "functional-red-black-tree": "^1.0.1",
     "immediate": "^3.2.3",
     "inherits": "~2.0.1",
@@ -60,6 +60,7 @@
     "memdown.js",
     "memdown.d.ts",
     "immediate.js",
-    "immediate-browser.js"
+    "immediate-browser.js",
+    "CHANGELOG.md"
   ]
 }

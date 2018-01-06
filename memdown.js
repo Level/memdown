@@ -96,8 +96,13 @@ MemIterator.prototype._next = function (callback) {
 
   if (!this._test(key)) return setImmediate(callback)
 
-  if (this.keyAsBuffer) key = Buffer.from(key)
-  if (this.valueAsBuffer) value = Buffer.from(value)
+  if (this.keyAsBuffer && !this._isBuffer(key)) {
+    key = Buffer.from(String(key))
+  }
+
+  if (this.valueAsBuffer && !this._isBuffer(value)) {
+    value = Buffer.from(String(value))
+  }
 
   this._tree[this._incr]()
 
@@ -127,9 +132,15 @@ MemDOWN.prototype._open = function (options, callback) {
   })
 }
 
-MemDOWN.prototype._put = function (key, value, options, callback) {
-  if (typeof value === 'undefined' || value === null) value = ''
+MemDOWN.prototype._serializeKey = function (key) {
+  return key
+}
 
+MemDOWN.prototype._serializeValue = function (value) {
+  return value == null ? '' : value
+}
+
+MemDOWN.prototype._put = function (key, value, options, callback) {
   var iter = this._store.find(key)
 
   if (iter.valid) {
@@ -174,13 +185,11 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   var tree = this._store
 
   while (++i < len) {
-    key = this._isBuffer(array[i].key) ? array[i].key : String(array[i].key)
+    key = array[i].key
     iter = tree.find(key)
 
     if (array[i].type === 'put') {
-      value = this._isBuffer(array[i].value)
-        ? array[i].value
-        : String(array[i].value)
+      value = array[i].value
       tree = iter.valid ? iter.update(value) : tree.insert(key, value)
     } else {
       tree = iter.remove()
@@ -196,6 +205,7 @@ MemDOWN.prototype._iterator = function (options) {
   return new MemIterator(this, options)
 }
 
+MemIterator.prototype._isBuffer =
 MemDOWN.prototype._isBuffer = function (obj) {
   return Buffer.isBuffer(obj)
 }
