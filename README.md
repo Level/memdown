@@ -4,7 +4,7 @@
 
 [![level badge][level-badge]](https://github.com/level/awesome)
 ![Node version](https://img.shields.io/node/v/memdown.svg)
-[![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown)
+[![Travis](https://secure.travis-ci.org/Level/memdown.svg?branch=master)](http://travis-ci.org/Level/memdown)
 [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
 [![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
 [![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown)
