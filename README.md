@@ -1,8 +1,13 @@
-# memdown <img alt="LevelDB Logo" height="20" src="http://leveldb.org/img/logo.svg" />
+# memdown
 
 > In-memory [`abstract-leveldown`] store for Node.js and browsers.
 
-[![Travis](https://secure.travis-ci.org/Level/memdown.png)](http://travis-ci.org/Level/memdown) [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master) [![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown) [![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown) [![Greenkeeper badge](https://badges.greenkeeper.io/Level/memdown.svg)](https://greenkeeper.io/)
+[![level badge][level-badge]](https://github.com/level/awesome)
+![Node version](https://img.shields.io/node/v/memdown.svg)
+[![Travis](https://secure.travis-ci.org/Level/memdown.svg?branch=master)](http://travis-ci.org/Level/memdown)
+[![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
+[![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
+[![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown)
 
 ## Example
 
@@ -24,10 +29,9 @@ db.put('hey', 'you', (err) => {
 })
 ```
 
-Your data is discarded when the process ends or you release a reference to the database. Note as well, though the internals of `memdown` operate synchronously - [`levelup`] does not.
+Your data is discarded when the process ends or you release a reference to the store. Note as well, though the internals of `memdown` operate synchronously - [`levelup`] does not.
 
-Browser support
-----
+## Browser support
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
 
@@ -108,8 +112,7 @@ db.put('key', obj, (err) => {
 })
 ```
 
-Test
-----
+## Test
 
 In addition to the regular `npm test`, you can test `memdown` in a browser of choice with:
 
@@ -119,13 +122,13 @@ To check code coverage:
 
     npm run coverage
 
-Licence
----
+## License
 
-`memdown` is Copyright (c) 2013-2017 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
+`memdown` is Copyright (c) 2013-2017 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
 
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
 [`levelup`]: https://github.com/Level/levelup
 [`encoding-down`]: https://github.com/Level/encoding-down
 [`leveldown`]: https://github.com/Level/leveldown
 [`level-mem`]: https://github.com/Level/mem
+[level-badge]: http://leveldb.org/img/badge.svg
