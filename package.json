@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@types/node": "~8.0.47",
-    "bench": "*",
     "faucet": "*",
     "istanbul": "^0.4.2",
     "istanbul-coveralls": "^1.0.3",
