@@ -29,7 +29,7 @@ db.put('hey', 'you', (err) => {
 })
 ```
 
-Your data is discarded when the process ends or you release a reference to the database. Note as well, though the internals of `memdown` operate synchronously - [`levelup`] does not.
+Your data is discarded when the process ends or you release a reference to the store. Note as well, though the internals of `memdown` operate synchronously - [`levelup`] does not.
 
 ## Browser support
 
