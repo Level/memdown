@@ -31,8 +31,7 @@ db.put('hey', 'you', (err) => {
 
 Your data is discarded when the process ends or you release a reference to the database. Note as well, though the internals of `memdown` operate synchronously - [`levelup`] does not.
 
-Browser support
-----
+## Browser support
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
 
@@ -113,8 +112,7 @@ db.put('key', obj, (err) => {
 })
 ```
 
-Test
-----
+## Test
 
 In addition to the regular `npm test`, you can test `memdown` in a browser of choice with:
 
@@ -124,10 +122,9 @@ To check code coverage:
 
     npm run coverage
 
-Licence
----
+## License
 
-`memdown` is Copyright (c) 2013-2017 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
+`memdown` is Copyright (c) 2013-2017 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
 
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
 [`levelup`]: https://github.com/Level/levelup
