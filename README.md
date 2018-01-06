@@ -8,7 +8,6 @@
 [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
 [![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
 [![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown)
-[![Greenkeeper badge](https://badges.greenkeeper.io/Level/memdown.svg)](https://greenkeeper.io/)
 
 ## Example
 
