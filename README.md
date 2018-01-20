@@ -11,7 +11,7 @@
 
 ## Example
 
-**If you are upgrading:** please see [the changelog](./CHANGELOG.md).
+**If you are upgrading:** please see the [upgrade guide](./UPGRADING.md).
 
 ```js
 const levelup = require('levelup')

@@ -1,6 +1,8 @@
-# changelog
+# Upgrade Guide
 
-## 2.0.0 - unreleased
+This document describes breaking changes and how to upgrade.
+
+## v2
 
 This release drops Node.js 0.12, brings `memdown` up to par with latest [`levelup`] (v2) and [`abstract-leveldown`] (v4), simplifies serialization and removes global state.
 
