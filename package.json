@@ -62,6 +62,6 @@
     "memdown.d.ts",
     "immediate.js",
     "immediate-browser.js",
-    "CHANGELOG.md"
+    "UPGRADING.md"
   ]
 }
