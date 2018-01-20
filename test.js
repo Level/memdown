@@ -1,8 +1,6 @@
 var test = require('tape')
 var testCommon = require('abstract-leveldown/testCommon')
 var MemDOWN = require('./').default
-// var AbstractIterator = require('./').AbstractIterator
-var testBuffer = require('./testdata_b64')
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
 var noop = function () {}
@@ -10,26 +8,26 @@ var noop = function () {}
 /** compatibility with basic LevelDOWN API **/
 
 // Skip this test because memdown doesn't have a location or constructor options
-// require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
+// require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test)
 
 require('abstract-leveldown/abstract/open-test').args(MemDOWN, test, testCommon)
 require('abstract-leveldown/abstract/open-test').open(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/del-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/del-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/get-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/get-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/put-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/put-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer)
+require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test)
+require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/close-test').close(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/close-test').close(MemDOWN, test)
 
-require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/iterator-range-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test)
+require('abstract-leveldown/abstract/iterator-range-test').all(MemDOWN, test)
 
 test('unsorted entry, sorted iterator', function (t) {
   var db = new MemDOWN()
