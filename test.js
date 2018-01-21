@@ -1,87 +1,36 @@
 var test = require('tape')
 var testCommon = require('abstract-leveldown/testCommon')
-var MemDOWN = require('./')
-// var AbstractIterator = require('./').AbstractIterator
-var testBuffer = require('./testdata_b64')
+var MemDOWN = require('./').default
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
 var noop = function () {}
 
 /** compatibility with basic LevelDOWN API **/
 
-// meh require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test, testCommon)
+// Skip this test because memdown doesn't have a location or constructor options
+// require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test)
 
 require('abstract-leveldown/abstract/open-test').args(MemDOWN, test, testCommon)
 require('abstract-leveldown/abstract/open-test').open(MemDOWN, test, testCommon)
 
-require('abstract-leveldown/abstract/del-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/del-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/get-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/get-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/put-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/put-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test, testCommon, testBuffer)
+require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test)
+require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test)
 
-require('abstract-leveldown/abstract/close-test').close(MemDOWN, test, testCommon)
+require('abstract-leveldown/abstract/close-test').close(MemDOWN, test)
 
-require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test, testCommon)
-
-require('abstract-leveldown/abstract/ranges-test').all(MemDOWN, test, testCommon)
-
-//
-// TODO: destroy() test copied from localstorage-down
-// https://github.com/pouchdb/pouchdb/blob/master/lib/adapters/leveldb.js#L1019
-// move this test to abstract-leveldown
-//
-
-test('test .destroy', function (t) {
-  var db = new MemDOWN('destroy-test')
-  var db2 = new MemDOWN('other-db')
-
-  db2.put('key2', 'value2', function (err) {
-    t.notOk(err, 'no error')
-
-    db.put('key', 'value', function (err) {
-      t.notOk(err, 'no error')
-
-      db.get('key', { asBuffer: false }, function (err, value) {
-        t.notOk(err, 'no error')
-        t.equal(value, 'value', 'should have value')
-
-        db.close(function (err) {
-          t.notOk(err, 'no error')
-
-          db2.close(function (err) {
-            t.notOk(err, 'no error')
-
-            MemDOWN.destroy('destroy-test', function (err) {
-              t.notOk(err, 'no error')
-
-              var db3 = new MemDOWN('destroy-test')
-              var db4 = new MemDOWN('other-db')
-
-              db3.get('key', function (err, value) {
-                t.ok(err, 'key is not there')
-
-                db4.get('key2', { asBuffer: false }, function (err, value) {
-                  t.notOk(err, 'no error')
-                  t.equal(value, 'value2', 'should have value2')
-                  t.end()
-                })
-              })
-            })
-          })
-        })
-      })
-    })
-  })
-})
+require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test)
+require('abstract-leveldown/abstract/iterator-range-test').all(MemDOWN, test)
 
 test('unsorted entry, sorted iterator', function (t) {
-  var db = new MemDOWN('foo')
+  var db = new MemDOWN()
 
   db.open(noop)
 
@@ -122,7 +71,7 @@ test('unsorted entry, sorted iterator', function (t) {
 })
 
 test('reading while putting', function (t) {
-  var db = new MemDOWN('foo2')
+  var db = new MemDOWN()
 
   db.open(noop)
 
@@ -149,7 +98,7 @@ test('reading while putting', function (t) {
 })
 
 test('reading while deleting', function (t) {
-  var db = new MemDOWN('foo3')
+  var db = new MemDOWN()
 
   db.open(noop)
 
@@ -177,7 +126,7 @@ test('reading while deleting', function (t) {
 })
 
 test('reverse ranges', function (t) {
-  var db = new MemDOWN('foo4')
+  var db = new MemDOWN()
 
   db.open(noop)
 
@@ -187,32 +136,7 @@ test('reverse ranges', function (t) {
   var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
-    start: 'b',
-    reverse: true
-  })
-
-  iterator.next(function (err, key, value) {
-    t.ifError(err, 'no next error')
-    t.equal(key, 'a')
-    t.equal(value, 'A')
-    t.end()
-  })
-})
-
-test('no location', function (t) {
-  var db = new MemDOWN()
-
-  db.open(function (err) {
-    t.error(err, 'opens correctly')
-  })
-
-  db.put('a', 'A', noop)
-  db.put('c', 'C', noop)
-
-  var iterator = db.iterator({
-    keyAsBuffer: false,
-    valueAsBuffer: false,
-    start: 'b',
+    lte: 'b',
     reverse: true
   })
 
@@ -238,7 +162,7 @@ test('delete while iterating', function (t) {
   var iterator = db.iterator({
     keyAsBuffer: false,
     valueAsBuffer: false,
-    start: 'a'
+    gte: 'a'
   })
 
   iterator.next(function (err, key, value) {
@@ -275,6 +199,37 @@ test('iterator with byte range', function (t) {
     t.equal(key.toString('hex'), 'a0')
     t.equal(value, 'A')
     t.end()
+  })
+})
+
+test('iterator does not clone buffers', function (t) {
+  t.plan(3)
+
+  var db = new MemDOWN()
+  var buf = Buffer.from('a')
+
+  db.open(noop)
+  db.put(buf, buf, noop)
+
+  testCommon.collectEntries(db.iterator(), function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.ok(entries[0].key === buf, 'key is same buffer')
+    t.ok(entries[0].value === buf, 'value is same buffer')
+  })
+})
+
+test('iterator stringifies buffer input', function (t) {
+  t.plan(3)
+
+  var db = new MemDOWN()
+
+  db.open(noop)
+  db.put(1, 2, noop)
+
+  testCommon.collectEntries(db.iterator(), function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries[0].key, Buffer.from('1'), 'key is stringified')
+    t.same(entries[0].value, Buffer.from('2'), 'value is stringified')
   })
 })
 
@@ -347,7 +302,7 @@ test('empty value in batch', function (t) {
 })
 
 test('empty buffer key in batch', function (t) {
-  var db = new MemDOWN('empty-buffer')
+  var db = new MemDOWN()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -364,7 +319,7 @@ test('empty buffer key in batch', function (t) {
 })
 
 test('buffer key in batch', function (t) {
-  var db = new MemDOWN('buffer-key')
+  var db = new MemDOWN()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -381,41 +336,6 @@ test('buffer key in batch', function (t) {
       t.error(err, 'no error')
       t.same(val, 'val1')
       t.end()
-    })
-  })
-})
-
-test('array with holes in batch()', function (t) {
-  var db = new MemDOWN('holey')
-
-  db.open(function (err) {
-    t.error(err, 'opens correctly')
-  })
-
-  db.batch([
-    {
-      type: 'put',
-      key: 'key1',
-      value: 'val1'
-    },
-    undefined,
-    {
-      type: 'put',
-      key: 'key2',
-      value: 'val2'
-    }
-  ], function (err) {
-    t.error(err, 'no error')
-
-    db.get('key1', { asBuffer: false }, function (err, val) {
-      t.error(err, 'no error')
-      t.same(val, 'val1')
-
-      db.get('key2', { asBuffer: false }, function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, 'val2')
-        t.end()
-      })
     })
   })
 })
@@ -443,122 +363,81 @@ test('put multiple times', function (t) {
   })
 })
 
-test('global store', function (t) {
-  var db = new MemDOWN('foobar')
+test('number keys', function (t) {
+  t.plan(4)
 
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
+  var db = new MemDOWN()
+  var numbers = [2, 12]
+  var buffers = numbers.map(stringBuffer)
 
-  db.open(noerr)
+  db.open(noop)
+  db.batch(numbers.map(putKey), noop)
 
-  db.put('key', 'val', function (err) {
-    t.error(err, 'no error')
-    db.get('key', { asBuffer: false }, function (err, val) {
-      t.error(err, 'no error')
-      t.same(val, 'val')
+  var iterator1 = db.iterator({ keyAsBuffer: false })
+  var iterator2 = db.iterator({ keyAsBuffer: true })
 
-      var db2 = new MemDOWN('foobar')
-      db2.open(noerr)
+  testCommon.collectEntries(iterator1, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), numbers, 'sorts naturally')
+  })
 
-      db2.get('key', { asBuffer: false }, function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, 'val')
-
-        MemDOWN.clearGlobalStore()
-
-        var db3 = new MemDOWN('foobar')
-        db3.open(noerr)
-
-        db3.get('key', { asBuffer: false }, function (err) {
-          t.ok(err, 'should be an error')
-          t.end()
-        })
-      })
-    })
+  testCommon.collectEntries(iterator2, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), buffers, 'buffer input is stringified')
   })
 })
 
-test('global store, strict', function (t) {
-  var db = new MemDOWN('foobar')
+test('date keys', function (t) {
+  t.plan(4)
 
-  var noerr = function (err) {
-    t.error(err, 'opens correctly')
-  }
+  var db = new MemDOWN()
+  var dates = [new Date(0), new Date(1)]
+  var buffers = dates.map(stringBuffer)
 
-  db.open(noerr)
+  db.open(noop)
+  db.batch(dates.map(putKey), noop)
 
-  db.put('key', 'val', function (err) {
-    t.error(err, 'no error')
+  var iterator = db.iterator({ keyAsBuffer: false })
+  var iterator2 = db.iterator({ keyAsBuffer: true })
 
-    db.get('key', { asBuffer: false }, function (err, val) {
-      t.error(err, 'no error')
-      t.same(val, 'val')
+  testCommon.collectEntries(iterator, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), dates, 'sorts naturally')
+  })
 
-      var db2 = new MemDOWN('foobar')
-      db2.open(noerr)
-
-      db2.get('key', { asBuffer: false }, function (err, val) {
-        t.error(err, 'no error')
-        t.same(val, 'val')
-
-        MemDOWN.clearGlobalStore(true)
-
-        var db3 = new MemDOWN('foobar')
-        db3.open(noerr)
-
-        db3.get('key', { asBuffer: false }, function (err) {
-          t.ok(err, 'should be an error')
-          t.end()
-        })
-      })
-    })
+  testCommon.collectEntries(iterator2, function (err, entries) {
+    t.ifError(err, 'no iterator error')
+    t.same(entries.map(getKey), buffers, 'buffer input is stringified')
   })
 })
 
-test('call .destroy twice', function (t) {
-  var db = new MemDOWN('destroy-test')
-  var db2 = new MemDOWN('other-db')
+test('object value', function (t) {
+  t.plan(2)
 
-  db2.put('key2', 'value2', function (err) {
-    t.notOk(err, 'no error')
+  var db = new MemDOWN()
+  var obj = {}
 
-    db.put('key', 'value', function (err) {
-      t.notOk(err, 'no error')
+  db.open(noop)
+  db.put('key', obj, noop)
 
-      db.get('key', { asBuffer: false }, function (err, value) {
-        t.notOk(err, 'no error')
-        t.equal(value, 'value', 'should have value')
-
-        db.close(function (err) {
-          t.notOk(err, 'no error')
-
-          db2.close(function (err) {
-            t.notOk(err, 'no error')
-
-            MemDOWN.destroy('destroy-test', function (err) {
-              t.notOk(err, 'no error')
-
-              MemDOWN.destroy('destroy-test', function (err) {
-                t.ifError(err, 'no destroy error')
-
-                var db3 = new MemDOWN('destroy-test')
-                var db4 = new MemDOWN('other-db')
-
-                db3.get('key', function (err, value) {
-                  t.ok(err, 'key is not there')
-
-                  db4.get('key2', { asBuffer: false }, function (err, value) {
-                    t.notOk(err, 'no error')
-                    t.equal(value, 'value2', 'should have value2')
-                    t.end()
-                  })
-                })
-              })
-            })
-          })
-        })
-      })
-    })
+  db.get('key', { asBuffer: false }, function (err, value) {
+    t.ifError(err, 'no get error')
+    t.ok(value === obj, 'same object')
   })
 })
+
+function stringBuffer (value) {
+  return Buffer.from(String(value))
+}
+
+/**
+ * We need this JSDoc to keep TypeScript happy.
+ * @return {object}
+ */
+function putKey (key) {
+  return { type: 'put', key: key, value: 'value' }
+}
+
+function getKey (entry) {
+  return entry.key
+}
