@@ -1,6 +1,6 @@
 # Upgrade Guide
 
-This document describes breaking changes and how to upgrade.
+This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [`CHANGELOG`].
 
 ## v2
 
@@ -45,6 +45,7 @@ const db = window.mydb = levelup(memdown())
 
 Instead of skipping `null` operations, `db.batch([null])` will throw an error courtesy of [`abstract-leveldown`].
 
+[`CHANGELOG`]: CHANGELOG.md
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
 [`levelup`]: https://github.com/Level/levelup
 [`encoding-down`]: https://github.com/Level/encoding-down
