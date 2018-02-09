@@ -27,6 +27,7 @@
 * README: normalize markdown headers (@ralphtheninja)
 * README: fix license typos (@ralphtheninja)
 * Rename `iterator#_end` to fix conflict with `abstract-leveldown` (@vweevers)
+* Set `zuul --concurrency` to 1 to avoid hitting Sauce Labs limit (@vweevers)
 
 ### Removed
 * Remove global store (@vweevers)
