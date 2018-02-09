@@ -26,6 +26,7 @@
 * README: link to `abstract-leveldown` (@vweevers)
 * README: normalize markdown headers (@ralphtheninja)
 * README: fix license typos (@ralphtheninja)
+* Rename `iterator#_end` to fix conflict with `abstract-leveldown` (@vweevers)
 
 ### Removed
 * Remove global store (@vweevers)
