@@ -26,6 +26,9 @@
 * README: link to `abstract-leveldown` (@vweevers)
 * README: normalize markdown headers (@ralphtheninja)
 * README: fix license typos (@ralphtheninja)
+* Rename `iterator#_end` to fix conflict with `abstract-leveldown` (@vweevers)
+* Set `zuul --concurrency` to 1 to avoid hitting Sauce Labs limit (@vweevers)
+* Test on Android 6.0 instead of latest (7.1) due to Sauce Labs issue (@vweevers)
 
 ### Removed
 * Remove global store (@vweevers)

@@ -15,4 +15,4 @@ browsers:
   - name: ipad
     version: latest
   - name: android
-    version: latest
+    version: '6.0'

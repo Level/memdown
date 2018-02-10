@@ -10,19 +10,19 @@ var Buffer = require('safe-buffer').Buffer
 var setImmediate = require('./immediate')
 
 function gt (value) {
-  return ltgt.compare(value, this._end) > 0
+  return ltgt.compare(value, this._upperBound) > 0
 }
 
 function gte (value) {
-  return ltgt.compare(value, this._end) >= 0
+  return ltgt.compare(value, this._upperBound) >= 0
 }
 
 function lt (value) {
-  return ltgt.compare(value, this._end) < 0
+  return ltgt.compare(value, this._upperBound) < 0
 }
 
 function lte (value) {
-  return ltgt.compare(value, this._end) <= 0
+  return ltgt.compare(value, this._upperBound) <= 0
 }
 
 function MemIterator (db, options) {
@@ -41,18 +41,18 @@ function MemIterator (db, options) {
 
   if (!this._reverse) {
     this._incr = 'next'
-    this._start = ltgt.lowerBound(options)
-    this._end = ltgt.upperBound(options)
+    this._lowerBound = ltgt.lowerBound(options)
+    this._upperBound = ltgt.upperBound(options)
 
-    if (typeof this._start === 'undefined') {
+    if (typeof this._lowerBound === 'undefined') {
       this._tree = tree.begin
     } else if (ltgt.lowerBoundInclusive(options)) {
-      this._tree = tree.ge(this._start)
+      this._tree = tree.ge(this._lowerBound)
     } else {
-      this._tree = tree.gt(this._start)
+      this._tree = tree.gt(this._lowerBound)
     }
 
-    if (this._end) {
+    if (this._upperBound) {
       if (ltgt.upperBoundInclusive(options)) {
         this._test = lte
       } else {
@@ -61,18 +61,18 @@ function MemIterator (db, options) {
     }
   } else {
     this._incr = 'prev'
-    this._start = ltgt.upperBound(options)
-    this._end = ltgt.lowerBound(options)
+    this._lowerBound = ltgt.upperBound(options)
+    this._upperBound = ltgt.lowerBound(options)
 
-    if (typeof this._start === 'undefined') {
+    if (typeof this._lowerBound === 'undefined') {
       this._tree = tree.end
     } else if (ltgt.upperBoundInclusive(options)) {
-      this._tree = tree.le(this._start)
+      this._tree = tree.le(this._lowerBound)
     } else {
-      this._tree = tree.lt(this._start)
+      this._tree = tree.lt(this._lowerBound)
     }
 
-    if (this._end) {
+    if (this._upperBound) {
       if (ltgt.lowerBoundInclusive(options)) {
         this._test = gte
       } else {
