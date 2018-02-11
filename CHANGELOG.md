@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2018-02-11
+
 ### Added
 * Run test suite with TypeScript in addition to Node.js (@vweevers)
 * Add `UPGRADING.md` (@vweevers)
@@ -41,4 +43,5 @@
 * Remove unnecessary `rimraf` replacement for Browserify (@vweevers)
 * README: remove Greenkeeper badge (@ralphtheninja)
 
-[Unreleased]: https://github.com/level/memdown/compare/v1.4.1...HEAD
+[Unreleased]: https://github.com/level/memdown/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/level/memdown/compare/v1.4.1...v2.0.0
