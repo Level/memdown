@@ -18,6 +18,7 @@
 * README: update instantiation instructions for latest `levelup` (@kumavis)
 * README: rename "database" to "store" (@ralphtheninja)
 * README: simplify example and prefer ES6 (@vweevers)
+* Configure Greenkeeper to ignore updates to `@types/node` (@ralphtheninja)
 
 ### Fixed
 * Don't clone `Buffer` in iterator (@vweevers)
