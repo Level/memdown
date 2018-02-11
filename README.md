@@ -89,7 +89,7 @@ db.put('key', obj, (err) => {
 
   db.get('key', { asBuffer: false }, (err, value) => {
     console.log(value === obj) // true
-    console.log(obj.thing) // 'modified'
+    console.log(value.thing) // 'modified'
   })
 })
 ```
@@ -107,7 +107,7 @@ db.put('key', obj, (err) => {
 
   db.get('key', { asBuffer: false }, (err, value) => {
     console.log(value === obj) // false
-    console.log(obj.thing) // 'original'
+    console.log(value.thing) // 'original'
   })
 })
 ```
