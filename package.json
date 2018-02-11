@@ -63,5 +63,10 @@
     "immediate.js",
     "immediate-browser.js",
     "UPGRADING.md"
-  ]
+  ],
+  "greenkeeper": {
+    "ignore": [
+      "@types/node"
+    ]
+  }
 }
