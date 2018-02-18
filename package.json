@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.47",
+    "airtap": "^0.0.1",
     "faucet": "^0.0.1",
     "istanbul": "^0.4.2",
     "istanbul-coveralls": "^1.0.3",
@@ -39,8 +40,7 @@
     "standard": "^10.0.3",
     "tape": "^4.8.0",
     "ts-node": "^4.1.0",
-    "typescript": "^2.6.2",
-    "zuul": "github:vweevers/zuul#custom-loopback-hostname"
+    "typescript": "^2.6.2"
   },
   "browser": {
     "./immediate.js": "./immediate-browser.js"
@@ -48,8 +48,8 @@
   "scripts": {
     "test": "standard && node test.js --stderr | faucet && npm run test-ts",
     "test-ts": "ts-node --no-cache test.js | faucet",
-    "test-browsers": "zuul --browser-retries 2 --sauce-connect --concurrency 1 --loopback zuul.local --no-coverage ./test.js",
-    "test-browser-local": "zuul --ui tape --no-coverage --local 9000 ./test.js",
+    "test-browsers": "airtap --sauce-connect --loopback airtap.local --no-coverage test.js",
+    "test-browser-local": "airtap --no-coverage --local 9000 test.js",
     "coverage": "istanbul cover -i memdown.js ./node_modules/.bin/tape ./test.js && istanbul check-coverage --lines 90 --function 80 --statements 90 --branches 80",
     "report-coverage": "npm run coverage && istanbul-coveralls"
   },
