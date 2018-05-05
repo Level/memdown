@@ -12,15 +12,14 @@ matrix:
     env: CMD=test
   - node_js: 9
     env: CMD=test
+  - node_js: 10
+    env: CMD=test
   - node_js: stable
     env: CMD=report-coverage
   - node_js: stable
     env: CMD=test-browsers
     addons:
-      sauce_connect:
-        username: level-ci
-      jwt:
-        secure: FH6lh3KKopAv+WbL3OsKWhYABW5pyOR2hHXYg8rhB2Bup8EGMWsVTTMxcFOTn1tMt5b0dylgQjb59W28Ir3Jz3ncuc1XiDy+O12RYNlXsb2WtgQttEJJ0beSK8ItXr8LTyAs8+dWLO6hS8bf3dw97AzynWkeJLY9vZcDSB4ncn4=
+      sauce_connect: true
       hosts:
         - airtap.local
 
