@@ -39,7 +39,7 @@
     "rimraf": "^2.6.2",
     "standard": "^11.0.0",
     "tape": "^4.8.0",
-    "ts-node": "^4.1.0",
+    "ts-node": "^6.0.3",
     "typescript": "^2.6.2"
   },
   "browser": {
