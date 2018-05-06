@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.47",
-    "airtap": "^0.0.4",
+    "airtap": "^0.0.5",
     "faucet": "^0.0.1",
     "istanbul": "^0.4.2",
     "istanbul-coveralls": "^1.0.3",
