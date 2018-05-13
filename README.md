@@ -3,10 +3,11 @@
 > In-memory [`abstract-leveldown`] store for Node.js and browsers.
 
 [![level badge][level-badge]](https://github.com/level/awesome)
+[![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
 ![Node version](https://img.shields.io/node/v/memdown.svg)
 [![Travis](https://secure.travis-ci.org/Level/memdown.svg?branch=master)](http://travis-ci.org/Level/memdown)
 [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
-[![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown)
 
 ## Example
@@ -124,7 +125,7 @@ To check code coverage:
 
 ## License
 
-`memdown` is Copyright (c) 2013-2017 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
+`memdown` is Copyright (c) 2013-2018 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
 
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
 [`levelup`]: https://github.com/Level/levelup
