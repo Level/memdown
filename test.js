@@ -430,10 +430,6 @@ function stringBuffer (value) {
   return Buffer.from(String(value))
 }
 
-/**
- * We need this JSDoc to keep TypeScript happy.
- * @return {object}
- */
 function putKey (key) {
   return { type: 'put', key: key, value: 'value' }
 }
