@@ -55,7 +55,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6"
   },
   "files": [
     "memdown.js",
