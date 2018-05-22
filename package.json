@@ -7,8 +7,7 @@
     "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
   ],
   "contributors": [
-    "Julian Gruber <julian@juliangruber.com> (https://github.com/juliangruber)",
-    "Meirion Hughes <crakinshot@yahoo.com> (https://github.com/meirionhughes)"
+    "Julian Gruber <julian@juliangruber.com> (https://github.com/juliangruber)"
   ],
   "keywords": [
     "leveldb",
@@ -17,7 +16,6 @@
     "memory"
   ],
   "main": "memdown.js",
-  "typings": "memdown.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/Level/memdown.git"
@@ -55,7 +53,6 @@
   },
   "files": [
     "memdown.js",
-    "memdown.d.ts",
     "immediate.js",
     "immediate-browser.js",
     "UPGRADING.md"
