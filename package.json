@@ -1,7 +1,7 @@
 {
   "name": "memdown",
   "description": "An drop-in replacement for LevelDOWN that works in memory only",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/Level/memdown",
   "authors": [
     "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
