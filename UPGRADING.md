@@ -2,6 +2,10 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [`CHANGELOG`].
 
+## v3
+
+Dropped support for node 4. No other breaking changes.
+
 ## v2
 
 This release drops Node.js 0.12, brings `memdown` up to par with latest [`levelup`] (v2) and [`abstract-leveldown`] (v4), simplifies serialization and removes global state.

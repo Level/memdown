@@ -2,6 +2,25 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2018-05-22
+
+### Added
+* Add node 9 and 10 to Travis (@vweevers, @ralphtheninja)
+
+### Changed
+* Upgrade `abstract-leveldown` to `5.0.0` (@ralphtheninja)
+* Upgrade `standard` to `11.0.0` (@ralphtheninja)
+* Tweak readme (@ralphtheninja)
+* Use `airtap` instead of `zuul` (@vweevers)
+* Switch to plain MIT license (@vweevers)
+
+### Removed
+* Remove TypeScript typings (@ralphtheninja)
+* Remove TypeScript tests (@vweevers)
+* Remove node 4 from Travis (@ralphtheninja)
+* Remove deprecated JWT addon from Travis (@vweevers)
+* Remove obsolete `--stderr` flag (@vweevers)
+
 ## [2.0.0] - 2018-02-11
 
 ### Added
@@ -43,5 +62,6 @@
 * Remove unnecessary `rimraf` replacement for Browserify (@vweevers)
 * README: remove Greenkeeper badge (@ralphtheninja)
 
-[Unreleased]: https://github.com/level/memdown/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/level/memdown/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/level/memdown/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/level/memdown/compare/v1.4.1...v2.0.0
