@@ -29,7 +29,7 @@
     "safe-buffer": "~5.1.1"
   },
   "devDependencies": {
-    "airtap": "^0.0.5",
+    "airtap": "^0.0.6",
     "faucet": "^0.0.1",
     "istanbul": "^0.4.2",
     "istanbul-coveralls": "^1.0.3",
