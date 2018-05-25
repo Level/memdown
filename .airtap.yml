@@ -10,7 +10,8 @@ browsers:
   - name: microsoftedge
     version: latest
   - name: iphone
-    version: latest
+    version: 11.2
+    platform: Mac 10.12
   - name: ipad
     version: latest
   - name: android
