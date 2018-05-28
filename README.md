@@ -123,6 +123,12 @@ To check code coverage:
 
     npm run coverage
 
+## Big Thanks
+
+Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](https://saucelabs.com).
+
+[![Sauce Labs logo](./sauce-labs.svg)](https://saucelabs.com)
+
 ## License
 
 `memdown` is Copyright (c) 2013-2018 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
