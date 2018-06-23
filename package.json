@@ -6,9 +6,6 @@
   "authors": [
     "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
   ],
-  "contributors": [
-    "Julian Gruber <julian@juliangruber.com> (https://github.com/juliangruber)"
-  ],
   "keywords": [
     "leveldb",
     "leveldown",
