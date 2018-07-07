@@ -26,7 +26,7 @@
     "safe-buffer": "~5.1.1"
   },
   "devDependencies": {
-    "airtap": "0.0.9",
+    "airtap": "0.1.0",
     "coveralls": "^3.0.2",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
@@ -38,8 +38,8 @@
   },
   "scripts": {
     "test": "standard && nyc node test.js",
-    "test-browsers": "airtap --sauce-connect --loopback airtap.local --coverage test.js",
-    "test-browser-local": "airtap --coverage --local 9000 test.js",
+    "test-browsers": "airtap --loopback airtap.local --coverage test.js",
+    "test-browser-local": "airtap --coverage --local test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "license": "MIT",
