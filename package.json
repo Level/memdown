@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/Level/memdown",
   "keywords": [
+    "level",
     "leveldb",
     "leveldown",
     "levelup",
