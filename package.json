@@ -18,7 +18,9 @@
     "memdown.js",
     "immediate.js",
     "immediate-browser.js",
-    "UPGRADING.md"
+    "UPGRADING.md",
+    "CHANGELOG.md",
+    "CONTRIBUTORS.md"
   ],
   "browser": {
     "./immediate.js": "./immediate-browser.js"
