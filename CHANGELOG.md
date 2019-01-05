@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [Unreleased][unreleased]
 
 ## [3.0.0] - 2018-05-22
 
@@ -69,7 +69,7 @@
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-[Unreleased]: https://github.com/level/memdown/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/level/memdown/compare/v3.0.0...HEAD
 
 [3.0.0]: https://github.com/level/memdown/compare/v2.0.0...v3.0.0
 
