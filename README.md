@@ -131,7 +131,7 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 
 ## License
 
-`memdown` is Copyright (c) 2013-present Rod Vagg [@rvagg](https://twitter.com/rvagg) and licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
+[MIT](LICENSE.md) © 2013-present Rod Vagg and [Contributors](CONTRIBUTORS.md).
 
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
 [`levelup`]: https://github.com/Level/levelup
