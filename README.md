@@ -36,7 +36,7 @@ Your data is discarded when the process ends or you release a reference to the s
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
 
-`memdown` requires a ES5-capable browser. If you're using one that's isn't (e.g. PhantomJS, Android < 4.4, IE < 10) then you will need [es5-shim](https://github.com/es-shims/es5-shim).
+`memdown` requires a ES5-capable browser. If you're using one that's isn't (e.g. PhantomJS, Android &lt; 4.4, IE &lt; 10) then you will need [es5-shim](https://github.com/es-shims/es5-shim).
 
 ## Data types
 
@@ -117,11 +117,15 @@ db.put('key', obj, (err) => {
 
 In addition to the regular `npm test`, you can test `memdown` in a browser of choice with:
 
-    npm run test-browser-local
+```
+npm run test-browser-local
+```
 
 To check code coverage:
 
-    npm run coverage
+```
+npm run coverage
+```
 
 ## Contributing
 
@@ -142,8 +146,13 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 [MIT](LICENSE.md) © 2013-present Rod Vagg and [Contributors](CONTRIBUTORS.md).
 
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
+
 [`levelup`]: https://github.com/Level/levelup
+
 [`encoding-down`]: https://github.com/Level/encoding-down
+
 [`leveldown`]: https://github.com/Level/leveldown
+
 [`level-mem`]: https://github.com/Level/mem
+
 [level-badge]: http://leveldb.org/img/badge.svg
