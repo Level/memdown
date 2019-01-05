@@ -1,21 +1,29 @@
 {
   "name": "memdown",
-  "description": "An drop-in replacement for LevelDOWN that works in memory only",
   "version": "3.0.0",
-  "homepage": "https://github.com/Level/memdown",
+  "description": "An drop-in replacement for LevelDOWN that works in memory only",
   "authors": [
     "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
   ],
-  "keywords": [
-    "leveldb",
-    "leveldown",
-    "levelup",
-    "memory"
-  ],
+  "license": "MIT",
   "main": "memdown.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Level/memdown.git"
+  "scripts": {
+    "test": "standard && hallmark && nyc node test.js",
+    "test-browsers": "airtap --loopback airtap.local --coverage test.js",
+    "test-browser-local": "airtap --coverage --local test.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "hallmark": "hallmark --fix"
+  },
+  "files": [
+    "memdown.js",
+    "immediate.js",
+    "immediate-browser.js",
+    "UPGRADING.md",
+    "CHANGELOG.md",
+    "CONTRIBUTORS.md"
+  ],
+  "browser": {
+    "./immediate.js": "./immediate-browser.js"
   },
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
@@ -28,28 +36,29 @@
   "devDependencies": {
     "airtap": "^2.0.0",
     "coveralls": "^3.0.2",
+    "hallmark": "^0.1.0",
+    "level-community": "^3.0.0",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
     "standard": "^12.0.0",
     "tape": "^4.8.0"
   },
-  "browser": {
-    "./immediate.js": "./immediate-browser.js"
+  "hallmark": {
+    "community": "level-community"
   },
-  "scripts": {
-    "test": "standard && nyc node test.js",
-    "test-browsers": "airtap --loopback airtap.local --coverage test.js",
-    "test-browser-local": "airtap --coverage --local test.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Level/memdown.git"
   },
-  "license": "MIT",
+  "homepage": "https://github.com/Level/memdown",
+  "keywords": [
+    "level",
+    "leveldb",
+    "leveldown",
+    "levelup",
+    "memory"
+  ],
   "engines": {
     "node": ">=6"
-  },
-  "files": [
-    "memdown.js",
-    "immediate.js",
-    "immediate-browser.js",
-    "UPGRADING.md"
-  ]
+  }
 }
