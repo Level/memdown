@@ -8,10 +8,11 @@
   "license": "MIT",
   "main": "memdown.js",
   "scripts": {
-    "test": "standard && nyc node test.js",
+    "test": "standard && hallmark && nyc node test.js",
     "test-browsers": "airtap --loopback airtap.local --coverage test.js",
     "test-browser-local": "airtap --coverage --local test.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "hallmark": "hallmark --fix"
   },
   "files": [
     "memdown.js",
