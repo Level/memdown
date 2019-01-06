@@ -3,12 +3,14 @@
 > In-memory [`abstract-leveldown`] store for Node.js and browsers.
 
 [![level badge][level-badge]](https://github.com/level/awesome)
-[![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
-![Node version](https://img.shields.io/node/v/memdown.svg)
+[![npm](https://img.shields.io/npm/v/memdown.svg?label=&logo=npm)](https://www.npmjs.com/package/memdown)
+[![Node version](https://img.shields.io/node/v/memdown.svg)](https://www.npmjs.com/package/memdown)
 [![Travis](https://secure.travis-ci.org/Level/memdown.svg?branch=master)](http://travis-ci.org/Level/memdown)
 [![Coverage Status](https://coveralls.io/repos/Level/memdown/badge.svg?branch=master&service=github)](https://coveralls.io/github/Level/memdown?branch=master)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![npm](https://img.shields.io/npm/dm/memdown.svg)](https://www.npmjs.com/package/memdown)
+[![npm](https://img.shields.io/npm/dm/memdown.svg?label=dl)](https://www.npmjs.com/package/memdown)
+[![Backers on Open Collective](https://opencollective.com/level/backers/badge.svg?color=orange)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/level/sponsors/badge.svg?color=orange)](#sponsors)
 
 ## Example
 
@@ -140,6 +142,18 @@ See the [Contribution Guide](https://github.com/Level/community/blob/master/CONT
 Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](https://saucelabs.com).
 
 [![Sauce Labs logo](./sauce-labs.svg)](https://saucelabs.com)
+
+## Donate
+
+To sustain [`Level`](https://github.com/Level) and its activities, become a backer or sponsor on [Open Collective](https://opencollective.com/level). Your logo or avatar will be displayed on our 28+ [GitHub repositories](https://github.com/Level), [npm](https://www.npmjs.com/) packages and (soon) [our website](http://leveldb.org). 💖
+
+### Backers
+
+[![Open Collective backers](https://opencollective.com/level/backers.svg?width=890)](https://opencollective.com/level)
+
+### Sponsors
+
+[![Open Collective sponsors](https://opencollective.com/level/sponsors.svg?width=890)](https://opencollective.com/level)
 
 ## License
 
