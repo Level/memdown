@@ -118,7 +118,7 @@ MemIterator.prototype._test = function () {
 function MemDOWN () {
   if (!(this instanceof MemDOWN)) return new MemDOWN()
 
-  AbstractLevelDOWN.call(this, '')
+  AbstractLevelDOWN.call(this)
 
   this._store = createRBT(ltgt.compare)
 }
