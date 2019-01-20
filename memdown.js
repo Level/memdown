@@ -137,7 +137,7 @@ MemDOWN.prototype._serializeKey = function (key) {
 }
 
 MemDOWN.prototype._serializeValue = function (value) {
-  return value == null ? '' : value
+  return value
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
