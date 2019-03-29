@@ -360,7 +360,7 @@ test('number keys', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
-  var numbers = [2, 12]
+  var numbers = [-Infinity, 0, 2, 12, +Infinity]
   var buffers = numbers.map(stringBuffer)
 
   db.open(noop)
