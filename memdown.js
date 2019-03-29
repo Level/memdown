@@ -8,6 +8,7 @@ var Buffer = require('safe-buffer').Buffer
 // In Node, use global.setImmediate. In the browser, use a consistent
 // microtask library to give consistent microtask experience to all browsers
 var setImmediate = require('./immediate')
+var NONE = {}
 
 function gt (value) {
   return ltgt.compare(value, this._upperBound) > 0
@@ -41,10 +42,10 @@ function MemIterator (db, options) {
 
   if (!this._reverse) {
     this._incr = 'next'
-    this._lowerBound = ltgt.lowerBound(options)
-    this._upperBound = ltgt.upperBound(options)
+    this._lowerBound = ltgt.lowerBound(options, NONE)
+    this._upperBound = ltgt.upperBound(options, NONE)
 
-    if (typeof this._lowerBound === 'undefined') {
+    if (this._lowerBound === NONE) {
       this._tree = tree.begin
     } else if (ltgt.lowerBoundInclusive(options)) {
       this._tree = tree.ge(this._lowerBound)
@@ -52,7 +53,7 @@ function MemIterator (db, options) {
       this._tree = tree.gt(this._lowerBound)
     }
 
-    if (this._upperBound) {
+    if (this._upperBound !== NONE) {
       if (ltgt.upperBoundInclusive(options)) {
         this._test = lte
       } else {
@@ -61,10 +62,10 @@ function MemIterator (db, options) {
     }
   } else {
     this._incr = 'prev'
-    this._lowerBound = ltgt.upperBound(options)
-    this._upperBound = ltgt.lowerBound(options)
+    this._lowerBound = ltgt.upperBound(options, NONE)
+    this._upperBound = ltgt.lowerBound(options, NONE)
 
-    if (typeof this._lowerBound === 'undefined') {
+    if (this._lowerBound === NONE) {
       this._tree = tree.end
     } else if (ltgt.upperBoundInclusive(options)) {
       this._tree = tree.le(this._lowerBound)
@@ -72,7 +73,7 @@ function MemIterator (db, options) {
       this._tree = tree.lt(this._lowerBound)
     }
 
-    if (this._upperBound) {
+    if (this._upperBound !== NONE) {
       if (ltgt.lowerBoundInclusive(options)) {
         this._test = gte
       } else {
