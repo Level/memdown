@@ -38,8 +38,6 @@ Your data is discarded when the process ends or you release a reference to the s
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
 
-`memdown` requires a ES5-capable browser. If you're using one that's isn't (e.g. PhantomJS, Android &lt; 4.4, IE &lt; 10) then you will need [es5-shim](https://github.com/es-shims/es5-shim).
-
 ## Data types
 
 Unlike [`leveldown`], `memdown` does not stringify keys or values. This means that in addition to Buffers, you can store any JS type without the need for [`encoding-down`]. For keys for example, you could use Buffers or strings, which sort lexicographically, or numbers, even Dates, which sort naturally. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.

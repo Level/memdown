@@ -6,7 +6,7 @@ browsers:
   - name: safari
     version: latest
   - name: ie
-    version: latest
+    version: '11'
   - name: microsoftedge
     version: latest
   - name: iphone

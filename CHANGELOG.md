@@ -1,6 +1,41 @@
 # Changelog
 
+_**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
+
 ## [Unreleased][unreleased]
+
+## [4.0.0] - 2019-03-29
+
+### Changed
+
+- Upgrade `abstract-leveldown` from `~5.0.0` to `~6.0.1` ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+- Invoke abstract tests from single function ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+- Use `level-concat-iterator` and `testCommon.factory()` in custom tests ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+- Don't use falsy or undefined as not-defined signal ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+  ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `standard` devDependency from `^11.0.0` to `^12.0.0` ([#173](https://github.com/Level/memdown/issues/173)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+- Upgrade `airtap` devDependency from `^0.0.5` to `^2.0.0` ([#161](https://github.com/Level/memdown/issues/161), [#163](https://github.com/Level/memdown/issues/163), [#168](https://github.com/Level/memdown/issues/168), [#172](https://github.com/Level/memdown/issues/172), [#177](https://github.com/Level/memdown/issues/177)) ([**@vweevers**](https://github.com/vweevers))
+- Tweak copyright years for less maintenance ([`760b375`](https://github.com/Level/memdown/commit/760b375)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+- Apply common project tweaks ([#178](https://github.com/Level/memdown/issues/178), [#179](https://github.com/Level/memdown/issues/179)) ([**@vweevers**](https://github.com/vweevers))
+
+### Added
+
+- Add `nyc` and browser code coverage ([#169](https://github.com/Level/memdown/issues/169), [#180](https://github.com/Level/memdown/issues/180)) ([**@vweevers**](https://github.com/vweevers))
+- Add Sauce Labs logo to README ([#165](https://github.com/Level/memdown/issues/165)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+- Document that nullish values are now also rejected ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+- Test negative and positive `Infinity` as keys ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+
+### Removed
+
+- Remove contributors from `package.json` ([`80b3e3a`](https://github.com/Level/memdown/commit/80b3e3a)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+- Remove node 9 ([`0de8721`](https://github.com/Level/memdown/commit/0de8721)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
+- Remove now irrelevant serialization of nullish values ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+- Remove dummy location from `abstract-leveldown` constructor call ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+- Remove `rimraf` devDependency ([#174](https://github.com/Level/memdown/issues/174)) ([**@vweevers**](https://github.com/vweevers))
+
+### Fixed
+
+- Fix link references in `UPGRADING.md` for latest `remark` ([`f111a6f`](https://github.com/Level/memdown/commit/f111a6f)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [3.0.0] - 2018-05-22
 
@@ -69,7 +104,9 @@
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-[unreleased]: https://github.com/level/memdown/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/level/memdown/compare/v4.0.0...HEAD
+
+[4.0.0]: https://github.com/level/memdown/compare/v3.0.0...v4.0.0
 
 [3.0.0]: https://github.com/level/memdown/compare/v2.0.0...v3.0.0
 

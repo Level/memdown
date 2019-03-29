@@ -2,6 +2,32 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [`CHANGELOG`][changelog].
 
+## v4
+
+This is an upgrade to `abstract-leveldown@6` which solves long-standing issues around serialization and type support.
+
+### Range options are now serialized
+
+Previously, range options like `lt` were passed through as-is by `abstract-leveldown`, unlike keys. This makes no difference for `memdown` as it does not serialize anything.
+
+### The rules for range options have been relaxed
+
+Because `null`, `undefined`, zero-length strings and zero-length buffers are significant types in encodings like `bytewise` and `charwise`, they became valid as range options in `abstract-leveldown`. This means `db.iterator({ gt: undefined })` is not the same as `db.iterator({})`.
+
+For `memdown`, when used by itself, the behavior of `null`, `undefined`, zero-length strings and zero-length buffers is undefined.
+
+### Nullish values are rejected
+
+In addition to rejecting `null` and `undefined` as _keys_, `abstract-leveldown` now also rejects these types as _values_, due to preexisting significance in streams and iterators.
+
+### Zero-length array keys are rejected
+
+Though this was already the case, `abstract-leveldown` has replaced the behavior with an explicit `Array.isArray()` check and a new error message.
+
+### Browser support
+
+IE10 has been dropped.
+
 ## v3
 
 Dropped support for node 4. No other breaking changes.
