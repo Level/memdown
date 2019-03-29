@@ -42,7 +42,7 @@ Your data is discarded when the process ends or you release a reference to the s
 
 ## Data types
 
-Unlike [`leveldown`], `memdown` does not stringify keys or values. This means that in addition to Buffers, you can store any JS type without the need for [`encoding-down`]. For keys for example, you could use Buffers or strings, which sort lexicographically, or numbers, even Dates, which sort naturally. The only exceptions are `null` and `undefined`. Keys of that type are rejected; values of that type are converted to empty strings.
+Unlike [`leveldown`], `memdown` does not stringify keys or values. This means that in addition to Buffers, you can store any JS type without the need for [`encoding-down`]. For keys for example, you could use Buffers or strings, which sort lexicographically, or numbers, even Dates, which sort naturally. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.
 
 ```js
 const db = levelup(memdown())

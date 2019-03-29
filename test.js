@@ -1,36 +1,29 @@
 var test = require('tape')
-var testCommon = require('abstract-leveldown/testCommon')
-var MemDOWN = require('./').default
+var suite = require('abstract-leveldown/test')
+var concat = require('level-concat-iterator')
+var memdown = require('.').default
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
 var noop = function () {}
 
-/** compatibility with basic LevelDOWN API **/
+var testCommon = suite.common({
+  test: test,
+  factory: function () {
+    return memdown()
+  },
 
-// Skip this test because memdown doesn't have a location or constructor options
-// require('abstract-leveldown/abstract/leveldown-test').args(MemDOWN, test)
+  // Unsupported features
+  createIfMissing: false,
+  errorIfExists: false,
+  seek: false
+})
 
-require('abstract-leveldown/abstract/open-test').args(MemDOWN, test, testCommon)
-require('abstract-leveldown/abstract/open-test').open(MemDOWN, test, testCommon)
+// Test abstract-leveldown compliance
+suite(testCommon)
 
-require('abstract-leveldown/abstract/del-test').all(MemDOWN, test)
-
-require('abstract-leveldown/abstract/get-test').all(MemDOWN, test)
-
-require('abstract-leveldown/abstract/put-test').all(MemDOWN, test)
-
-require('abstract-leveldown/abstract/put-get-del-test').all(MemDOWN, test)
-
-require('abstract-leveldown/abstract/batch-test').all(MemDOWN, test)
-require('abstract-leveldown/abstract/chained-batch-test').all(MemDOWN, test)
-
-require('abstract-leveldown/abstract/close-test').close(MemDOWN, test)
-
-require('abstract-leveldown/abstract/iterator-test').all(MemDOWN, test)
-require('abstract-leveldown/abstract/iterator-range-test').all(MemDOWN, test)
-
+// Additional tests for this implementation
 test('unsorted entry, sorted iterator', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(noop)
 
@@ -48,7 +41,7 @@ test('unsorted entry, sorted iterator', function (t) {
     noop
   )
 
-  testCommon.collectEntries(
+  concat(
     db.iterator({ keyAsBuffer: false, valueAsBuffer: false }),
     function (err, data) {
       t.notOk(err, 'no error')
@@ -71,7 +64,7 @@ test('unsorted entry, sorted iterator', function (t) {
 })
 
 test('reading while putting', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(noop)
 
@@ -98,7 +91,7 @@ test('reading while putting', function (t) {
 })
 
 test('reading while deleting', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(noop)
 
@@ -126,7 +119,7 @@ test('reading while deleting', function (t) {
 })
 
 test('reverse ranges', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(noop)
 
@@ -149,7 +142,7 @@ test('reverse ranges', function (t) {
 })
 
 test('delete while iterating', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -184,7 +177,7 @@ test('delete while iterating', function (t) {
 })
 
 test('iterator with byte range', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -205,13 +198,13 @@ test('iterator with byte range', function (t) {
 test('iterator does not clone buffers', function (t) {
   t.plan(3)
 
-  var db = new MemDOWN()
+  var db = testCommon.factory()
   var buf = Buffer.from('a')
 
   db.open(noop)
   db.put(buf, buf, noop)
 
-  testCommon.collectEntries(db.iterator(), function (err, entries) {
+  concat(db.iterator(), function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.ok(entries[0].key === buf, 'key is same buffer')
     t.ok(entries[0].value === buf, 'value is same buffer')
@@ -221,12 +214,12 @@ test('iterator does not clone buffers', function (t) {
 test('iterator stringifies buffer input', function (t) {
   t.plan(3)
 
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(noop)
   db.put(1, 2, noop)
 
-  testCommon.collectEntries(db.iterator(), function (err, entries) {
+  concat(db.iterator(), function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries[0].key, Buffer.from('1'), 'key is stringified')
     t.same(entries[0].value, Buffer.from('2'), 'value is stringified')
@@ -234,7 +227,7 @@ test('iterator stringifies buffer input', function (t) {
 })
 
 test('backing rbtree is buffer-aware', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -269,7 +262,7 @@ test('backing rbtree is buffer-aware', function (t) {
 test('empty value in batch', function (t) {
   t.plan(6)
 
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -302,7 +295,7 @@ test('empty value in batch', function (t) {
 })
 
 test('empty buffer key in batch', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -319,7 +312,7 @@ test('empty buffer key in batch', function (t) {
 })
 
 test('buffer key in batch', function (t) {
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -343,7 +336,7 @@ test('buffer key in batch', function (t) {
 test('put multiple times', function (t) {
   t.plan(5)
 
-  var db = new MemDOWN()
+  var db = testCommon.factory()
 
   db.open(function (err) {
     t.error(err, 'opens correctly')
@@ -366,8 +359,8 @@ test('put multiple times', function (t) {
 test('number keys', function (t) {
   t.plan(4)
 
-  var db = new MemDOWN()
-  var numbers = [2, 12]
+  var db = testCommon.factory()
+  var numbers = [-Infinity, 0, 2, 12, +Infinity]
   var buffers = numbers.map(stringBuffer)
 
   db.open(noop)
@@ -376,12 +369,12 @@ test('number keys', function (t) {
   var iterator1 = db.iterator({ keyAsBuffer: false })
   var iterator2 = db.iterator({ keyAsBuffer: true })
 
-  testCommon.collectEntries(iterator1, function (err, entries) {
+  concat(iterator1, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), numbers, 'sorts naturally')
   })
 
-  testCommon.collectEntries(iterator2, function (err, entries) {
+  concat(iterator2, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), buffers, 'buffer input is stringified')
   })
@@ -390,7 +383,7 @@ test('number keys', function (t) {
 test('date keys', function (t) {
   t.plan(4)
 
-  var db = new MemDOWN()
+  var db = testCommon.factory()
   var dates = [new Date(0), new Date(1)]
   var buffers = dates.map(stringBuffer)
 
@@ -400,12 +393,12 @@ test('date keys', function (t) {
   var iterator = db.iterator({ keyAsBuffer: false })
   var iterator2 = db.iterator({ keyAsBuffer: true })
 
-  testCommon.collectEntries(iterator, function (err, entries) {
+  concat(iterator, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), dates, 'sorts naturally')
   })
 
-  testCommon.collectEntries(iterator2, function (err, entries) {
+  concat(iterator2, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), buffers, 'buffer input is stringified')
   })
@@ -414,7 +407,7 @@ test('date keys', function (t) {
 test('object value', function (t) {
   t.plan(2)
 
-  var db = new MemDOWN()
+  var db = testCommon.factory()
   var obj = {}
 
   db.open(noop)
