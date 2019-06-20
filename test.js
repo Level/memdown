@@ -2,9 +2,17 @@ var test = require('tape')
 var suite = require('abstract-leveldown/test')
 var concat = require('level-concat-iterator')
 var memdown = require('.').default
+var MemIterator = require('.').MemIterator
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
-var noop = function () {}
+var noop = function () { }
+
+// Temporary fix for abstract seek tests, which currently assume
+// that buffers are stored the same as strings (i.e. as byte arrays).
+var baseSeek = MemIterator.prototype._seek
+MemIterator.prototype._seek = function (target) {
+  return baseSeek.call(this, String(target))
+}
 
 var testCommon = suite.common({
   test: test,
@@ -15,7 +23,7 @@ var testCommon = suite.common({
   // Unsupported features
   createIfMissing: false,
   errorIfExists: false,
-  seek: false
+  seek: true
 })
 
 // Test abstract-leveldown compliance

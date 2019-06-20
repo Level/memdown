@@ -116,6 +116,39 @@ MemIterator.prototype._test = function () {
   return true
 }
 
+MemIterator.prototype._outOfRange = function (target) {
+  if (!this._test(target)) {
+    return true
+  } else if (this._lowerBound === NONE) {
+    return false
+  } else if (!this._reverse) {
+    if (ltgt.lowerBoundInclusive(this._options)) {
+      return ltgt.compare(target, this._lowerBound) < 0
+    } else {
+      return ltgt.compare(target, this._lowerBound) <= 0
+    }
+  } else {
+    if (ltgt.upperBoundInclusive(this._options)) {
+      return ltgt.compare(target, this._lowerBound) > 0
+    } else {
+      return ltgt.compare(target, this._lowerBound) >= 0
+    }
+  }
+}
+
+MemIterator.prototype._seek = function (target) {
+  // TODO: conversions - i.e. string keys, with buffer target.
+
+  if (this._outOfRange(target)) {
+    this._tree = this.db._store.end
+    this._tree.next()
+  } else if (this._reverse) {
+    this._tree = this.db._store.le(target)
+  } else {
+    this._tree = this.db._store.ge(target)
+  }
+}
+
 function MemDOWN () {
   if (!(this instanceof MemDOWN)) return new MemDOWN()
 
@@ -207,3 +240,4 @@ MemDOWN.prototype._iterator = function (options) {
 }
 
 module.exports = MemDOWN.default = MemDOWN
+module.exports.MemIterator = MemIterator
