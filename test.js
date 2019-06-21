@@ -22,6 +22,10 @@ var testCommon = suite.common({
 suite(testCommon)
 
 // Additional tests for this implementation
+require('./test/key-type-test')(testCommon)
+require('./test/key-order-test')(testCommon)
+
+// TODO: move everything into test/
 test('unsorted entry, sorted iterator', function (t) {
   var db = testCommon.factory()
 
@@ -356,7 +360,7 @@ test('put multiple times', function (t) {
   })
 })
 
-test('number keys', function (t) {
+test('number keys get stringified when keyAsBuffer=true', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
@@ -380,7 +384,7 @@ test('number keys', function (t) {
   })
 })
 
-test('date keys', function (t) {
+test('date keys get stringified when keyAsBuffer=true', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
@@ -401,6 +405,28 @@ test('date keys', function (t) {
   concat(iterator2, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), buffers, 'buffer input is stringified')
+  })
+})
+
+test('sort order of string vs number', function (t) {
+  t.plan(3)
+
+  var db = testCommon.factory()
+
+  db.open(noop)
+  db.batch([
+    { type: 'put', key: 'a', value: 'a' },
+    { type: 'put', key: 0, value: 0 }
+  ], function (err) {
+    t.ifError(err, 'no batch error')
+
+    concat(db.iterator({ keyAsBuffer: false, valueAsBuffer: false }), function (err, entries) {
+      t.ifError(err, 'no iterator error')
+
+      // Previously, when we didn't sort by type, we would get only
+      // one entry because key 'a' was considered equal to key 0.
+      t.same(entries, [{ key: 0, value: 0 }, { key: 'a', value: 'a' }])
+    })
   })
 })
 

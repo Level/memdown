@@ -17,6 +17,7 @@
     "prepublishOnly": "npm run dependency-check"
   },
   "files": [
+    "cmp.js",
     "memdown.js",
     "immediate.js",
     "immediate-browser.js",

@@ -4,6 +4,7 @@ var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var createRBT = require('functional-red-black-tree')
 var Buffer = require('safe-buffer').Buffer
+var cmp = require('./cmp')
 
 // In Node, use global.setImmediate. In the browser, use a consistent
 // microtask library to give consistent microtask experience to all browsers
@@ -11,19 +12,19 @@ var setImmediate = require('./immediate')
 var NONE = {}
 
 function gt (value) {
-  return ltgt.compare(value, this._upperBound) > 0
+  return cmp(value, this._upperBound) > 0
 }
 
 function gte (value) {
-  return ltgt.compare(value, this._upperBound) >= 0
+  return cmp(value, this._upperBound) >= 0
 }
 
 function lt (value) {
-  return ltgt.compare(value, this._upperBound) < 0
+  return cmp(value, this._upperBound) < 0
 }
 
 function lte (value) {
-  return ltgt.compare(value, this._upperBound) <= 0
+  return cmp(value, this._upperBound) <= 0
 }
 
 function MemIterator (db, options) {
@@ -121,7 +122,7 @@ function MemDOWN () {
 
   AbstractLevelDOWN.call(this)
 
-  this._store = createRBT(ltgt.compare)
+  this._store = createRBT(cmp)
 }
 
 inherits(MemDOWN, AbstractLevelDOWN)
