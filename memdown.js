@@ -240,4 +240,5 @@ MemDOWN.prototype._iterator = function (options) {
 }
 
 module.exports = MemDOWN.default = MemDOWN
+// Exposed for unit tests only
 module.exports.MemIterator = MemIterator
