@@ -9,9 +9,9 @@
 | **Calvin Metcalf**   | [**@calvinmetcalf**](https://github.com/calvinmetcalf) |                                                               |
 | **Julian Gruber**    | [**@juliangruber**](https://github.com/juliangruber)   | [**@juliangruber@twitter**](https://twitter.com/juliangruber) |
 | **Michael Hart**     | [**@mhart**](https://github.com/mhart)                 | [**@hichaelmart@twitter**](https://twitter.com/hichaelmart)   |
-| **Mathias Buus**     | [**@mafintosh**](https://github.com/mafintosh)         | [**@mafintosh@twitter**](https://twitter.com/mafintosh)       |
-| **Dominic Tarr**     | [**@dominictarr**](https://github.com/dominictarr)     | [**@dominictarr@twitter**](https://twitter.com/dominictarr)   |
 | **Meirion Hughes**   | [**@MeirionHughes**](https://github.com/MeirionHughes) |                                                               |
+| **Dominic Tarr**     | [**@dominictarr**](https://github.com/dominictarr)     | [**@dominictarr@twitter**](https://twitter.com/dominictarr)   |
+| **Mathias Buus**     | [**@mafintosh**](https://github.com/mafintosh)         | [**@mafintosh@twitter**](https://twitter.com/mafintosh)       |
 | **Max Ogden**        | [**@maxogden**](https://github.com/maxogden)           | [**@maxogden@twitter**](https://twitter.com/maxogden)         |
 | **kumavis**          | [**@kumavis**](https://github.com/kumavis)             |                                                               |
 | **Kirill Fomichev**  | [**@fanatid**](https://github.com/fanatid)             |                                                               |

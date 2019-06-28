@@ -4,6 +4,16 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 ## [Unreleased][unreleased]
 
+## [4.1.0] - 2019-06-28
+
+### Changed
+
+- Upgrade `nyc` devDependency from `^13.2.0` to `^14.0.0` ([#182](https://github.com/Level/memdown/issues/182)) ([**@vweevers**](https://github.com/vweevers))
+
+### Added
+
+- Support seeking ([#184](https://github.com/Level/memdown/issues/184)) ([**@MeirionHughes**](https://github.com/MeirionHughes))
+
 ## [4.0.0] - 2019-03-29
 
 ### Changed
@@ -104,7 +114,9 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-[unreleased]: https://github.com/level/memdown/compare/v4.0.0...HEAD
+[unreleased]: https://github.com/level/memdown/compare/v4.1.0...HEAD
+
+[4.1.0]: https://github.com/level/memdown/compare/v4.0.0...v4.1.0
 
 [4.0.0]: https://github.com/level/memdown/compare/v3.0.0...v4.0.0
 
