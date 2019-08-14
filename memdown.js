@@ -10,6 +10,7 @@ var Buffer = require('safe-buffer').Buffer
 var setImmediate = require('./immediate')
 var NONE = {}
 
+// TODO (perf): replace ltgt.compare with a simpler, buffer-only comparator
 function gt (value) {
   return ltgt.compare(value, this._upperBound) > 0
 }
@@ -97,8 +98,8 @@ MemIterator.prototype._next = function (callback) {
 
   if (!this._test(key)) return setImmediate(callback)
 
-  if (this.keyAsBuffer && !Buffer.isBuffer(key)) {
-    key = Buffer.from(String(key))
+  if (!this.keyAsBuffer) {
+    key = key.toString()
   }
 
   if (this.valueAsBuffer && !Buffer.isBuffer(value)) {
@@ -167,7 +168,7 @@ MemDOWN.prototype._open = function (options, callback) {
 }
 
 MemDOWN.prototype._serializeKey = function (key) {
-  return key
+  return Buffer.isBuffer(key) ? key : Buffer.from(String(key))
 }
 
 MemDOWN.prototype._serializeValue = function (value) {

@@ -40,31 +40,32 @@ Your data is discarded when the process ends or you release a reference to the s
 
 ## Data types
 
-Unlike [`leveldown`], `memdown` does not stringify keys or values. This means that in addition to Buffers, you can store any JS type without the need for [`encoding-down`]. For keys for example, you could use Buffers or strings, which sort lexicographically, or numbers, even Dates, which sort naturally. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.
+Keys can be strings or Buffers. Any other key type will be irreversibly stringified. Unlike [`leveldown`] though, `memdown` does not stringify values. This means that in addition to Buffers, you can store any JS value without the need for [`encoding-down`]. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.
 
 ```js
 const db = levelup(memdown())
 
-db.put(12, true, (err) => {
+db.put('example', 123, (err) => {
   if (err) throw err
 
   db.createReadStream({
     keyAsBuffer: false,
     valueAsBuffer: false
   }).on('data', (entry) => {
-    console.log(typeof entry.key) // 'number'
-    console.log(typeof entry.value) // 'boolean'
+    console.log(typeof entry.key) // 'string'
+    console.log(typeof entry.value) // 'number'
   })
 })
 ```
 
-If you desire normalization for keys and values (e.g. to stringify numbers), wrap `memdown` with [`encoding-down`]. Alternatively install [`level-mem`] which conveniently bundles [`levelup`], `memdown` and [`encoding-down`]. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior. For example, you could have [`leveldown`] in a backend and `memdown` in the frontend.
+If you desire normalization for values (e.g. to stringify numbers), wrap `memdown` with [`encoding-down`]. Alternatively install [`level-mem`] which conveniently bundles [`levelup`], `memdown` and [`encoding-down`]. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior. For example, you could have [`leveldown`] in a backend and `memdown` in the frontend.
 
 ```js
 const encode = require('encoding-down')
 const db = levelup(encode(memdown()))
 
-db.put(12, true, (err) => {
+// The default value encoding is utf8, which stringifies input.
+db.put('example', 123, (err) => {
   if (err) throw err
 
   db.createReadStream({

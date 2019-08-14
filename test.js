@@ -368,7 +368,8 @@ test('number keys', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
-  var numbers = [-Infinity, 0, 2, 12, +Infinity]
+  var numbers = [-Infinity, 0, 12, 2, +Infinity]
+  var strings = numbers.map(String)
   var buffers = numbers.map(stringBuffer)
 
   db.open(noop)
@@ -379,31 +380,7 @@ test('number keys', function (t) {
 
   concat(iterator1, function (err, entries) {
     t.ifError(err, 'no iterator error')
-    t.same(entries.map(getKey), numbers, 'sorts naturally')
-  })
-
-  concat(iterator2, function (err, entries) {
-    t.ifError(err, 'no iterator error')
-    t.same(entries.map(getKey), buffers, 'buffer input is stringified')
-  })
-})
-
-test('date keys', function (t) {
-  t.plan(4)
-
-  var db = testCommon.factory()
-  var dates = [new Date(0), new Date(1)]
-  var buffers = dates.map(stringBuffer)
-
-  db.open(noop)
-  db.batch(dates.map(putKey), noop)
-
-  var iterator = db.iterator({ keyAsBuffer: false })
-  var iterator2 = db.iterator({ keyAsBuffer: true })
-
-  concat(iterator, function (err, entries) {
-    t.ifError(err, 'no iterator error')
-    t.same(entries.map(getKey), dates, 'sorts naturally')
+    t.same(entries.map(getKey), strings, 'sorts lexicographically')
   })
 
   concat(iterator2, function (err, entries) {
