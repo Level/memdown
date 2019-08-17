@@ -102,8 +102,8 @@ MemIterator.prototype._next = function (callback) {
     key = key.toString()
   }
 
-  if (this.valueAsBuffer && !Buffer.isBuffer(value)) {
-    value = Buffer.from(String(value))
+  if (!this.valueAsBuffer) {
+    value = value.toString()
   }
 
   this._tree[this._incr]()
@@ -138,7 +138,9 @@ MemIterator.prototype._outOfRange = function (target) {
 }
 
 MemIterator.prototype._seek = function (target) {
-  // TODO: conversions - i.e. string keys, with buffer target.
+  if (target.length === 0) {
+    throw new Error('cannot seek() to an empty target')
+  }
 
   if (this._outOfRange(target)) {
     this._tree = this.db._store.end
@@ -172,7 +174,7 @@ MemDOWN.prototype._serializeKey = function (key) {
 }
 
 MemDOWN.prototype._serializeValue = function (value) {
-  return value
+  return Buffer.isBuffer(value) ? value : Buffer.from(String(value))
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
@@ -197,8 +199,8 @@ MemDOWN.prototype._get = function (key, options, callback) {
     })
   }
 
-  if (options.asBuffer !== false && !Buffer.isBuffer(value)) {
-    value = Buffer.from(String(value))
+  if (!options.asBuffer) {
+    value = value.toString()
   }
 
   setImmediate(function callNext () {

@@ -2,17 +2,9 @@ var test = require('tape')
 var suite = require('abstract-leveldown/test')
 var concat = require('level-concat-iterator')
 var memdown = require('.').default
-var MemIterator = require('.').MemIterator
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
 var noop = function () { }
-
-// Temporary fix for abstract seek tests, which currently assume
-// that buffers are stored the same as strings (i.e. as byte arrays).
-var baseSeek = MemIterator.prototype._seek
-MemIterator.prototype._seek = function (target) {
-  return baseSeek.call(this, String(target))
-}
 
 var testCommon = suite.common({
   test: test,
@@ -452,21 +444,6 @@ test('number keys', function (t) {
   concat(iterator2, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), buffers, 'buffer input is stringified')
-  })
-})
-
-test('object value', function (t) {
-  t.plan(2)
-
-  var db = testCommon.factory()
-  var obj = {}
-
-  db.open(noop)
-  db.put('key', obj, noop)
-
-  db.get('key', { asBuffer: false }, function (err, value) {
-    t.ifError(err, 'no get error')
-    t.ok(value === obj, 'same object')
   })
 })
 
