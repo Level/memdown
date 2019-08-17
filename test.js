@@ -392,6 +392,44 @@ test('put key as string, get as buffer and vice versa', function (t) {
   })
 })
 
+test('put key as string, iterate as buffer', function (t) {
+  t.plan(4)
+
+  var db = testCommon.factory()
+
+  db.open(function (err) {
+    t.ifError(err, 'no error from open')
+
+    db.put('a', 'a', function (err) {
+      t.ifError(err, 'no put error')
+
+      concat(db.iterator({ keyAsBuffer: true, valueAsBuffer: false }), function (err, entries) {
+        t.ifError(err, 'no concat error')
+        t.same(entries, [{ key: Buffer.from('a'), value: 'a' }])
+      })
+    })
+  })
+})
+
+test('put key as buffer, iterate as string', function (t) {
+  t.plan(4)
+
+  var db = testCommon.factory()
+
+  db.open(function (err) {
+    t.ifError(err, 'no error from open')
+
+    db.put(Buffer.from('a'), 'a', function (err) {
+      t.ifError(err, 'no put error')
+
+      concat(db.iterator({ keyAsBuffer: false, valueAsBuffer: false }), function (err, entries) {
+        t.ifError(err, 'no concat error')
+        t.same(entries, [{ key: 'a', value: 'a' }])
+      })
+    })
+  })
+})
+
 test('number keys', function (t) {
   t.plan(4)
 
