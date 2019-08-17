@@ -403,7 +403,7 @@ test('put as string, iterate as buffer', function (t) {
   })
 })
 
-test('put key as buffer, iterate as string', function (t) {
+test('put as buffer, iterate as string', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
