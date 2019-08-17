@@ -364,11 +364,78 @@ test('put multiple times', function (t) {
   })
 })
 
+test('put key as string, get as buffer and vice versa', function (t) {
+  t.plan(7)
+
+  var db = testCommon.factory()
+
+  db.open(function (err) {
+    t.ifError(err, 'no error from open')
+
+    db.put('a', 'a', function (err) {
+      t.ifError(err, 'no put error')
+
+      db.get(Buffer.from('a'), { asBuffer: false }, function (err, value) {
+        t.ifError(err, 'no get error')
+        t.is(value, 'a', 'got value')
+      })
+    })
+
+    db.put(Buffer.from('b'), 'b', function (err) {
+      t.ifError(err, 'no put error')
+
+      db.get('b', { asBuffer: false }, function (err, value) {
+        t.ifError(err, 'no get error')
+        t.is(value, 'b', 'got value')
+      })
+    })
+  })
+})
+
+test('put key as string, iterate as buffer', function (t) {
+  t.plan(4)
+
+  var db = testCommon.factory()
+
+  db.open(function (err) {
+    t.ifError(err, 'no error from open')
+
+    db.put('a', 'a', function (err) {
+      t.ifError(err, 'no put error')
+
+      concat(db.iterator({ keyAsBuffer: true, valueAsBuffer: false }), function (err, entries) {
+        t.ifError(err, 'no concat error')
+        t.same(entries, [{ key: Buffer.from('a'), value: 'a' }])
+      })
+    })
+  })
+})
+
+test('put key as buffer, iterate as string', function (t) {
+  t.plan(4)
+
+  var db = testCommon.factory()
+
+  db.open(function (err) {
+    t.ifError(err, 'no error from open')
+
+    db.put(Buffer.from('a'), 'a', function (err) {
+      t.ifError(err, 'no put error')
+
+      concat(db.iterator({ keyAsBuffer: false, valueAsBuffer: false }), function (err, entries) {
+        t.ifError(err, 'no concat error')
+        t.same(entries, [{ key: 'a', value: 'a' }])
+      })
+    })
+  })
+})
+
 test('number keys', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
-  var numbers = [-Infinity, 0, 2, 12, +Infinity]
+  var numbers = [-Infinity, 0, 12, 2, +Infinity]
+  var strings = numbers.map(String)
   var buffers = numbers.map(stringBuffer)
 
   db.open(noop)
@@ -379,31 +446,7 @@ test('number keys', function (t) {
 
   concat(iterator1, function (err, entries) {
     t.ifError(err, 'no iterator error')
-    t.same(entries.map(getKey), numbers, 'sorts naturally')
-  })
-
-  concat(iterator2, function (err, entries) {
-    t.ifError(err, 'no iterator error')
-    t.same(entries.map(getKey), buffers, 'buffer input is stringified')
-  })
-})
-
-test('date keys', function (t) {
-  t.plan(4)
-
-  var db = testCommon.factory()
-  var dates = [new Date(0), new Date(1)]
-  var buffers = dates.map(stringBuffer)
-
-  db.open(noop)
-  db.batch(dates.map(putKey), noop)
-
-  var iterator = db.iterator({ keyAsBuffer: false })
-  var iterator2 = db.iterator({ keyAsBuffer: true })
-
-  concat(iterator, function (err, entries) {
-    t.ifError(err, 'no iterator error')
-    t.same(entries.map(getKey), dates, 'sorts naturally')
+    t.same(entries.map(getKey), strings, 'sorts lexicographically')
   })
 
   concat(iterator2, function (err, entries) {

@@ -2,6 +2,10 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [`CHANGELOG`][changelog].
 
+## v5 (unreleased)
+
+Support of keys other than strings and Buffers has been dropped. Internally `memdown` now stores keys as Buffers which solves a number of compatibility issues ([#186](https://github.com/Level/memdown/issues/186)). If you pass in a key that isn't a string or Buffer, it will be irreversibly stringified.
+
 ## v4
 
 This is an upgrade to `abstract-leveldown@6` which solves long-standing issues around serialization and type support.
