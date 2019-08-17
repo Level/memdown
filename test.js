@@ -20,7 +20,10 @@ var testCommon = suite.common({
     return memdown()
   },
 
-  // Unsupported features
+  // Opt-in to new clear() tests
+  clear: true,
+
+  // Opt-out of unsupported features
   createIfMissing: false,
   errorIfExists: false,
   seek: true

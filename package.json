@@ -28,7 +28,7 @@
     "./immediate.js": "./immediate-browser.js"
   },
   "dependencies": {
-    "abstract-leveldown": "~6.0.1",
+    "abstract-leveldown": "github:Level/abstract-leveldown#clear",
     "functional-red-black-tree": "~1.0.1",
     "immediate": "~3.2.3",
     "inherits": "~2.0.1",
