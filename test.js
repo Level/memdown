@@ -364,6 +364,34 @@ test('put multiple times', function (t) {
   })
 })
 
+test('put key as string, get as buffer and vice versa', function (t) {
+  t.plan(7)
+
+  var db = testCommon.factory()
+
+  db.open(function (err) {
+    t.ifError(err, 'no error from open')
+
+    db.put('a', 'a', function (err) {
+      t.ifError(err, 'no put error')
+
+      db.get(Buffer.from('a'), { asBuffer: false }, function (err, value) {
+        t.ifError(err, 'no get error')
+        t.is(value, 'a', 'got value')
+      })
+    })
+
+    db.put(Buffer.from('b'), 'b', function (err) {
+      t.ifError(err, 'no put error')
+
+      db.get('b', { asBuffer: false }, function (err, value) {
+        t.ifError(err, 'no get error')
+        t.is(value, 'b', 'got value')
+      })
+    })
+  })
+})
+
 test('number keys', function (t) {
   t.plan(4)
 
