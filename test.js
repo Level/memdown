@@ -2,17 +2,9 @@ var test = require('tape')
 var suite = require('abstract-leveldown/test')
 var concat = require('level-concat-iterator')
 var memdown = require('.').default
-var MemIterator = require('.').MemIterator
 var ltgt = require('ltgt')
 var Buffer = require('safe-buffer').Buffer
 var noop = function () { }
-
-// Temporary fix for abstract seek tests, which currently assume
-// that buffers are stored the same as strings (i.e. as byte arrays).
-var baseSeek = MemIterator.prototype._seek
-MemIterator.prototype._seek = function (target) {
-  return baseSeek.call(this, String(target))
-}
 
 var testCommon = suite.common({
   test: test,
@@ -364,7 +356,7 @@ test('put multiple times', function (t) {
   })
 })
 
-test('put key as string, get as buffer and vice versa', function (t) {
+test('put as string, get as buffer and vice versa', function (t) {
   t.plan(7)
 
   var db = testCommon.factory()
@@ -375,13 +367,13 @@ test('put key as string, get as buffer and vice versa', function (t) {
     db.put('a', 'a', function (err) {
       t.ifError(err, 'no put error')
 
-      db.get(Buffer.from('a'), { asBuffer: false }, function (err, value) {
+      db.get(Buffer.from('a'), { asBuffer: true }, function (err, value) {
         t.ifError(err, 'no get error')
-        t.is(value, 'a', 'got value')
+        t.same(value, Buffer.from('a'), 'got value')
       })
     })
 
-    db.put(Buffer.from('b'), 'b', function (err) {
+    db.put(Buffer.from('b'), Buffer.from('b'), function (err) {
       t.ifError(err, 'no put error')
 
       db.get('b', { asBuffer: false }, function (err, value) {
@@ -392,7 +384,7 @@ test('put key as string, get as buffer and vice versa', function (t) {
   })
 })
 
-test('put key as string, iterate as buffer', function (t) {
+test('put as string, iterate as buffer', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
@@ -403,15 +395,15 @@ test('put key as string, iterate as buffer', function (t) {
     db.put('a', 'a', function (err) {
       t.ifError(err, 'no put error')
 
-      concat(db.iterator({ keyAsBuffer: true, valueAsBuffer: false }), function (err, entries) {
+      concat(db.iterator({ keyAsBuffer: true, valueAsBuffer: true }), function (err, entries) {
         t.ifError(err, 'no concat error')
-        t.same(entries, [{ key: Buffer.from('a'), value: 'a' }])
+        t.same(entries, [{ key: Buffer.from('a'), value: Buffer.from('a') }])
       })
     })
   })
 })
 
-test('put key as buffer, iterate as string', function (t) {
+test('put as buffer, iterate as string', function (t) {
   t.plan(4)
 
   var db = testCommon.factory()
@@ -419,7 +411,7 @@ test('put key as buffer, iterate as string', function (t) {
   db.open(function (err) {
     t.ifError(err, 'no error from open')
 
-    db.put(Buffer.from('a'), 'a', function (err) {
+    db.put(Buffer.from('a'), Buffer.from('a'), function (err) {
       t.ifError(err, 'no put error')
 
       concat(db.iterator({ keyAsBuffer: false, valueAsBuffer: false }), function (err, entries) {
@@ -452,21 +444,6 @@ test('number keys', function (t) {
   concat(iterator2, function (err, entries) {
     t.ifError(err, 'no iterator error')
     t.same(entries.map(getKey), buffers, 'buffer input is stringified')
-  })
-})
-
-test('object value', function (t) {
-  t.plan(2)
-
-  var db = testCommon.factory()
-  var obj = {}
-
-  db.open(noop)
-  db.put('key', obj, noop)
-
-  db.get('key', { asBuffer: false }, function (err, value) {
-    t.ifError(err, 'no get error')
-    t.ok(value === obj, 'same object')
   })
 })
 

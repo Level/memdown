@@ -40,10 +40,29 @@ Your data is discarded when the process ends or you release a reference to the s
 
 ## Data types
 
-Keys can be strings or Buffers. Any other key type will be irreversibly stringified. Unlike [`leveldown`] though, `memdown` does not stringify values. This means that in addition to Buffers, you can store any JS value without the need for [`encoding-down`]. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.
+Keys and values can be strings or Buffers. Any other key type will be irreversibly stringified. The only exceptions are `null` and `undefined`. Keys and values of that type are rejected.
 
 ```js
 const db = levelup(memdown())
+
+db.put('example', 123, (err) => {
+  if (err) throw err
+
+  db.createReadStream({
+    keyAsBuffer: false,
+    valueAsBuffer: false
+  }).on('data', (entry) => {
+    console.log(typeof entry.key) // 'string'
+    console.log(typeof entry.value) // 'string'
+  })
+})
+```
+
+If you desire non-destructive encoding (e.g. to store and retrieve numbers as-is), wrap `memdown` with [`encoding-down`]. Alternatively install [`level-mem`] which conveniently bundles [`levelup`], `memdown` and [`encoding-down`]. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior. For example, you could have [`leveldown`] in a backend and `memdown` in the frontend.
+
+```js
+const encode = require('encoding-down')
+const db = levelup(encode(memdown(), { valueEncoding: 'json' }))
 
 db.put('example', 123, (err) => {
   if (err) throw err
@@ -58,61 +77,9 @@ db.put('example', 123, (err) => {
 })
 ```
 
-If you desire normalization for values (e.g. to stringify numbers), wrap `memdown` with [`encoding-down`]. Alternatively install [`level-mem`] which conveniently bundles [`levelup`], `memdown` and [`encoding-down`]. Such an approach is also recommended if you want to achieve universal (isomorphic) behavior. For example, you could have [`leveldown`] in a backend and `memdown` in the frontend.
-
-```js
-const encode = require('encoding-down')
-const db = levelup(encode(memdown()))
-
-// The default value encoding is utf8, which stringifies input.
-db.put('example', 123, (err) => {
-  if (err) throw err
-
-  db.createReadStream({
-    keyAsBuffer: false,
-    valueAsBuffer: false
-  }).on('data', (entry) => {
-    console.log(typeof entry.key) // 'string'
-    console.log(typeof entry.value) // 'string'
-  })
-})
-```
-
 ## Snapshot guarantees
 
-A `memdown` store is backed by [a fully persistent data structure](https://www.npmjs.com/package/functional-red-black-tree) and thus has snapshot guarantees. Meaning that reads operate on a snapshot in time, unaffected by simultaneous writes. Do note `memdown` cannot uphold this guarantee for (copies of) object references. If you store object values, be mindful of mutating referenced objects:
-
-```js
-const db = levelup(memdown())
-const obj = { thing: 'original' }
-
-db.put('key', obj, (err) => {
-  obj.thing = 'modified'
-
-  db.get('key', { asBuffer: false }, (err, value) => {
-    console.log(value === obj) // true
-    console.log(value.thing) // 'modified'
-  })
-})
-```
-
-Conversely, when `memdown` is wrapped with [`encoding-down`] it stores representations rather than references.
-
-```js
-const encode = require('encoding-down')
-
-const db = levelup(encode(memdown(), { valueEncoding: 'json' }))
-const obj = { thing: 'original' }
-
-db.put('key', obj, (err) => {
-  obj.thing = 'modified'
-
-  db.get('key', { asBuffer: false }, (err, value) => {
-    console.log(value === obj) // false
-    console.log(value.thing) // 'original'
-  })
-})
-```
+A `memdown` store is backed by [a fully persistent data structure](https://www.npmjs.com/package/functional-red-black-tree) and thus has snapshot guarantees. Meaning that reads operate on a snapshot in time, unaffected by simultaneous writes.
 
 ## Test
 
