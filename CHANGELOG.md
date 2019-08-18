@@ -1,8 +1,25 @@
 # Changelog
 
-_**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
+_**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
 ## [Unreleased][unreleased]
+
+## [5.0.0] - 2019-08-18
+
+### Changed
+
+- Upgrade `abstract-leveldown` from `~6.0.1` to `~6.1.0` ([#194](https://github.com/Level/memdown/issues/194)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `safe-buffer` from `~5.1.1` to `~5.2.0` ([#187](https://github.com/Level/memdown/issues/187)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `hallmark` devDependency from `^0.1.0` to `^1.0.0` ([#189](https://github.com/Level/memdown/issues/189)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `standard` devDependency from `^12.0.0` to `^13.0.1` ([#188](https://github.com/Level/memdown/issues/188)) ([**@vweevers**](https://github.com/vweevers))
+
+### Added
+
+- Opt-in to new [`clear()`](https://github.com/Level/abstract-leveldown#dbclearoptions-callback) tests ([#194](https://github.com/Level/memdown/issues/194)) ([**@vweevers**](https://github.com/vweevers))
+
+### Removed
+
+- Drop support of key & value types other than string and Buffer ([#191](https://github.com/Level/memdown/issues/191), [#192](https://github.com/Level/memdown/issues/192)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [4.1.0] - 2019-06-28
 
@@ -114,7 +131,9 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-[unreleased]: https://github.com/level/memdown/compare/v4.1.0...HEAD
+[unreleased]: https://github.com/level/memdown/compare/v5.0.0...HEAD
+
+[5.0.0]: https://github.com/level/memdown/compare/v4.1.0...v5.0.0
 
 [4.1.0]: https://github.com/level/memdown/compare/v4.0.0...v4.1.0
 
