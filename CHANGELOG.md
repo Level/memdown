@@ -131,14 +131,14 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-[unreleased]: https://github.com/level/memdown/compare/v5.0.0...HEAD
+[unreleased]: https://github.com/Level/memdown/compare/v5.0.0...HEAD
 
-[5.0.0]: https://github.com/level/memdown/compare/v4.1.0...v5.0.0
+[5.0.0]: https://github.com/Level/memdown/compare/v4.1.0...v5.0.0
 
-[4.1.0]: https://github.com/level/memdown/compare/v4.0.0...v4.1.0
+[4.1.0]: https://github.com/Level/memdown/compare/v4.0.0...v4.1.0
 
-[4.0.0]: https://github.com/level/memdown/compare/v3.0.0...v4.0.0
+[4.0.0]: https://github.com/Level/memdown/compare/v3.0.0...v4.0.0
 
-[3.0.0]: https://github.com/level/memdown/compare/v2.0.0...v3.0.0
+[3.0.0]: https://github.com/Level/memdown/compare/v2.0.0...v3.0.0
 
 [2.0.0]: https://github.com/level/memdown/compare/v1.4.1...v2.0.0
