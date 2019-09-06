@@ -2,8 +2,6 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
-## [Unreleased][unreleased]
-
 ## [5.0.0] - 2019-08-18
 
 ### Changed
@@ -130,8 +128,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Remove redundant `testCommon` parameter from most tests ([**@vweevers**](https://github.com/vweevers))
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
-
-[unreleased]: https://github.com/Level/memdown/compare/v5.0.0...HEAD
 
 [5.0.0]: https://github.com/Level/memdown/compare/v4.1.0...v5.0.0
 
