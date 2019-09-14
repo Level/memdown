@@ -8,7 +8,7 @@
   "license": "MIT",
   "main": "memdown.js",
   "scripts": {
-    "test": "standard && hallmark && nyc node test.js",
+    "test": "standard && hallmark && (nyc -s node test.js | faucet) && nyc report",
     "test-browsers": "airtap --loopback airtap.local --coverage test.js",
     "test-browser-local": "airtap --coverage --local test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -39,6 +39,7 @@
     "airtap": "^2.0.0",
     "coveralls": "^3.0.2",
     "dependency-check": "^3.3.0",
+    "faucet": "^0.0.1",
     "hallmark": "^2.0.0",
     "level-community": "^3.0.0",
     "level-concat-iterator": "^2.0.0",
