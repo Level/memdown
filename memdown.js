@@ -155,7 +155,13 @@ MemIterator.prototype._seek = function (target) {
 function MemDOWN () {
   if (!(this instanceof MemDOWN)) return new MemDOWN()
 
-  AbstractLevelDOWN.call(this)
+  AbstractLevelDOWN.call(this, {
+    bufferKeys: true,
+    snapshots: true,
+    permanence: false,
+    seek: true,
+    clear: true
+  })
 
   this._store = createRBT(ltgt.compare)
 }
