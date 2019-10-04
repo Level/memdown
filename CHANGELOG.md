@@ -2,6 +2,17 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
+## [5.1.0] - 2019-10-04
+
+### Changed
+
+- Upgrade `hallmark` devDependency from `^1.0.0` to `^2.0.0` ([#196](https://github.com/Level/memdown/issues/196)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `standard` devDependency from `^13.0.1` to `^14.0.0` ([#195](https://github.com/Level/memdown/issues/195)) ([**@vweevers**](https://github.com/vweevers))
+
+### Added
+
+- Add manifest ([Level/community#83](https://github.com/Level/community/issues/83)) ([#198](https://github.com/Level/memdown/issues/198)) ([**@vweevers**](https://github.com/vweevers))
+
 ## [5.0.0] - 2019-08-18
 
 ### Changed
@@ -128,6 +139,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Remove redundant `testCommon` parameter from most tests ([**@vweevers**](https://github.com/vweevers))
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
+
+[5.1.0]: https://github.com/Level/memdown/compare/v5.0.0...v5.1.0
 
 [5.0.0]: https://github.com/Level/memdown/compare/v4.1.0...v5.0.0
 
