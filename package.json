@@ -36,7 +36,7 @@
     "safe-buffer": "~5.2.0"
   },
   "devDependencies": {
-    "airtap": "^2.0.0",
+    "airtap": "^3.0.0",
     "coveralls": "^3.0.2",
     "dependency-check": "^3.3.0",
     "faucet": "^0.0.1",
