@@ -4,10 +4,6 @@ var AbstractIterator = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
 var createRBT = require('functional-red-black-tree')
 var Buffer = require('safe-buffer').Buffer
-
-// In Node, use global.setImmediate. In the browser, use a consistent
-// microtask library to give consistent microtask experience to all browsers
-var setImmediate = require('./immediate')
 var NONE = {}
 
 // TODO (perf): replace ltgt.compare with a simpler, buffer-only comparator
@@ -90,13 +86,13 @@ MemIterator.prototype._next = function (callback) {
   var key
   var value
 
-  if (this._done++ >= this._limit) return setImmediate(callback)
-  if (!this._tree.valid) return setImmediate(callback)
+  if (this._done++ >= this._limit) return this._nextTick(callback)
+  if (!this._tree.valid) return this._nextTick(callback)
 
   key = this._tree.key
   value = this._tree.value
 
-  if (!this._test(key)) return setImmediate(callback)
+  if (!this._test(key)) return this._nextTick(callback)
 
   if (!this.keyAsBuffer) {
     key = key.toString()
@@ -107,10 +103,7 @@ MemIterator.prototype._next = function (callback) {
   }
 
   this._tree[this._incr]()
-
-  setImmediate(function callNext () {
-    callback(null, key, value)
-  })
+  this._nextTick(callback, null, key, value)
 }
 
 MemIterator.prototype._test = function () {
@@ -169,10 +162,7 @@ function MemDOWN () {
 inherits(MemDOWN, AbstractLevelDOWN)
 
 MemDOWN.prototype._open = function (options, callback) {
-  var self = this
-  setImmediate(function callNext () {
-    callback(null, self)
-  })
+  this._nextTick(callback, null, this)
 }
 
 MemDOWN.prototype._serializeKey = function (key) {
@@ -192,7 +182,7 @@ MemDOWN.prototype._put = function (key, value, options, callback) {
     this._store = this._store.insert(key, value)
   }
 
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._get = function (key, options, callback) {
@@ -200,23 +190,19 @@ MemDOWN.prototype._get = function (key, options, callback) {
 
   if (typeof value === 'undefined') {
     // 'NotFound' error, consistent with LevelDOWN API
-    return setImmediate(function callNext () {
-      callback(new Error('NotFound'))
-    })
+    return this._nextTick(callback, new Error('NotFound'))
   }
 
   if (!options.asBuffer) {
     value = value.toString()
   }
 
-  setImmediate(function callNext () {
-    callback(null, value)
-  })
+  this._nextTick(callback, null, value)
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {
   this._store = this._store.remove(key)
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._batch = function (array, options, callback) {
@@ -240,8 +226,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   }
 
   this._store = tree
-
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._iterator = function (options) {
