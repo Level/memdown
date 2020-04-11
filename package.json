@@ -28,12 +28,12 @@
     "./immediate.js": "./immediate-browser.js"
   },
   "dependencies": {
-    "abstract-leveldown": "~6.2.1",
-    "functional-red-black-tree": "~1.0.1",
-    "immediate": "~3.2.3",
-    "inherits": "~2.0.1",
-    "ltgt": "~2.2.0",
-    "safe-buffer": "~5.2.0"
+    "abstract-leveldown": "^6.3.0",
+    "functional-red-black-tree": "^1.0.1",
+    "immediate": "^3.2.3",
+    "inherits": "^2.0.1",
+    "ltgt": "^2.2.0",
+    "safe-buffer": "^5.2.0"
   },
   "devDependencies": {
     "airtap": "^3.0.0",
