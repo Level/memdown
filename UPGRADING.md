@@ -2,11 +2,34 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [`CHANGELOG`][changelog].
 
-## v5
+## 6.0.0
+
+Legacy range options have been removed ([Level/community#86](https://github.com/Level/community/issues/86)). If you previously did:
+
+```js
+db.iterator({ start: 'a', end: 'z' })
+```
+
+An error would now be thrown and you must instead do:
+
+```js
+db.iterator({ gte: 'a', lte: 'z' })
+```
+
+This release also drops support of legacy runtime environments ([Level/community#98](https://github.com/Level/community/issues/98)):
+
+- Node.js 6 and 8
+- Internet Explorer 11
+- Safari 9-11
+- Stock Android browser (AOSP).
+
+Lastly, and less likely to be a breaking change, the [`immediate`](https://github.com/calvinmetcalf/immediate) browser shim for `process.nextTick()` has been replaced with the smaller [`queue-microtask`](https://github.com/feross/queue-microtask).
+
+## 5.0.0
 
 Support of keys & values other than strings and Buffers has been dropped. Internally `memdown` now stores keys & values as Buffers which solves a number of compatibility issues ([#186](https://github.com/Level/memdown/issues/186)). If you pass in a key or value that isn't a string or Buffer, it will be irreversibly stringified.
 
-## v4
+## 4.0.0
 
 This is an upgrade to `abstract-leveldown@6` which solves long-standing issues around serialization and type support.
 
@@ -32,11 +55,11 @@ Though this was already the case, `abstract-leveldown` has replaced the behavior
 
 IE10 has been dropped.
 
-## v3
+## 3.0.0
 
 Dropped support for node 4. No other breaking changes.
 
-## v2
+## 2.0.0
 
 This release drops Node.js 0.12, brings `memdown` up to par with latest [`levelup`][levelup] (v2) and [`abstract-leveldown`][abstract-leveldown] (v4), simplifies serialization and removes global state.
 

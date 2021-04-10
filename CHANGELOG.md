@@ -2,6 +2,18 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
+## [6.0.0] - 2021-04-10
+
+### Changed
+
+- **Breaking:** bump `abstract-leveldown` ([`4e2f320`](https://github.com/Level/memdown/commit/4e2f320), [`dee72a3`](https://github.com/Level/memdown/commit/dee72a3)) (Vincent Weevers)
+- **Breaking:** drop node 6 and 8 ([Level/community#98](https://github.com/Level/community/issues/98)) ([`3708b5f`](https://github.com/Level/memdown/commit/3708b5f)) (Vincent Weevers)
+- **Breaking:** modernize syntax and bump `standard` ([Level/community#98](https://github.com/Level/community/issues/98)) ([`c1f98c3`](https://github.com/Level/memdown/commit/c1f98c3)) (Vincent Weevers)
+- Use `_nextTick()` utility for browsers ([`ba525c4`](https://github.com/Level/memdown/commit/ba525c4)) (Vincent Weevers)
+- Replace `safe-buffer` with `buffer` ([`d3dab23`](https://github.com/Level/memdown/commit/d3dab23)) (Vincent Weevers)
+- Remove default export ([Level/community#87](https://github.com/Level/community/issues/87)) ([`5fd8368`](https://github.com/Level/memdown/commit/5fd8368)) (Vincent Weevers)
+- Unlock dependencies ([`7126df1`](https://github.com/Level/memdown/commit/7126df1)) (Vincent Weevers)
+
 ## [5.1.0] - 2019-10-04
 
 ### Changed
@@ -139,6 +151,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Remove redundant `testCommon` parameter from most tests ([**@vweevers**](https://github.com/vweevers))
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
+
+[6.0.0]: https://github.com/Level/memdown/compare/v5.1.0...v6.0.0
 
 [5.1.0]: https://github.com/Level/memdown/compare/v5.0.0...v5.1.0
 
