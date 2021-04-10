@@ -1,17 +1,22 @@
+providers:
+  - airtap-sauce
+
 browsers:
   - name: chrome
-    version: latest
   - name: firefox
-    version: latest
   - name: safari
-    version: latest
-  - name: ie
-    version: '11'
-  - name: microsoftedge
-    version: latest
-  - name: iphone
-    version: latest
-  - name: ipad
-    version: latest
-  - name: android
-    version: '6.0'
+    version: 12..latest
+  - name: ios_saf
+    version: 12..latest
+  - name: chrome for android
+    version: 6..latest
+  - name: msedge
+
+presets:
+  local:
+    providers:
+      - airtap-playwright
+    browsers:
+      - name: chromium
+      - name: firefox
+      - name: webkit

@@ -6,5 +6,4 @@ updates:
       interval: monthly
     ignore:
       - dependency-name: dependency-check
-      - dependency-name: airtap
       - dependency-name: nyc

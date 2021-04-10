@@ -9,8 +9,8 @@
   "main": "memdown.js",
   "scripts": {
     "test": "standard && hallmark && (nyc -s node test.js | faucet) && nyc report",
-    "test-browsers": "airtap --loopback airtap.local --coverage test.js",
-    "test-browser-local": "airtap --coverage --local test.js",
+    "test-browsers": "airtap --coverage --verbose test.js",
+    "test-browsers-local": "airtap --coverage -p local test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "hallmark": "hallmark --fix",
     "dependency-check": "dependency-check . immediate*.js test.js",
@@ -36,7 +36,9 @@
     "safe-buffer": "^5.2.0"
   },
   "devDependencies": {
-    "airtap": "^3.0.0",
+    "airtap": "^4.0.3",
+    "airtap-playwright": "^1.0.1",
+    "airtap-sauce": "^1.1.0",
     "coveralls": "^3.0.2",
     "dependency-check": "^3.3.0",
     "faucet": "^0.0.1",
