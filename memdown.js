@@ -1,14 +1,16 @@
-var inherits = require('inherits')
-var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-var AbstractIterator = require('abstract-leveldown').AbstractIterator
-var ltgt = require('ltgt')
-var createRBT = require('functional-red-black-tree')
-var Buffer = require('safe-buffer').Buffer
+'use strict'
+
+const inherits = require('inherits')
+const AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
+const AbstractIterator = require('abstract-leveldown').AbstractIterator
+const ltgt = require('ltgt')
+const createRBT = require('functional-red-black-tree')
+const Buffer = require('safe-buffer').Buffer
 
 // In Node, use global.setImmediate. In the browser, use a consistent
 // microtask library to give consistent microtask experience to all browsers
-var setImmediate = require('./immediate')
-var NONE = {}
+const setImmediate = require('./immediate')
+const NONE = Symbol('none')
 
 // TODO (perf): replace ltgt.compare with a simpler, buffer-only comparator
 function gt (value) {
@@ -33,7 +35,7 @@ function MemIterator (db, options) {
 
   if (this._limit === -1) this._limit = Infinity
 
-  var tree = db._store
+  const tree = db._store
 
   this.keyAsBuffer = options.keyAsBuffer !== false
   this.valueAsBuffer = options.valueAsBuffer !== false
@@ -87,8 +89,8 @@ function MemIterator (db, options) {
 inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
-  var key
-  var value
+  let key
+  let value
 
   if (this._done++ >= this._limit) return setImmediate(callback)
   if (!this._tree.valid) return setImmediate(callback)
@@ -169,9 +171,8 @@ function MemDOWN () {
 inherits(MemDOWN, AbstractLevelDOWN)
 
 MemDOWN.prototype._open = function (options, callback) {
-  var self = this
-  setImmediate(function callNext () {
-    callback(null, self)
+  setImmediate(() => {
+    callback(null, this)
   })
 }
 
@@ -184,7 +185,7 @@ MemDOWN.prototype._serializeValue = function (value) {
 }
 
 MemDOWN.prototype._put = function (key, value, options, callback) {
-  var iter = this._store.find(key)
+  const iter = this._store.find(key)
 
   if (iter.valid) {
     this._store = iter.update(value)
@@ -196,7 +197,7 @@ MemDOWN.prototype._put = function (key, value, options, callback) {
 }
 
 MemDOWN.prototype._get = function (key, options, callback) {
-  var value = this._store.get(key)
+  let value = this._store.get(key)
 
   if (typeof value === 'undefined') {
     // 'NotFound' error, consistent with LevelDOWN API
@@ -220,12 +221,12 @@ MemDOWN.prototype._del = function (key, options, callback) {
 }
 
 MemDOWN.prototype._batch = function (array, options, callback) {
-  var i = -1
-  var key
-  var value
-  var iter
-  var len = array.length
-  var tree = this._store
+  let i = -1
+  let key
+  let value
+  let iter
+  const len = array.length
+  let tree = this._store
 
   while (++i < len) {
     key = array[i].key

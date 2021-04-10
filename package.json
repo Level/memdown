@@ -44,7 +44,7 @@
     "level-community": "^3.0.0",
     "level-concat-iterator": "^2.0.0",
     "nyc": "^14.0.0",
-    "standard": "^14.0.0",
+    "standard": "^16.0.3",
     "tape": "^5.0.1"
   },
   "hallmark": {

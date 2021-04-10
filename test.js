@@ -1,12 +1,14 @@
-var test = require('tape')
-var suite = require('abstract-leveldown/test')
-var concat = require('level-concat-iterator')
-var memdown = require('.').default
-var ltgt = require('ltgt')
-var Buffer = require('safe-buffer').Buffer
-var noop = function () { }
+'use strict'
 
-var testCommon = suite.common({
+const test = require('tape')
+const suite = require('abstract-leveldown/test')
+const concat = require('level-concat-iterator')
+const memdown = require('.').default
+const ltgt = require('ltgt')
+const Buffer = require('safe-buffer').Buffer
+const noop = function () { }
+
+const testCommon = suite.common({
   test: test,
   factory: function () {
     return memdown()
@@ -25,7 +27,7 @@ suite(testCommon)
 
 // Additional tests for this implementation
 test('unsorted entry, sorted iterator', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -50,7 +52,7 @@ test('unsorted entry, sorted iterator', function (t) {
         t.notOk(err, 'no error')
         t.equal(data.length, 7, 'correct number of entries')
 
-        var expected = [
+        const expected = [
           { key: 'a', value: 'A' },
           { key: 'b', value: 'B' },
           { key: 'c', value: 'C' },
@@ -68,7 +70,7 @@ test('unsorted entry, sorted iterator', function (t) {
 })
 
 test('reading while putting', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -77,7 +79,7 @@ test('reading while putting', function (t) {
     db.put('c', 'C', noop)
     db.put('e', 'E', noop)
 
-    var iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+    const iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
 
     iterator.next(function (err, key, value) {
       t.ifError(err, 'no next error')
@@ -97,7 +99,7 @@ test('reading while putting', function (t) {
 })
 
 test('reading while deleting', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -107,7 +109,7 @@ test('reading while deleting', function (t) {
     db.put('c', 'C', noop)
     db.put('e', 'E', noop)
 
-    var iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+    const iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
 
     iterator.next(function (err, key, value) {
       t.ifError(err, 'no next error')
@@ -127,7 +129,7 @@ test('reading while deleting', function (t) {
 })
 
 test('reverse ranges', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -135,7 +137,7 @@ test('reverse ranges', function (t) {
     db.put('a', 'A', noop)
     db.put('c', 'C', noop)
 
-    var iterator = db.iterator({
+    const iterator = db.iterator({
       keyAsBuffer: false,
       valueAsBuffer: false,
       lte: 'b',
@@ -152,7 +154,7 @@ test('reverse ranges', function (t) {
 })
 
 test('delete while iterating', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -161,7 +163,7 @@ test('delete while iterating', function (t) {
     db.put('b', 'B', noop)
     db.put('c', 'C', noop)
 
-    var iterator = db.iterator({
+    const iterator = db.iterator({
       keyAsBuffer: false,
       valueAsBuffer: false,
       gte: 'a'
@@ -187,7 +189,7 @@ test('delete while iterating', function (t) {
 })
 
 test('iterator with byte range', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -195,7 +197,7 @@ test('iterator with byte range', function (t) {
     db.put(Buffer.from('a0', 'hex'), 'A', function (err) {
       t.ifError(err)
 
-      var iterator = db.iterator({ valueAsBuffer: false, lt: Buffer.from('ff', 'hex') })
+      const iterator = db.iterator({ valueAsBuffer: false, lt: Buffer.from('ff', 'hex') })
 
       iterator.next(function (err, key, value) {
         t.notOk(err, 'no error')
@@ -210,8 +212,8 @@ test('iterator with byte range', function (t) {
 test('iterator does not clone buffers', function (t) {
   t.plan(4)
 
-  var db = testCommon.factory()
-  var buf = Buffer.from('a')
+  const db = testCommon.factory()
+  const buf = Buffer.from('a')
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -229,7 +231,7 @@ test('iterator does not clone buffers', function (t) {
 test('iterator stringifies buffer input', function (t) {
   t.plan(4)
 
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -245,13 +247,13 @@ test('iterator stringifies buffer input', function (t) {
 })
 
 test('backing rbtree is buffer-aware', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
 
-    var one = Buffer.from('80', 'hex')
-    var two = Buffer.from('c0', 'hex')
+    const one = Buffer.from('80', 'hex')
+    const two = Buffer.from('c0', 'hex')
 
     t.ok(two.toString() === one.toString(), 'would be equal when not buffer-aware')
     t.ok(ltgt.compare(two, one) > 0, 'but greater when buffer-aware')
@@ -280,7 +282,7 @@ test('backing rbtree is buffer-aware', function (t) {
 test('empty value in batch', function (t) {
   t.plan(6)
 
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -313,7 +315,7 @@ test('empty value in batch', function (t) {
 })
 
 test('empty buffer key in batch', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -330,7 +332,7 @@ test('empty buffer key in batch', function (t) {
 })
 
 test('buffer key in batch', function (t) {
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -354,7 +356,7 @@ test('buffer key in batch', function (t) {
 test('put multiple times', function (t) {
   t.plan(5)
 
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -377,7 +379,7 @@ test('put multiple times', function (t) {
 test('put as string, get as buffer and vice versa', function (t) {
   t.plan(7)
 
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -405,7 +407,7 @@ test('put as string, get as buffer and vice versa', function (t) {
 test('put as string, iterate as buffer', function (t) {
   t.plan(4)
 
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -424,7 +426,7 @@ test('put as string, iterate as buffer', function (t) {
 test('put as buffer, iterate as string', function (t) {
   t.plan(4)
 
-  var db = testCommon.factory()
+  const db = testCommon.factory()
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
@@ -443,18 +445,18 @@ test('put as buffer, iterate as string', function (t) {
 test('number keys', function (t) {
   t.plan(5)
 
-  var db = testCommon.factory()
-  var numbers = [-Infinity, 0, 12, 2, +Infinity]
-  var strings = numbers.map(String)
-  var buffers = numbers.map(stringBuffer)
+  const db = testCommon.factory()
+  const numbers = [-Infinity, 0, 12, 2, +Infinity]
+  const strings = numbers.map(String)
+  const buffers = numbers.map(stringBuffer)
 
   db.open(function (err) {
     t.ifError(err, 'no open error')
 
     db.batch(numbers.map(putKey), noop)
 
-    var iterator1 = db.iterator({ keyAsBuffer: false })
-    var iterator2 = db.iterator({ keyAsBuffer: true })
+    const iterator1 = db.iterator({ keyAsBuffer: false })
+    const iterator2 = db.iterator({ keyAsBuffer: true })
 
     concat(iterator1, function (err, entries) {
       t.ifError(err, 'no iterator error')
