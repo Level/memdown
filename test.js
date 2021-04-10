@@ -5,7 +5,7 @@ const suite = require('abstract-leveldown/test')
 const concat = require('level-concat-iterator')
 const memdown = require('.')
 const ltgt = require('ltgt')
-const Buffer = require('safe-buffer').Buffer
+const { Buffer } = require('buffer')
 const noop = function () { }
 
 const testCommon = suite.common({

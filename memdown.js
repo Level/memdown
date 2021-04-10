@@ -1,11 +1,10 @@
 'use strict'
 
 const inherits = require('inherits')
-const AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-const AbstractIterator = require('abstract-leveldown').AbstractIterator
+const { AbstractLevelDOWN, AbstractIterator } = require('abstract-leveldown')
 const ltgt = require('ltgt')
 const createRBT = require('functional-red-black-tree')
-const Buffer = require('safe-buffer').Buffer
+const { Buffer } = require('buffer')
 
 // In Node, use global.setImmediate. In the browser, use a consistent
 // microtask library to give consistent microtask experience to all browsers
