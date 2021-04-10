@@ -6,9 +6,6 @@ const ltgt = require('ltgt')
 const createRBT = require('functional-red-black-tree')
 const { Buffer } = require('buffer')
 
-// In Node, use global.setImmediate. In the browser, use a consistent
-// microtask library to give consistent microtask experience to all browsers
-const setImmediate = require('./immediate')
 const NONE = Symbol('none')
 
 // TODO (perf): replace ltgt.compare with a simpler, buffer-only comparator
@@ -91,13 +88,13 @@ MemIterator.prototype._next = function (callback) {
   let key
   let value
 
-  if (this._done++ >= this._limit) return setImmediate(callback)
-  if (!this._tree.valid) return setImmediate(callback)
+  if (this._done++ >= this._limit) return this._nextTick(callback)
+  if (!this._tree.valid) return this._nextTick(callback)
 
   key = this._tree.key
   value = this._tree.value
 
-  if (!this._test(key)) return setImmediate(callback)
+  if (!this._test(key)) return this._nextTick(callback)
 
   if (!this.keyAsBuffer) {
     key = key.toString()
@@ -109,7 +106,7 @@ MemIterator.prototype._next = function (callback) {
 
   this._tree[this._incr]()
 
-  setImmediate(function callNext () {
+  this._nextTick(function callNext () {
     callback(null, key, value)
   })
 }
@@ -170,7 +167,7 @@ function MemDOWN () {
 inherits(MemDOWN, AbstractLevelDOWN)
 
 MemDOWN.prototype._open = function (options, callback) {
-  setImmediate(() => {
+  this._nextTick(() => {
     callback(null, this)
   })
 }
@@ -192,7 +189,7 @@ MemDOWN.prototype._put = function (key, value, options, callback) {
     this._store = this._store.insert(key, value)
   }
 
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._get = function (key, options, callback) {
@@ -200,7 +197,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
 
   if (typeof value === 'undefined') {
     // 'NotFound' error, consistent with LevelDOWN API
-    return setImmediate(function callNext () {
+    return this._nextTick(function callNext () {
       callback(new Error('NotFound'))
     })
   }
@@ -209,14 +206,14 @@ MemDOWN.prototype._get = function (key, options, callback) {
     value = value.toString()
   }
 
-  setImmediate(function callNext () {
+  this._nextTick(function callNext () {
     callback(null, value)
   })
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {
   this._store = this._store.remove(key)
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._batch = function (array, options, callback) {
@@ -240,8 +237,7 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   }
 
   this._store = tree
-
-  setImmediate(callback)
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._iterator = function (options) {
@@ -252,3 +248,16 @@ module.exports = MemDOWN
 
 // Exposed for unit tests only
 module.exports.MemIterator = MemIterator
+
+// Use setImmediate() in Node.js to allow IO in between our callbacks
+if (typeof process !== 'undefined' && !process.browser && typeof global !== 'undefined' && typeof global.setImmediate === 'function') {
+  const setImmediate = global.setImmediate
+
+  MemDOWN.prototype._nextTick = MemIterator.prototype._nextTick = function (fn, ...args) {
+    if (args.length === 0) {
+      setImmediate(fn)
+    } else {
+      setImmediate(() => fn(...args))
+    }
+  }
+}

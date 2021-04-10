@@ -13,25 +13,19 @@
     "test-browsers-local": "airtap --coverage -p local test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "hallmark": "hallmark --fix",
-    "dependency-check": "dependency-check . immediate*.js test.js",
+    "dependency-check": "dependency-check . test.js",
     "prepublishOnly": "npm run dependency-check"
   },
   "files": [
     "memdown.js",
-    "immediate.js",
-    "immediate-browser.js",
     "UPGRADING.md",
     "CHANGELOG.md",
     "CONTRIBUTORS.md"
   ],
-  "browser": {
-    "./immediate.js": "./immediate-browser.js"
-  },
   "dependencies": {
     "abstract-leveldown": "^7.0.0",
     "buffer": "^6.0.3",
     "functional-red-black-tree": "^1.0.1",
-    "immediate": "^3.2.3",
     "inherits": "^2.0.1",
     "ltgt": "^2.2.0"
   },
