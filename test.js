@@ -3,7 +3,7 @@
 const test = require('tape')
 const suite = require('abstract-leveldown/test')
 const concat = require('level-concat-iterator')
-const memdown = require('.').default
+const memdown = require('.')
 const ltgt = require('ltgt')
 const Buffer = require('safe-buffer').Buffer
 const noop = function () { }
