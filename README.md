@@ -32,11 +32,18 @@ db.put('hey', 'you', (err) => {
 })
 ```
 
+With `async/await`:
+
+```js
+await db.put('hey', 'you')
+const value = await db.get('hey', { asBuffer: false })
+```
+
 Your data is discarded when the process ends or you release a reference to the store. Note as well, though the internals of `memdown` operate synchronously - [`levelup`] does not.
 
 ## Browser support
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/level-ci.svg)](https://saucelabs.com/u/level-ci)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/level-ci.svg)](https://app.saucelabs.com/u/level-ci)
 
 ## Data types
 
