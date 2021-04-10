@@ -28,7 +28,7 @@
     "./immediate.js": "./immediate-browser.js"
   },
   "dependencies": {
-    "abstract-leveldown": "^6.3.0",
+    "abstract-leveldown": "^7.0.0",
     "buffer": "^6.0.3",
     "functional-red-black-tree": "^1.0.1",
     "immediate": "^3.2.3",
@@ -44,7 +44,7 @@
     "faucet": "^0.0.1",
     "hallmark": "^3.1.0",
     "level-community": "^3.0.0",
-    "level-concat-iterator": "^2.0.0",
+    "level-concat-iterator": "^3.0.0",
     "nyc": "^15.1.0",
     "standard": "^16.0.3",
     "tape": "^5.0.1"
