@@ -11,7 +11,7 @@
     "test": "standard && hallmark && (nyc -s node test.js | faucet) && nyc report",
     "test-browsers": "airtap --coverage --verbose test.js",
     "test-browsers-local": "airtap --coverage -p local test.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report -r lcovonly",
     "hallmark": "hallmark --fix",
     "dependency-check": "dependency-check . test.js",
     "prepublishOnly": "npm run dependency-check"
@@ -33,7 +33,6 @@
     "airtap": "^4.0.3",
     "airtap-playwright": "^1.0.1",
     "airtap-sauce": "^1.1.0",
-    "coveralls": "^3.0.2",
     "dependency-check": "^3.3.0",
     "faucet": "^0.0.1",
     "hallmark": "^3.1.0",
