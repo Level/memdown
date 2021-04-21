@@ -33,7 +33,6 @@
     "airtap": "^4.0.3",
     "airtap-playwright": "^1.0.1",
     "airtap-sauce": "^1.1.0",
-    "coveralls": "^3.0.2",
     "dependency-check": "^3.3.0",
     "faucet": "^0.0.1",
     "hallmark": "^3.1.0",
