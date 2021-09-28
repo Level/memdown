@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.1.0] - 2021-09-28
+
+### Added
+
+- Add `db.getMany(keys)` ([#212](https://github.com/Level/memdown/issues/212)) ([`9d9691a`](https://github.com/Level/memdown/commit/9d9691a)) (Vincent Weevers).
+
 ## [6.0.0] - 2021-04-10
 
 _If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
@@ -159,6 +165,8 @@ _If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memd
 - Remove redundant `testCommon` parameter from most tests ([**@vweevers**](https://github.com/vweevers))
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
+
+[6.1.0]: https://github.com/Level/memdown/releases/tag/v6.1.0
 
 [6.0.0]: https://github.com/Level/memdown/releases/tag/v6.0.0
 
