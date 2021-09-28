@@ -158,7 +158,8 @@ function MemDOWN () {
     snapshots: true,
     permanence: false,
     seek: true,
-    clear: true
+    clear: true,
+    getMany: true
   })
 
   this._store = createRBT(ltgt.compare)
@@ -209,6 +210,13 @@ MemDOWN.prototype._get = function (key, options, callback) {
   this._nextTick(function callNext () {
     callback(null, value)
   })
+}
+
+MemDOWN.prototype._getMany = function (keys, options, callback) {
+  this._nextTick(callback, null, keys.map((key) => {
+    const value = this._store.get(key)
+    return value === undefined || options.asBuffer ? value : value.toString()
+  }))
 }
 
 MemDOWN.prototype._del = function (key, options, callback) {

@@ -14,8 +14,9 @@ const testCommon = suite.common({
     return memdown()
   },
 
-  // Opt-in to new clear() tests
+  // Opt-in to new tests
   clear: true,
+  getMany: true,
 
   // Opt-out of unsupported features
   createIfMissing: false,
