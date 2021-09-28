@@ -3,18 +3,17 @@
 > In-memory [`abstract-leveldown`] store for Node.js and browsers.
 
 [![level badge][level-badge]](https://github.com/Level/awesome)
-[![npm](https://img.shields.io/npm/v/memdown.svg?label=&logo=npm)](https://www.npmjs.com/package/memdown)
+[![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
 [![Node version](https://img.shields.io/node/v/memdown.svg)](https://www.npmjs.com/package/memdown)
-[![Test](https://github.com/Level/memdown/actions/workflows/test.yml/badge.svg)](https://github.com/Level/memdown/actions/workflows/test.yml)
-[![Coverage Status](https://codecov.io/gh/Level/memdown/branch/master/graph/badge.svg)](https://codecov.io/gh/Level/memdown)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![npm](https://img.shields.io/npm/dm/memdown.svg?label=dl)](https://www.npmjs.com/package/memdown)
-[![Backers on Open Collective](https://opencollective.com/level/backers/badge.svg?color=orange)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/level/sponsors/badge.svg?color=orange)](#sponsors)
+[![Test](https://img.shields.io/github/workflow/status/Level/memdown/Test?label=test)](https://github.com/Level/memdown/actions/workflows/test.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/Level/memdown?label=&logo=codecov&logoColor=fff)](https://codecov.io/gh/Level/memdown)
+[![Standard](https://img.shields.io/badge/standard-informational?logo=javascript&logoColor=fff)](https://standardjs.com)
+[![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
+[![Donate](https://img.shields.io/badge/donate-orange?logo=open-collective&logoColor=fff)](https://opencollective.com/level)
 
 ## Example
 
-**If you are upgrading:** please see the [upgrade guide](./UPGRADING.md).
+_If you are upgrading: please see [`UPGRADING.md`](./UPGRADING.md)._
 
 ```js
 const levelup = require('levelup')
@@ -118,19 +117,11 @@ Cross-browser Testing Platform and Open Source ♥ Provided by [Sauce Labs](http
 
 ## Donate
 
-To sustain [`Level`](https://github.com/Level) and its activities, become a backer or sponsor on [Open Collective](https://opencollective.com/level). Your logo or avatar will be displayed on our 28+ [GitHub repositories](https://github.com/Level) and [npm](https://www.npmjs.com/) packages. 💖
-
-### Backers
-
-[![Open Collective backers](https://opencollective.com/level/backers.svg?width=890)](https://opencollective.com/level)
-
-### Sponsors
-
-[![Open Collective sponsors](https://opencollective.com/level/sponsors.svg?width=890)](https://opencollective.com/level)
+Support us with a monthly donation on [Open Collective](https://opencollective.com/level) and help us continue our work.
 
 ## License
 
-[MIT](LICENSE.md) © 2013-present Rod Vagg and [Contributors](CONTRIBUTORS.md).
+[MIT](LICENSE)
 
 [`abstract-leveldown`]: https://github.com/Level/abstract-leveldown
 

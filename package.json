@@ -19,8 +19,7 @@
   "files": [
     "memdown.js",
     "UPGRADING.md",
-    "CHANGELOG.md",
-    "CONTRIBUTORS.md"
+    "CHANGELOG.md"
   ],
   "dependencies": {
     "abstract-leveldown": "^7.2.0",
@@ -36,14 +35,10 @@
     "dependency-check": "^3.3.0",
     "faucet": "^0.0.1",
     "hallmark": "^3.1.0",
-    "level-community": "^3.0.0",
     "level-concat-iterator": "^3.0.0",
     "nyc": "^15.1.0",
     "standard": "^16.0.3",
     "tape": "^5.0.1"
-  },
-  "hallmark": {
-    "community": "level-community"
   },
   "repository": {
     "type": "git",

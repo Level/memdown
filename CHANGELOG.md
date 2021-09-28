@@ -1,8 +1,8 @@
 # Changelog
 
-_**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
-
 ## [6.0.0] - 2021-04-10
+
+_If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
 ### Changed
 
@@ -26,6 +26,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Add manifest ([Level/community#83](https://github.com/Level/community/issues/83)) ([#198](https://github.com/Level/memdown/issues/198)) ([**@vweevers**](https://github.com/vweevers))
 
 ## [5.0.0] - 2019-08-18
+
+_If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
 ### Changed
 
@@ -53,6 +55,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Support seeking ([#184](https://github.com/Level/memdown/issues/184)) ([**@MeirionHughes**](https://github.com/MeirionHughes))
 
 ## [4.0.0] - 2019-03-29
+
+_If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
 ### Changed
 
@@ -87,6 +91,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 
 ## [3.0.0] - 2018-05-22
 
+_If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
+
 ### Added
 
 - Add node 9 and 10 to Travis ([**@vweevers**](https://github.com/vweevers), [**@ralphtheninja**](https://github.com/ralphtheninja))
@@ -108,6 +114,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Remove obsolete `--stderr` flag ([**@vweevers**](https://github.com/vweevers))
 
 ## [2.0.0] - 2018-02-11
+
+_If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memdown/blob/master/UPGRADING.md)._
 
 ### Added
 
@@ -152,16 +160,16 @@ _**If you are upgrading:** please see [`UPGRADING.md`](https://github.com/Level/
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-[6.0.0]: https://github.com/Level/memdown/compare/v5.1.0...v6.0.0
+[6.0.0]: https://github.com/Level/memdown/releases/tag/v6.0.0
 
-[5.1.0]: https://github.com/Level/memdown/compare/v5.0.0...v5.1.0
+[5.1.0]: https://github.com/Level/memdown/releases/tag/v5.1.0
 
-[5.0.0]: https://github.com/Level/memdown/compare/v4.1.0...v5.0.0
+[5.0.0]: https://github.com/Level/memdown/releases/tag/v5.0.0
 
-[4.1.0]: https://github.com/Level/memdown/compare/v4.0.0...v4.1.0
+[4.1.0]: https://github.com/Level/memdown/releases/tag/v4.1.0
 
-[4.0.0]: https://github.com/Level/memdown/compare/v3.0.0...v4.0.0
+[4.0.0]: https://github.com/Level/memdown/releases/tag/v4.0.0
 
-[3.0.0]: https://github.com/Level/memdown/compare/v2.0.0...v3.0.0
+[3.0.0]: https://github.com/Level/memdown/releases/tag/v3.0.0
 
-[2.0.0]: https://github.com/level/memdown/compare/v1.4.1...v2.0.0
+[2.0.0]: https://github.com/Level/memdown/releases/tag/v2.0.0
