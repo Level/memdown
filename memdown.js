@@ -6,7 +6,11 @@ const ltgt = require('ltgt')
 const createRBT = require('functional-red-black-tree')
 const { Buffer } = require('buffer')
 
-const NONE = Symbol('none')
+const rangeOptions = ['gt', 'gte', 'lt', 'lte']
+const kNone = Symbol('none')
+const kKeys = Symbol('keys')
+const kValues = Symbol('values')
+const kIncrement = Symbol('increment')
 
 // TODO (perf): replace ltgt.compare with a simpler, buffer-only comparator
 function gt (value) {
@@ -35,16 +39,18 @@ function MemIterator (db, options) {
 
   this.keyAsBuffer = options.keyAsBuffer !== false
   this.valueAsBuffer = options.valueAsBuffer !== false
+  this[kKeys] = options.keys
+  this[kValues] = options.values
   this._reverse = options.reverse
   this._options = options
   this._done = 0
 
   if (!this._reverse) {
     this._incr = 'next'
-    this._lowerBound = ltgt.lowerBound(options, NONE)
-    this._upperBound = ltgt.upperBound(options, NONE)
+    this._lowerBound = ltgt.lowerBound(options, kNone)
+    this._upperBound = ltgt.upperBound(options, kNone)
 
-    if (this._lowerBound === NONE) {
+    if (this._lowerBound === kNone) {
       this._tree = tree.begin
     } else if (ltgt.lowerBoundInclusive(options)) {
       this._tree = tree.ge(this._lowerBound)
@@ -52,7 +58,7 @@ function MemIterator (db, options) {
       this._tree = tree.gt(this._lowerBound)
     }
 
-    if (this._upperBound !== NONE) {
+    if (this._upperBound !== kNone) {
       if (ltgt.upperBoundInclusive(options)) {
         this._test = lte
       } else {
@@ -61,10 +67,10 @@ function MemIterator (db, options) {
     }
   } else {
     this._incr = 'prev'
-    this._lowerBound = ltgt.upperBound(options, NONE)
-    this._upperBound = ltgt.lowerBound(options, NONE)
+    this._lowerBound = ltgt.upperBound(options, kNone)
+    this._upperBound = ltgt.lowerBound(options, kNone)
 
-    if (this._lowerBound === NONE) {
+    if (this._lowerBound === kNone) {
       this._tree = tree.end
     } else if (ltgt.upperBoundInclusive(options)) {
       this._tree = tree.le(this._lowerBound)
@@ -72,7 +78,7 @@ function MemIterator (db, options) {
       this._tree = tree.lt(this._lowerBound)
     }
 
-    if (this._upperBound !== NONE) {
+    if (this._upperBound !== kNone) {
       if (ltgt.lowerBoundInclusive(options)) {
         this._test = gte
       } else {
@@ -85,30 +91,23 @@ function MemIterator (db, options) {
 inherits(MemIterator, AbstractIterator)
 
 MemIterator.prototype._next = function (callback) {
-  let key
-  let value
-
-  if (this._done++ >= this._limit) return this._nextTick(callback)
+  if (!this[kIncrement]()) return this._nextTick(callback)
   if (!this._tree.valid) return this._nextTick(callback)
 
-  key = this._tree.key
-  value = this._tree.value
+  let key = this._tree.key
+  let value = this._tree.value
 
   if (!this._test(key)) return this._nextTick(callback)
 
-  if (!this.keyAsBuffer) {
-    key = key.toString()
-  }
-
-  if (!this.valueAsBuffer) {
-    value = value.toString()
-  }
+  key = !this[kKeys] ? undefined : this.keyAsBuffer ? key : key.toString()
+  value = !this[kValues] ? undefined : this.valueAsBuffer ? value : value.toString()
 
   this._tree[this._incr]()
+  this._nextTick(callback, null, key, value)
+}
 
-  this._nextTick(function callNext () {
-    callback(null, key, value)
-  })
+MemIterator.prototype[kIncrement] = function () {
+  return this._done++ < this._limit
 }
 
 MemIterator.prototype._test = function () {
@@ -118,7 +117,7 @@ MemIterator.prototype._test = function () {
 MemIterator.prototype._outOfRange = function (target) {
   if (!this._test(target)) {
     return true
-  } else if (this._lowerBound === NONE) {
+  } else if (this._lowerBound === kNone) {
     return false
   } else if (!this._reverse) {
     if (ltgt.lowerBoundInclusive(this._options)) {
@@ -168,9 +167,7 @@ function MemDOWN () {
 inherits(MemDOWN, AbstractLevelDOWN)
 
 MemDOWN.prototype._open = function (options, callback) {
-  this._nextTick(() => {
-    callback(null, this)
-  })
+  this._nextTick(callback)
 }
 
 MemDOWN.prototype._serializeKey = function (key) {
@@ -207,9 +204,7 @@ MemDOWN.prototype._get = function (key, options, callback) {
     value = value.toString()
   }
 
-  this._nextTick(function callNext () {
-    callback(null, value)
-  })
+  this._nextTick(callback, null, value)
 }
 
 MemDOWN.prototype._getMany = function (keys, options, callback) {
@@ -248,6 +243,39 @@ MemDOWN.prototype._batch = function (array, options, callback) {
   this._nextTick(callback)
 }
 
+MemDOWN.prototype._clear = function (options, callback) {
+  if (!hasLimit(options) && !Object.keys(options).some(isRangeOption)) {
+    // Delete everything by creating a new empty tree.
+    this._store = createRBT(ltgt.compare)
+    return this._nextTick(callback)
+  }
+
+  const iterator = this._iterator({
+    ...options,
+    keys: true,
+    values: false,
+    keyAsBuffer: true
+  })
+
+  const loop = () => {
+    // TODO: add option to control "batch size"
+    for (let i = 0; i < 500; i++) {
+      if (!iterator[kIncrement]()) return callback()
+      if (!iterator._tree.valid) return callback()
+      if (!iterator._test(iterator._tree.key)) return callback()
+
+      // Must also include changes made in parallel to clear()
+      this._store = this._store.remove(iterator._tree.key)
+      iterator._tree[iterator._incr]()
+    }
+
+    // Some time to breathe
+    this._nextTick(loop)
+  }
+
+  this._nextTick(loop)
+}
+
 MemDOWN.prototype._iterator = function (options) {
   return new MemIterator(this, options)
 }
@@ -268,4 +296,14 @@ if (typeof process !== 'undefined' && !process.browser && typeof global !== 'und
       setImmediate(() => fn(...args))
     }
   }
+}
+
+function isRangeOption (k) {
+  return rangeOptions.includes(k)
+}
+
+function hasLimit (options) {
+  return options.limit != null &&
+    options.limit >= 0 &&
+    options.limit < Infinity
 }
