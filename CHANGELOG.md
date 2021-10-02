@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.1.1] - 2021-10-02
+
+### Fixed
+
+- Optimize `db.clear()` ([#213](https://github.com/Level/memdown/issues/213)) ([`a0856c4`](https://github.com/Level/memdown/commit/a0856c4)) (Vincent Weevers).
+
 ## [6.1.0] - 2021-09-28
 
 ### Added
@@ -165,6 +171,8 @@ _If you are upgrading: please see [`UPGRADING.md`](https://github.com/Level/memd
 - Remove redundant `testCommon` parameter from most tests ([**@vweevers**](https://github.com/vweevers))
 - Remove unnecessary `rimraf` replacement for Browserify ([**@vweevers**](https://github.com/vweevers))
 - README: remove Greenkeeper badge ([**@ralphtheninja**](https://github.com/ralphtheninja))
+
+[6.1.1]: https://github.com/Level/memdown/releases/tag/v6.1.1
 
 [6.1.0]: https://github.com/Level/memdown/releases/tag/v6.1.0
 
