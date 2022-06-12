@@ -1,6 +1,8 @@
 # memdown
 
-> In-memory [`abstract-leveldown`] store for Node.js and browsers.
+**In-memory [`abstract-leveldown`] store for Node.js and browsers.**
+
+> :pushpin: This module will soon be [deprecated](https://github.com/Level/community/issues/113), because it is superseded by [`memory-level`](https://github.com/Level/memory-level).
 
 [![level badge][level-badge]](https://github.com/Level/awesome)
 [![npm](https://img.shields.io/npm/v/memdown.svg)](https://www.npmjs.com/package/memdown)
