@@ -25,7 +25,6 @@
     "abstract-leveldown": "^7.2.0",
     "buffer": "^6.0.3",
     "functional-red-black-tree": "^1.0.1",
-    "inherits": "^2.0.1",
     "ltgt": "^2.2.0"
   },
   "devDependencies": {
